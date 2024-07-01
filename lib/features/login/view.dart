@@ -11,6 +11,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/forget_password/forget_pass_views.dart';
 import 'package:homez/features/send_email/view.dart';
 
 import 'components/or_divider.dart';
@@ -183,7 +184,7 @@ class _RememberRowWidget extends StatelessWidget {
             TextButton(
               onPressed: () {
                 MagicRouter.navigateTo(
-                  page: const SendEmailView(),
+                  page: const ForgetPasswordViews(),
                 );
               },
               child: CustomText(
