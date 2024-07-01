@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class ForgetPasswordControllers{
-final phoneController = TextEditingController();
+class ForgetPasswordControllers {
+  final phoneController = TextEditingController();
 }

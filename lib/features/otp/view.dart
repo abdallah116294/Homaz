@@ -1,10 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:homez/core/helpers/navigator.dart';
-import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
@@ -15,45 +15,25 @@ import 'cubit.dart';
 import 'states.dart';
 
 class OtpView extends StatelessWidget {
-  const OtpView({super.key, required this.email});
+  const OtpView({super.key, required this.phone});
 
-  final String email;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => OtpCubit(),
-      child: OtpScreen(email: email),
+      child: _OtpBody(phone: phone),
     );
   }
 }
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({
-    super.key,
-    required this.email,
+class _OtpBody extends StatelessWidget {
+  const _OtpBody({
+    required this.phone,
   });
 
-  final String email;
-
-  @override
-  State<OtpScreen> createState() => _OtpScreenState();
-}
-
-class _OtpScreenState extends State<OtpScreen> {
-  late TextEditingController otpController;
-
-  @override
-  void initState() {
-    super.initState();
-    otpController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    otpController.dispose();
-    super.dispose();
-  }
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -61,116 +41,125 @@ class _OtpScreenState extends State<OtpScreen> {
     otpCubit.otpController.clear();
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: ColorManager.bgColor,
       body: Padding(
-        padding: EdgeInsets.all(0.06.sw),
+        padding: EdgeInsets.symmetric(horizontal: 0.06.sw),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20.h),
-              GestureDetector(
-                onTap: () {
-                  MagicRouter.navigatePop();
-                },
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SvgPicture.asset(
-                    AssetsStrings.back,
-                    height: 30.h,
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.h),
+              const CustomAppBarTitle(title: "Verification Code"),
+              SizedBox(height: 16.h),
               CustomText(
-                text: "Code validation",
+                text: "Enter the Verification Code.",
                 color: ColorManager.white,
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w700,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w400,
+                maxLines: 3,
               ),
-              SizedBox(height: 20.h),
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: "Please enter the 4 digit code sent to your email : ",
-                  style: TextStyle(
-                    color: ColorManager.grey1,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: widget.email,
-                      style: TextStyle(
-                        color: ColorManager.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+              CustomText(
+                text: "We have sent a verification code to your email.",
+                color: ColorManager.grey10,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+                maxLines: 3,
               ),
               PinPutWidget(
                 controller: otpCubit.otpController,
               ),
-              SizedBox(
-                height: 0.2.sh,
-              ),
+              _VerifyOtpButton(otpCubit: otpCubit),
+              SizedBox(height: 0.04.sh),
+              const _ResendLineWidget(),
+              SizedBox(height: 0.2.sh),
             ],
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: SizedBox(
-        width: 1.sw,
-        child: Padding(
-          padding:
-              EdgeInsets.only(right: 0.041.sw, left: 0.041.sw, bottom: 0.03.sh),
-          child: BlocConsumer<OtpCubit, OtpStates>(
-            listener: (context, state) {
-              if (state is OtpFailureState) {
-                showMessage(
-                  message: state.msg,
-                  color: ColorManager.red,
-                );
-              } else if (state is OtpSuccessState) {
-                MagicRouter.navigateReplacement(
-                  page: const ResetPasswordView(),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is OtpLoadingState) {
-                return SizedBox(
-                  height: 0.0689.sh,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: ColorManager.mainColor,
-                    ),
-                  ),
-                );
-              }
-              return CustomElevated(
-                text: "confirm",
-                press: () {
-                  if (otpCubit.otpController.text.length != 4) {
-                    showMessage(
-                      message: "please enter code",
-                      color: ColorManager.red,
-                    );
-                  } else {
-                    // otpCubit.verifyOtp(
-                    //   phone: widget.email,
-                    // );
-                    MagicRouter.navigateReplacement(
-                      page: const ResetPasswordView(),
-                    );
-                  }
-                },
-                btnColor: ColorManager.mainColor,
+    );
+  }
+}
+
+class _VerifyOtpButton extends StatelessWidget {
+  const _VerifyOtpButton({required this.otpCubit});
+
+  final OtpCubit otpCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<OtpCubit, OtpStates>(
+      listener: (context, state) {
+        if (state is OtpFailureState) {
+          showMessage(
+            message: state.msg,
+            color: ColorManager.red,
+          );
+        } else if (state is OtpSuccessState) {
+          MagicRouter.navigateReplacement(
+            page: const ResetPasswordView(),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is OtpLoadingState) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: ColorManager.mainColor,
+            ),
+          );
+        }
+        return CustomElevated(
+          text: "Continue",
+          press: () {
+            if (otpCubit.otpController.text.length != 4) {
+              showMessage(
+                message: "please enter code",
+                color: ColorManager.red,
               );
-            },
+            } else {
+              // otpCubit.verifyOtp(
+              //   phone: widget.email,
+              // );
+              MagicRouter.navigateReplacement(
+                page: const ResetPasswordView(),
+              );
+            }
+          },
+          btnColor: ColorManager.mainColor,
+        );
+      },
+    );
+  }
+}
+
+class _ResendLineWidget extends StatelessWidget {
+  const _ResendLineWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          text: "If you didn’t receive the code?  ",
+          style: TextStyle(
+            color: ColorManager.white,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
           ),
+          children: [
+            TextSpan(
+              text: "Resend",
+              style: TextStyle(
+                color: ColorManager.mainColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  debugPrint("resend");
+                },
+            ),
+          ],
         ),
       ),
     );

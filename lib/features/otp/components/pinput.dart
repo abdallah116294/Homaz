@@ -43,14 +43,14 @@ class PinPutWidget extends StatelessWidget {
         fontWeight: FontWeight.w700,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           width: 0.0015.sh,
           color: hasError
               ? ColorManager.red
               : focused
                   ? ColorManager.mainColor
-                  : ColorManager.white,
+                  : ColorManager.grey10,
         ),
       ),
     );

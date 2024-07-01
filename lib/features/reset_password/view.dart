@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
@@ -13,6 +12,7 @@ import 'package:homez/core/widgets/svg_icons.dart';
 
 import 'cubit.dart';
 import 'states.dart';
+import 'widgets/success_dialog.dart';
 
 class ResetPasswordView extends StatelessWidget {
   const ResetPasswordView({super.key});
@@ -34,9 +34,9 @@ class _ResetPasswordBody extends StatelessWidget {
     final cubit = BlocProvider.of<ResetPasswordCubit>(context);
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: ColorManager.bgColor,
       body: Padding(
-        padding: EdgeInsets.all(0.06.sw),
+        padding: EdgeInsets.symmetric(horizontal: 0.06.sw),
         child: Form(
           key: cubit.formKey,
           autovalidateMode: AutovalidateMode.disabled,
@@ -44,45 +44,23 @@ class _ResetPasswordBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.h),
-                GestureDetector(
-                  onTap: () {
-                    MagicRouter.navigatePop();
-                  },
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: SvgPicture.asset(
-                      AssetsStrings.back,
-                      height: 30.h,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30.h),
+                const CustomAppBarTitle(title: "Reset Password"),
+                SizedBox(height: 16.h),
                 CustomText(
-                  text: "Reset password",
+                  text: "Enter New Password.",
                   color: ColorManager.white,
-                  fontSize: 30.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(height: 0.0147.sh),
-                CustomText(
-                  text:
-                      "Don’t worry! It’s happens. Please enter your new password.",
-                  color: ColorManager.grey1,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w400,
-                  maxLines: 5,
+                  maxLines: 3,
                 ),
-                SizedBox(height: 30.h),
                 CustomText(
-                  text: "password",
-                  color: ColorManager.white,
+                  text: "Your new password must be strong.",
+                  color: ColorManager.grey10,
                   fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w400,
+                  maxLines: 3,
                 ),
-                SizedBox(
-                  height: 0.0123.sh,
-                ),
+                SizedBox(height: 0.04.sh),
                 BlocBuilder<ResetPasswordCubit, ResetPasswordStates>(
                   builder: (context, state) {
                     return _PasswordTextField(
@@ -90,18 +68,7 @@ class _ResetPasswordBody extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(
-                  height: 0.05.sh,
-                ),
-                CustomText(
-                  text: "confirm password",
-                  color: ColorManager.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(
-                  height: 0.0123.sh,
-                ),
+                SizedBox(height: 0.02.sh),
                 BlocBuilder<ResetPasswordCubit, ResetPasswordStates>(
                   builder: (context, state) {
                     return _ConfPassTextField(
@@ -109,23 +76,11 @@ class _ResetPasswordBody extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(
-                  height: 0.3.sh,
-                ),
+                SizedBox(height: 0.05.sh),
+                _ResetPasswordButton(cubit: cubit),
+                SizedBox(height: 0.2.sh),
               ],
             ),
-          ),
-        ),
-      ),
-      resizeToAvoidBottomInset: false,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: SizedBox(
-        width: 1.sw,
-        child: Padding(
-          padding:
-              EdgeInsets.only(right: 0.041.sw, left: 0.041.sw, bottom: 0.03.sh),
-          child: _FloatingActionButton(
-            cubit: cubit,
           ),
         ),
       ),
@@ -147,7 +102,7 @@ class _PasswordTextField extends StatelessWidget {
         child: SvgIcon(
           icon: AssetsStrings.lock,
           height: 0.029.sh,
-          color: ColorManager.white,
+          color: ColorManager.grey10,
         ),
       ),
       hint: "password",
@@ -169,7 +124,7 @@ class _PasswordTextField extends StatelessWidget {
             cubit.isObscure
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
-            color: ColorManager.white,
+            color: ColorManager.grey10,
           ),
         ),
       ),
@@ -196,7 +151,7 @@ class _ConfPassTextField extends StatelessWidget {
         child: SvgIcon(
           icon: AssetsStrings.lock,
           height: 0.029.sh,
-          color: ColorManager.white,
+          color: ColorManager.grey10,
         ),
       ),
       hint: "confirm password",
@@ -218,7 +173,7 @@ class _ConfPassTextField extends StatelessWidget {
             cubit.isConObscure
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
-            color: ColorManager.white,
+            color: ColorManager.grey10,
           ),
         ),
       ),
@@ -229,8 +184,8 @@ class _ConfPassTextField extends StatelessWidget {
   }
 }
 
-class _FloatingActionButton extends StatelessWidget {
-  const _FloatingActionButton({
+class _ResetPasswordButton extends StatelessWidget {
+  const _ResetPasswordButton({
     required this.cubit,
   });
 
@@ -259,19 +214,17 @@ class _FloatingActionButton extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ResetPasswordLoadingState) {
-          return SizedBox(
-            height: 0.0689.sh,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: ColorManager.mainColor,
-              ),
+          return Center(
+            child: CircularProgressIndicator(
+              color: ColorManager.mainColor,
             ),
           );
         }
         return CustomElevated(
-          text: "confirm",
+          text: "Reset Password",
           press: () {
             // cubit.resetPassword();
+            successDialog(context: context);
           },
           btnColor: ColorManager.mainColor,
         );

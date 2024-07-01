@@ -11,8 +11,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/forget_password/forget_pass_views.dart';
-import 'package:homez/features/send_email/view.dart';
+import 'package:homez/features/forget_password/forget_pass_view.dart';
 
 import 'components/or_divider.dart';
 import 'components/register_line.dart';
@@ -73,7 +72,7 @@ class _LoginBody extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 0.01.sh),
-                _RememberRowWidget(
+                _ForgetPasswordWidget(
                   cubit: cubit,
                 ),
                 SizedBox(height: 0.03.sh),
@@ -168,8 +167,8 @@ class _PasswordTextField extends StatelessWidget {
   }
 }
 
-class _RememberRowWidget extends StatelessWidget {
-  const _RememberRowWidget({required this.cubit});
+class _ForgetPasswordWidget extends StatelessWidget {
+  const _ForgetPasswordWidget({required this.cubit});
 
   final LoginCubit cubit;
 

@@ -14,7 +14,7 @@ showMessage({
   ScaffoldMessenger.of(MagicRouter.currentContext).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: ColorManager.grey2,
+      backgroundColor: ColorManager.bgColor,
       elevation: 2.0,
       content: Row(
         children: [
@@ -30,7 +30,7 @@ showMessage({
           Expanded(
             child: CustomText(
               text: message,
-              color: ColorManager.black,
+              color: ColorManager.white,
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
               maxLines: maxLines,
@@ -42,7 +42,7 @@ showMessage({
             },
             child: Icon(
               Icons.close,
-              color: ColorManager.black,
+              color: ColorManager.grey,
             ),
           ),
         ],

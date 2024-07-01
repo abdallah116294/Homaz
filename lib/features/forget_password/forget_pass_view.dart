@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
-import 'package:homez/core/widgets/app_bar.dart';
+import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/forget_password/forget_password_cubit.dart';
+import 'package:homez/features/otp/view.dart';
+
+import 'forget_password_cubit.dart';
+import 'forget_password_state.dart';
 
 class ForgetPasswordViews extends StatelessWidget {
   const ForgetPasswordViews({super.key});
@@ -19,7 +23,7 @@ class ForgetPasswordViews extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ForgetPasswordCubit(),
-      child: ForgetPassBody(),
+      child: const ForgetPassBody(),
     );
   }
 }
@@ -33,23 +37,20 @@ class ForgetPassBody extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorManager.bgColor,
-      appBar: CustomAppBar(
-          text: 'Forget Password',
-          backgroundColor: ColorManager.bgColor,
-          leadingColor: ColorManager.white,
-          textColor: ColorManager.white),
       body: Padding(
-        padding: EdgeInsets.all(0.06.sw),
+        padding: EdgeInsets.symmetric(horizontal: 0.06.sw),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const CustomAppBarTitle(title: "Forget Password"),
               40.verticalSpace,
               CustomText(
                 maxLines: 2,
-                  text: 'Enter your Mobile number to reset your password.',
-                  color: ColorManager.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16.sp),
+                text: 'Enter your Mobile number to reset your password.',
+                color: ColorManager.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 16.sp,
+              ),
               32.verticalSpace,
               BlocBuilder<ForgetPasswordCubit, ForgetPasswordStates>(
                 builder: (context, state) {
@@ -57,11 +58,7 @@ class ForgetPassBody extends StatelessWidget {
                 },
               ),
               32.verticalSpace,
-              BlocBuilder<ForgetPasswordCubit, ForgetPasswordStates>(
-                builder: (context, state) {
-                  return _ForgetPasswordButton(cubit: cubit);
-                },
-              ),
+              _ForgetPasswordButton(cubit: cubit),
             ],
           ),
         ),
@@ -109,12 +106,12 @@ class _ForgetPasswordButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
       listener: (context, state) {
-        if (state is ForgetPasswordFailedState) {
+        if (state is ForgetPasswordFailureState) {
           showMessage(
             message: state.msg,
             color: ColorManager.red,
           );
-        } else if (state is ErrorNetworkState) {
+        } else if (state is ForgetPasswordNetworkErrorState) {
           showMessage(
             message: "No internet connection",
             color: ColorManager.red,
@@ -138,10 +135,11 @@ class _ForgetPasswordButton extends StatelessWidget {
           text: "Send Code",
           press: () {
             // cubit.ForgetPassword();
-            // MagicRouter.navigateTo(
-            //   page: const NavBarView(),
-            //   withHistory: false,
-            // );
+            MagicRouter.navigateTo(
+              page: OtpView(
+                phone: cubit.controllers.phoneController.text,
+              ),
+            );
           },
           btnColor: ColorManager.mainColor,
         );
