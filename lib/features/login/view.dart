@@ -12,6 +12,7 @@ import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/forget_password/forget_pass_view.dart';
+import 'package:homez/features/landing_screen/landing_screen_views.dart';
 
 import 'components/or_divider.dart';
 import 'components/register_line.dart';
@@ -238,10 +239,10 @@ class _LoginButton extends StatelessWidget {
           text: "Sign In",
           press: () {
             // cubit.login();
-            // MagicRouter.navigateTo(
-            //   page: const NavBarView(),
-            //   withHistory: false,
-            // );
+            MagicRouter.navigateTo(
+              page: const LandingScreenViews(),
+              withHistory: false,
+            );
           },
           btnColor: ColorManager.mainColor,
         );

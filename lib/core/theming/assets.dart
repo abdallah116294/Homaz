@@ -18,4 +18,9 @@ class AssetsStrings {
   static const String user = "${baseIcons}user.svg";
   static const String google = "${baseIcons}google.svg";
   static const String apple = "${baseIcons}apple.svg";
+  static const String home = "${baseIcons}home.svg";
+  static const String searchNormal = "${baseIcons}search-normal.svg";
+  static const String heart = "${baseIcons}heart.svg";
+  static const String chat = "${baseIcons}chat.svg";
+  static const String profile = "${baseIcons}profile.svg";
 }
