@@ -6,7 +6,7 @@ class SvgIcon extends StatelessWidget {
     super.key,
     required this.icon,
     required this.color,
-    this.height = 0,
+    this.height = 15,
   });
 
   final String icon;

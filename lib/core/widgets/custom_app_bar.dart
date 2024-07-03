@@ -7,9 +7,16 @@ import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 
 class CustomAppBarTitle extends StatelessWidget {
-  const CustomAppBarTitle({super.key, required this.title});
+  const CustomAppBarTitle({
+    super.key,
+    required this.title,
+    this.color,
+    this.withBack = true,
+  });
 
   final String title;
+  final Color? color;
+  final bool withBack;
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +24,25 @@ class CustomAppBarTitle extends StatelessWidget {
       padding: EdgeInsets.only(top: 50.h, bottom: 30.h),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () {
-              MagicRouter.navigatePop();
-            },
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: SvgPicture.asset(
-                AssetsStrings.back,
-                height: 30.h,
-              ),
-            ),
-          ),
+          withBack
+              ? GestureDetector(
+                  onTap: () {
+                    MagicRouter.navigatePop();
+                  },
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: SvgPicture.asset(
+                      AssetsStrings.back,
+                      height: 30.h,
+                      color: color ?? ColorManager.white,
+                    ),
+                  ),
+                )
+              : const SizedBox(),
           const Spacer(),
           CustomText(
             text: title,
-            color: ColorManager.white,
+            color: color ?? ColorManager.white,
             fontSize: 22.sp,
             fontWeight: FontWeight.w500,
           ),

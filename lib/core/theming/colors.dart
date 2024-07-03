@@ -5,33 +5,19 @@ class ColorManager {
   static Color bgColor = const Color.fromRGBO(0, 0, 0, 1);
   static Color grey10 = const Color.fromRGBO(99, 99, 99, 1);
   static Color grey11 = const Color.fromRGBO(35, 35, 35, 1);
+  static Color grey12 = const Color.fromRGBO(44, 44, 46, 1);
 
-  static Color steelBlueColor = const Color.fromRGBO(38, 49, 69, 1);
-  static Color steelBlue2Color = const Color.fromRGBO(105, 154, 200, 1);
-  static Color steelBlue3Color = const Color.fromRGBO(173, 205, 227, 1);
-  static Color steelBlue4Color = const Color.fromRGBO(0, 103, 255, 0.1);
-  static Color secMainColor = const Color.fromRGBO(121, 91, 208, 1);
-  static Color secMain2Color = const Color.fromRGBO(19, 39, 74, 1);
+  static Color secMainColor = const Color.fromRGBO(53, 82, 142, 1);
+  static Color secMain2Color = const Color.fromRGBO(66, 103, 178, 1);
   static Color secColor = const Color.fromRGBO(15, 15, 29, 1);
   static Color secondaryColor = const Color.fromRGBO(39, 94, 88, 1);
   static Color secondary2Color = const Color.fromRGBO(45, 116, 107, 1);
   static Color secondary3Color = const Color.fromRGBO(61, 213, 152, 1);
   static Color thirdColor = const Color.fromRGBO(14, 37, 35, 1);
   static Color black = const Color.fromRGBO(0, 0, 0, 1);
-  static Color black2 = const Color.fromRGBO(9, 14, 29, 1);
-  static Color black3 = const Color.fromRGBO(17, 17, 19, 1);
-  static Color black4 = const Color.fromRGBO(29, 23, 32, 1);
-  static Color black5 = const Color.fromRGBO(30, 30, 37, 1);
+  static Color black2 = const Color.fromRGBO(12, 14, 17, 1);
 
   static Color white = const Color.fromRGBO(255, 255, 255, 1);
-  static Color white2 = const Color.fromRGBO(228, 237, 245, 1);
-  static Color white3 = const Color.fromRGBO(255, 255, 255, 0.04);
-  static Color white4 = const Color.fromRGBO(236, 235, 237, 1);
-  static Color white5 = const Color.fromRGBO(255, 255, 255, 0.2);
-  static Color white6 = const Color.fromRGBO(228, 229, 230, 1);
-  static Color white7 = const Color.fromRGBO(255, 255, 255, 0.08);
-  static Color white8 = const Color.fromRGBO(255, 255, 255, 0.05);
-
   static Color grey = const Color.fromRGBO(253, 253, 255, 1);
   static Color grey1 = const Color.fromRGBO(250, 250, 250, 1);
   static Color grey2 = const Color.fromRGBO(242, 245, 249, 1);
@@ -43,7 +29,6 @@ class ColorManager {
   static Color grey8 = const Color.fromRGBO(94, 95, 107, 1);
   static Color grey9 = const Color.fromRGBO(77, 78, 87, 1);
 
-  static Color grey12 = const Color.fromRGBO(235, 236, 240, 0.1);
   static Color grey13 = const Color.fromRGBO(43, 40, 51, 1);
   static Color grey14 = const Color.fromRGBO(171, 173, 175, 1);
   static Color grey15 = const Color.fromRGBO(114, 116, 119, 1);

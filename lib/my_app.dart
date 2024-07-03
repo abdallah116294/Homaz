@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/features/splash/view.dart';
+import 'package:homez/features/saved/saved_view.dart';
 
 import 'core/helpers/navigator.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const SplashView(),
+      child: const SavedView(),
     );
   }
 }
