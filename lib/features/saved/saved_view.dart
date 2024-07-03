@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
+import 'package:homez/features/details/details_view.dart';
 
 import 'widgets/saved_item.dart';
 
@@ -22,7 +24,14 @@ class SavedView extends StatelessWidget {
                 withBack: false,
               ),
               10.verticalSpace,
-              const SavedItem(),
+              GestureDetector(
+                onTap: () {
+                  MagicRouter.navigateTo(
+                    page: const DetailsView(),
+                  );
+                },
+                child: const SavedItem(),
+              ),
             ],
           ),
         ),

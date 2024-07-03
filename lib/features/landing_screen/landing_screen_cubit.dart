@@ -1,11 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/chat/message_screen.dart';
-import 'package:homez/features/favorite/fav_views.dart';
 import 'package:homez/features/home/home_view.dart';
+import 'package:homez/features/profile/profile_view.dart';
+import 'package:homez/features/saved/saved_view.dart';
 import 'package:homez/features/search/search_screen.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -36,7 +37,7 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
     /// Likes
     SalomonBottomBarItem(
       icon: SvgIcon(
-        icon: AssetsStrings.searchNormal,
+        icon: AssetsStrings.search,
         color: ColorManager.white,
       ),
       title: const Text(
@@ -86,9 +87,9 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
   List<Widget> screens = [
     const HomeScreenView(),
     const SearchScreenViews(),
-    const MesssageScreenViews(),
-    const FavScreenView(),
-    const HomeScreenView()
+    const SavedView(),
+    const MessagesScreen(),
+    const ProfileView()
   ];
 
   Widget get getCurrentView => screens[currentIndex];

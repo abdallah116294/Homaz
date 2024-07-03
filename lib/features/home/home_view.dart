@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_tab_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/search/search_screen.dart';
 
 class HomeScreenView extends StatelessWidget {
@@ -20,16 +23,20 @@ class HomeScreenView extends StatelessWidget {
             Row(
               children: [
                 CustomText(
-                  text: 'Homz ',
+                  text: "Homz",
                   color: ColorManager.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 32.sp,
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MagicRouter.navigateTo(
+                      page: const NotificationView(),
+                    );
+                  },
                   icon: SvgIcon(
-                    icon: 'assets/icons/notification.svg',
+                    icon: AssetsStrings.bell,
                     color: ColorManager.white,
                     height: 25,
                   ),

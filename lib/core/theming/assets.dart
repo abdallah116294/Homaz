@@ -14,7 +14,6 @@ class AssetsStrings {
   static const String phone = "${baseIcons}phone.svg";
   static const String email = "${baseIcons}email.svg";
   static const String lock = "${baseIcons}lock.svg";
-  static const String search = "${baseIcons}search.svg";
   static const String back = "${baseIcons}back.svg";
   static const String user = "${baseIcons}user.svg";
   static const String google = "${baseIcons}google.svg";
@@ -30,4 +29,8 @@ class AssetsStrings {
   static const String info = "${baseIcons}info.svg";
   static const String rateUs = "${baseIcons}rate_us.svg";
   static const String logOut = "${baseIcons}log_out.svg";
+  static const String home = "${baseIcons}home.svg";
+  static const String search = "${baseIcons}search.svg";
+  static const String chat = "${baseIcons}chat.svg";
+  static const String profile = "${baseIcons}profile.svg";
 }

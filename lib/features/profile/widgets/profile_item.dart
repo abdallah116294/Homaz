@@ -7,11 +7,13 @@ import 'package:homez/core/widgets/svg_icons.dart';
 class ProfileItem extends StatelessWidget {
   const ProfileItem({
     super.key,
+    required this.onTap,
     required this.icon,
     required this.text,
     this.haveTrailing = true,
   });
 
+  final VoidCallback onTap;
   final String icon;
   final String text;
   final bool haveTrailing;
@@ -19,7 +21,7 @@ class ProfileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       leading: SvgIcon(
         icon: icon,
         color: ColorManager.white,
