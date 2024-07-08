@@ -33,4 +33,7 @@ class AssetsStrings {
   static const String search = "${baseIcons}search.svg";
   static const String chat = "${baseIcons}chat.svg";
   static const String profile = "${baseIcons}profile.svg";
+  static const String home1 = "${baseIcons}home1.svg";
+  static const String home2 = "${baseIcons}home2.svg";
+  static const String home3 = "${baseIcons}home3.svg";
 }

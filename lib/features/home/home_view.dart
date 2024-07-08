@@ -6,6 +6,8 @@ import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_tab_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/home/components/tab_bar_views.dart';
+import 'package:homez/features/home/components/tab_bar_widget.dart';
 import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/search/search_screen.dart';
 
@@ -15,7 +17,7 @@ class HomeScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 40.w),
         child: Column(
@@ -44,26 +46,23 @@ class HomeScreenView extends StatelessWidget {
               ],
             ),
             25.verticalSpace,
-            Expanded(
-              child: CustomTabBar(
+            const Expanded(
+              child: TabBarWidget(
                 tabs: [
-                  CustomText(
-                    text: 'Rent',
-                    color: ColorManager.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16.sp,
+                  Text(
+                    'Commercial',
+                    style: TextStyle(fontFamily: 'Regular'),
                   ),
-                  CustomText(
-                    text: 'Buy',
-                    color: ColorManager.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16.sp,
+                  Text(
+                    'Residential',
+                    style: TextStyle(fontFamily: 'Regular'),
+                  ),
+                  Text(
+                    'Shops',
+                    style: TextStyle(fontFamily: 'Regular'),
                   ),
                 ],
-                pages: const [
-                  SearchScreenViews(),
-                  SearchScreenViews(),
-                ],
+                pages: [TabBarWidgetViews(), TabBarWidgetViews(), TabBarWidgetViews()],
                 isScrollable: false,
               ),
             ),
