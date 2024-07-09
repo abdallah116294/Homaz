@@ -29,7 +29,7 @@ class TabBarWidgetViews extends StatelessWidget {
           ),
         ],
         pages:  [
-          SearchScreenViews(),
+          CustomBuyWidget(),
           CustomBuyWidget(),
         ],
         isScrollable: false,
