@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const LandingScreenViews(),
+      child: const SplashView(),
     );
   }
 }
