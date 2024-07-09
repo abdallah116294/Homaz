@@ -32,7 +32,7 @@ class TabBarWidget extends StatelessWidget {
             unselectedLabelColor: Colors.grey,
             dividerColor: Colors.transparent,
             isScrollable: isScrollable,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+            //labelPadding: const EdgeInsets.symmetric(horizontal: 20),
             unselectedLabelStyle: const TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.w500,

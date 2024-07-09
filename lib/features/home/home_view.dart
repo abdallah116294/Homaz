@@ -21,6 +21,7 @@ class HomeScreenView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 40.w),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Row(
               children: [

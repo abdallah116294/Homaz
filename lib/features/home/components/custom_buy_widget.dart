@@ -56,8 +56,7 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
       child: Stack(
         children: [
           SizedBox(
-            height: width,
-            width: width * 0.95,
+
             child: LayoutBuilder(
               builder: (context, boxConstraints) {
                 List<Widget> cards = [];
@@ -66,21 +65,21 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
                   double currentPageValue = i - _currentPage;
                   bool pageLocation = currentPageValue > 0;
 
-                  double start = 20 +
+                  double start = 50 +
                       ((boxConstraints.maxWidth - width * 0.75) -
                           ((boxConstraints.maxWidth - width * 0.75) / 2) *
                               -currentPageValue *
                               (pageLocation ? 9 : 1));
 
                   var customizableCard = Positioned.directional(
-                    top: 20 + 30 * max(-currentPageValue, 0.0),
-                    bottom: 20 + 30 * max(-currentPageValue, 0.0),
+                    top: 24,
+                    bottom: 24,
                     start: start,
                     textDirection: TextDirection.ltr,
                     child: Stack(
                       children: [
                         Container(
-                          //height: width * 0.67,
+                          //height: width ,
                           width: width * 0.67,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
@@ -91,7 +90,7 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
                           ),
                         ),
                         const Positioned(
-                          right: 16,
+                          right: 30,
                           top: 16,
                           child: CircleAvatar(
                               radius: 20,
@@ -101,12 +100,13 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
                                   color: Colors.white)),
                         ),
                         Positioned(
-                          left: 30,
+                          left: 38,
                           bottom: 12,
                           child: Row(
                             children: [
                               SizedBox(
                                 child: CustomElevated(
+                                  borderRadius: 8.sp,
                                   text: "Take a Look ",
                                   press: () {},
                                   btnColor: ColorManager.mainColor,
