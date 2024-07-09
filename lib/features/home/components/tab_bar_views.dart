@@ -28,7 +28,7 @@ class TabBarWidgetViews extends StatelessWidget {
             fontSize: 16.sp,
           ),
         ],
-        pages:  [
+        pages:  const [
           CustomBuyWidget(),
           CustomBuyWidget(),
         ],
