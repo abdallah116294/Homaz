@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/theming/assets.dart';
+import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/circle_image.dart';
+import 'package:homez/core/widgets/custom_elevated.dart';
+import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/home/card_model.dart';
 
 import 'dart:math';
@@ -71,16 +77,55 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
                     bottom: 20 + 30 * max(-currentPageValue, 0.0),
                     start: start,
                     textDirection: TextDirection.ltr,
-                    child: Container(
-                      height: width * 0.67,
-                      width: width * 0.67,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          pages[i].image!,
-                          fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        Container(
+                          //height: width * 0.67,
+                          width: width * 0.67,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              pages[i].image!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
+                        const Positioned(
+                          right: 16,
+                          top: 16,
+                          child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.black,
+                              child: SvgIcon(
+                                  icon: AssetsStrings.favorite,
+                                  color: Colors.white)),
+                        ),
+                        Positioned(
+                          left: 30,
+                          bottom: 12,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                child: CustomElevated(
+                                  text: "Take a Look ",
+                                  press: () {},
+                                  btnColor: ColorManager.mainColor,
+                                ),
+                                height: 38.h,
+                                width: 141.w,
+                              ),
+                    8.horizontalSpace,
+                    CircleAvatar(
+                        radius: 20,
+                        backgroundColor: ColorManager.blueColor,
+                        child: SvgIcon(
+                            icon: AssetsStrings.out,
+                            color: Colors.white)),
+
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   );
                   cards.add(customizableCard);
@@ -91,13 +136,13 @@ class _CustomBuyWidgetState extends State<CustomBuyWidget> {
           ),
           Positioned.fill(
             child: PageView.builder(
-              physics: BouncingScrollPhysics(
+              physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               controller: _pageController,
               itemCount: pages.length,
               itemBuilder: (context, index) {
-                return SizedBox();
+                return const SizedBox();
               },
             ),
           ),

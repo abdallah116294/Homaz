@@ -50,8 +50,7 @@ dependencies:
   image_picker: ^1.0.0
   pinput: ^2.2.31
   salomon_bottom_bar:
-  carousel_slider: ^4.2.1
-
+  story_view: ^0.16.5
 
 
 dev_dependencies:

@@ -36,4 +36,6 @@ class AssetsStrings {
   static const String home1 = "${baseIcons}home1.svg";
   static const String home2 = "${baseIcons}home2.svg";
   static const String home3 = "${baseIcons}home3.svg";
+  static const String favorite = "${baseIcons}Favorite.svg";
+  static const String out = "${baseIcons}out.svg";
 }
