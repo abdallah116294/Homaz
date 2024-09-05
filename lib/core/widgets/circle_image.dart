@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CircleImageWidget extends StatelessWidget {
   const CircleImageWidget({
-    Key? key,
+    super.key,
     required this.image,
     this.size = 60,
-  }) : super(key: key);
+  });
   final String image;
   final double size;
 
