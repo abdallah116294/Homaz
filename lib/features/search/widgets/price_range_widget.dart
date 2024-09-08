@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:homez/core/theming/assets.dart';
+import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/custom_text.dart';
+
+class PriceRangeWidget extends StatefulWidget {
+  const PriceRangeWidget({super.key});
+
+  @override
+  State<PriceRangeWidget> createState() => _PriceRangeWidgetState();
+}
+
+class _PriceRangeWidgetState extends State<PriceRangeWidget> {
+  RangeValues _currentRangeValues = const RangeValues(40, 80);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100.h,
+      width: 340.w,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: ColorManager.grey12,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SvgPicture.asset(
+                AssetsStrings.propertyTpe,
+                height: 15,
+                colorFilter:
+                    ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
+              ),
+              CustomText(
+                  text: 'Price Range ',
+                  color: ColorManager.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp)
+            ],
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          RangeSlider(
+            values: _currentRangeValues,
+            max: 100,
+            divisions: 5,
+            activeColor: ColorManager.white,
+            inactiveColor: ColorManager.grey12,
+            labels: RangeLabels(
+              _currentRangeValues.start.round().toString(),
+              _currentRangeValues.end.round().toString(),
+            ),
+            onChanged: (RangeValues values) {
+              setState(() {
+                _currentRangeValues = values;
+              });
+            },
+          )
+        ],
+      ),
+    );
+  }
+}

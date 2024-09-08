@@ -29,7 +29,7 @@ class ColorManager {
   static Color grey7 = const Color.fromRGBO(190, 197, 210, 1);
   static Color grey8 = const Color.fromRGBO(94, 95, 107, 1);
   static Color grey9 = const Color.fromRGBO(77, 78, 87, 1);
-
+  static Color grey23 = const Color.fromRGBO(63, 63, 65, 1); //63, 63, 65, 1
   static Color grey13 = const Color.fromRGBO(43, 40, 51, 1);
   static Color grey14 = const Color.fromRGBO(171, 173, 175, 1);
   static Color grey15 = const Color.fromRGBO(114, 116, 119, 1);
