@@ -12,7 +12,7 @@ import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/otp/view.dart';
-
+import 'package:homez/injection_container.dart'as di;
 import 'forget_password_cubit.dart';
 import 'forget_password_state.dart';
 
@@ -24,7 +24,7 @@ class ForgetPasswordViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForgetPasswordCubit(),
+      create: (context) =>di.sl<ForgetPasswordCubit>(),
       child: ForgetPassBody(
         phone: phone,
       ),

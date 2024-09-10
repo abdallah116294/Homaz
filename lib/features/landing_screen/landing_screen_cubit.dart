@@ -4,11 +4,13 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/chat/message_screen.dart';
+import 'package:homez/features/home/home_cubit.dart';
 import 'package:homez/features/home/home_view.dart';
 import 'package:homez/features/profile/profile_view.dart';
 import 'package:homez/features/saved/saved_view.dart';
 import 'package:homez/features/search/search_screen.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:homez/injection_container.dart' as di;
 
 part 'landing_screen_state.dart';
 
@@ -85,7 +87,10 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
     ),
   ];
   List<Widget> screens = [
-    const HomeScreenView(),
+    BlocProvider(
+      create: (context) =>di.sl<HomeCubit>()..getHomeData(),
+      child: const HomeScreenView(),
+    ),
     const SearchScreenViews(),
     const SavedView(),
     const MessagesScreen(),

@@ -12,7 +12,7 @@ import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/otp/view.dart';
 import 'package:homez/features/profile_details/profile_details_cubit.dart';
-
+import 'package:homez/injection_container.dart'as di;
 class ProfileDetailsView extends StatelessWidget {
   const ProfileDetailsView(
       {super.key,
@@ -27,7 +27,7 @@ class ProfileDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileDetailsCubit(),
+      create: (context) => di.sl<ProfileDetailsCubit>(),
       child: ProfileDetailsBody(
         fullName: fullName,
         phone: phone,

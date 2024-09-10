@@ -9,7 +9,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-
+import 'package:homez/injection_container.dart'as di;
 import 'cubit.dart';
 import 'states.dart';
 import 'widgets/success_dialog.dart';
@@ -23,7 +23,7 @@ class ResetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: ResetPasswordCubit(),
+      value: di.sl<ResetPasswordCubit>(),
       child: _ResetPasswordBody(
         phone: phone,
         otp: otp,

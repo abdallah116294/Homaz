@@ -12,14 +12,14 @@ import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
 import 'package:homez/features/profile/widgets/profile_item.dart';
 import 'package:homez/features/profile_details/profile_details.dart';
-
+import 'package:homez/injection_container.dart'as di;
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(),
+      create: (context) => di.sl<ProfileCubit>(),
       child: const ProfileViewBody(),
     );
   }

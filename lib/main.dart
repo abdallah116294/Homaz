@@ -5,12 +5,14 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/firebase_options.dart';
 import 'package:homez/my_app.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
+  await di.init();
   await Future.delayed(const Duration(seconds: 1), () {
     FlutterNativeSplash.remove();
   });

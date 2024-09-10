@@ -10,7 +10,8 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/take_look/take_look_screen.dart';
 
-import '../models.dart';
+import '../data/model/home_success_model.dart';
+
 
 class MainTabsWithBody extends StatelessWidget {
   const MainTabsWithBody({super.key, required this.homeData});
@@ -20,14 +21,14 @@ class MainTabsWithBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: homeData.apartmentTypes!.length,
+      length: homeData.apartmentTypes.length,
       child: Column(
         children: [
           CustomTabBar(
             tabs: List.generate(
-              homeData.apartmentTypes!.length,
+              homeData.apartmentTypes.length,
               (index) {
-                final apartmentType = homeData.apartmentTypes![index];
+                final apartmentType = homeData.apartmentTypes[index];
                 return CustomText(
                   text: "${apartmentType.name}",
                   color: ColorManager.white,
@@ -52,7 +53,7 @@ class MainTabsWithBody extends StatelessWidget {
                     child: Stack(
                       children: [
                         Image.network(
-                          "${homeData.apartments![index].mainImage}",
+                          "${homeData.apartments[index].mainImage}",
                           fit: BoxFit.cover,
                           height: 0.6.sh,
                         ),
@@ -68,10 +69,10 @@ class MainTabsWithBody extends StatelessWidget {
                                   borderRadius: 8.sp,
                                   text: "Take a Look ",
                                   press: () {
-                                    print("${homeData.apartments![index].id}");
+                                    print("${homeData.apartments[index].id}");
                                     MagicRouter.navigateTo(
                                       page: TakeLookScreen(
-                                        id: "${homeData.apartments![index].id}",
+                                        id: homeData.apartments[index].id!,
                                       ),
                                     );
                                   },
@@ -106,7 +107,7 @@ class MainTabsWithBody extends StatelessWidget {
                     ),
                   );
                 },
-                itemCount: homeData.apartments!.length,
+                itemCount: homeData.apartments.length,
                 itemWidth: 0.8.sw,
                 layout: SwiperLayout.STACK,
                 // loop: false,

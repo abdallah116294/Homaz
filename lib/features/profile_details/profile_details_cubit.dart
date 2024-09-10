@@ -3,14 +3,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/dio_manager.dart';
+import 'package:homez/features/profile_details/data/repo/profile_repo.dart';
 import 'package:homez/features/register/controller.dart';
 import 'package:logger/logger.dart';
 
 part 'profile_details_state.dart';
 
 class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
-  ProfileDetailsCubit() : super(ProfileDetailsInitial());
-  final dioManager = DioManager();
+  ProfileDetailsCubit({required this.profileRepo})
+      : super(ProfileDetailsInitial());
+  ProfileDetailsRepo profileRepo;
+  // final dioManager = DioManager();
   final formKey = GlobalKey<FormState>();
   final controllers = RegisterControllers();
   final logger = Logger();
@@ -26,24 +29,10 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
     if (formKey.currentState!.validate()) {
       emit(UpdateProfileLoadingState());
       try {
-        final response = await dioManager.post(
-          ApiConstants.updateProfile,
-          data: FormData.fromMap({
-            'fullname': controllers.nameController.text,
-            // 'image':'',
-            // 'email':''
-          }),
-          header: {
-            "Accept": "application/json",
-          },
-        );
-        if (response.statusCode == 200) {
-          emit(UpdateProfileSuccessState());
-        } else {
-          emit(UpdateProfileFailedState(msg: response.data["message"]));
-        }
-      } on DioException catch (e) {
-        handleDioException(e);
+        final response = await profileRepo.updateProfile(
+            fullName: controllers.nameController.text);
+        response.fold((l) => emit(UpdateProfileFailedState(msg: l.toString())),
+            (r) => emit(UpdateProfileSuccessState()));
       } catch (e) {
         emit(UpdateProfileFailedState(msg: 'An unknown error: $e'));
         logger.e(e);
@@ -55,22 +44,10 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
     if (formKey.currentState!.validate()) {
       emit(UpdatePhoneLoadingState());
       try {
-        final response = await dioManager.post(
-          ApiConstants.sendOtpToUpdatePhone,
-          data: FormData.fromMap({
-            'phone': controllers.phoneController.text,
-          }),
-          header: {
-            "Accept": "application/json",
-          },
-        );
-        if (response.statusCode == 200) {
-          emit(UpdatePhoneSuccessState());
-        } else {
-          emit(UpdatePhoneFailedState(msg: response.data["message"]));
-        }
-      } on DioException catch (e) {
-        handleDioException(e);
+        final response = await profileRepo.updatePhone(
+            phone: controllers.phoneController.text);
+        response.fold((l) => emit(UpdatePhoneFailedState(msg: l.toString())),
+            (r) => emit(UpdatePhoneSuccessState()));
       } catch (e) {
         emit(UpdatePhoneFailedState(msg: 'An unknown error: $e'));
         logger.e(e);

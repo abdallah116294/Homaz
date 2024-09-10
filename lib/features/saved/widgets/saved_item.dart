@@ -4,11 +4,15 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
 import 'package:homez/features/details/widgets/icon_text.dart';
 
 class SavedItem extends StatelessWidget {
-  const SavedItem({super.key});
-
+  const SavedItem({super.key,required this.apartment});
+  // final String maniImage;
+  // final String name;
+  // final int buy_price;
+  final Datum apartment;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +31,8 @@ class SavedItem extends StatelessWidget {
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12.r),
                   ),
-                  child: Image.asset(
-                    AssetsStrings.detailsImage,
+                  child: Image.network(
+                    apartment.mainImage.toString(),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -62,18 +66,18 @@ class SavedItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
-                            text: "Colonial Jolliya",
+                            text: apartment.name.toString(),
                             color: ColorManager.white,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          CustomText(
-                            text: "450 Elm Avenue, Jolliya, NY 122",
-                            color: ColorManager.grey10,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w400,
-                            maxLines: 2,
-                          ),
+                          // CustomText(
+                          //   text: "450 Elm Avenue, Jolliya, NY 122",
+                          //   color: ColorManager.grey10,
+                          //   fontSize: 18.sp,
+                          //   fontWeight: FontWeight.w400,
+                          //   maxLines: 2,
+                          // ),
                         ],
                       ),
                     ),
@@ -127,7 +131,7 @@ class SavedItem extends StatelessWidget {
                 ),
                 10.verticalSpace,
                 CustomText(
-                  text: "\$800,200",
+                  text: apartment.buyPrice.toString(),
                   color: ColorManager.white,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w400,

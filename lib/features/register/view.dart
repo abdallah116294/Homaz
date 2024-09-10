@@ -14,7 +14,7 @@ import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/features/login/components/or_divider.dart';
 import 'package:homez/features/otp/view.dart';
-
+import 'package:homez/injection_container.dart'as di;
 import 'cubit.dart';
 import 'states.dart';
 
@@ -24,7 +24,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterCubit(),
+      create: (context) => di.sl<RegisterCubit>(),
       child: const _RegisterBody(),
     );
   }
@@ -342,7 +342,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 return Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      cubit.registerWithGoogle();
+                      //cubit.registerWithGoogle();
                     },
                     child: SvgPicture.asset(
                       AssetsStrings.google,
@@ -375,7 +375,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    cubit.registerWithApple();
+                    //cubit.registerWithApple();
                   },
                   child: SvgPicture.asset(
                     AssetsStrings.apple,

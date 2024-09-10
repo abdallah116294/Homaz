@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/dio_manager.dart';
+import 'package:homez/features/reset_password/data/repo/reset_password_repo.dart';
 import 'package:logger/logger.dart';
 
 import 'controller.dart';
 import 'states.dart';
 
 class ResetPasswordCubit extends Cubit<ResetPasswordStates> {
-  ResetPasswordCubit() : super(ResetPasswordInitialState());
-
-  final dioManager = DioManager();
+  ResetPasswordCubit({required this.resetPasswordRepo}) : super(ResetPasswordInitialState());
+  ResetPasswordRepo resetPasswordRepo;
+ // final dioManager = DioManager();
   final logger = Logger();
   final formKey = GlobalKey<FormState>();
   final controllers = ResetPasswordControllers();
@@ -23,51 +24,19 @@ class ResetPasswordCubit extends Cubit<ResetPasswordStates> {
     if (formKey.currentState!.validate()) {
       emit(ResetPasswordLoadingState());
       try {
-        final response = await dioManager.post(
-          ApiConstants.resetPassword,
-          data: FormData.fromMap({
-            'phone': phone,
-            'otp': otp,
-            "password": controllers.passwordController.text,
-            "confirm_password": controllers.confirmPasswordController.text,
-          }),
-          header: {
-            "Accept": "application/json",
-          },
+        final response=await resetPasswordRepo.resetPassword(
+          phone: phone,
+          otp: otp,
+          password: controllers.passwordController.text,
+          confirmPassword: controllers.confirmPasswordController.text,
         );
-        if (response.statusCode == 200) {
-          emit(ResetPasswordSuccessState());
-        } else {
-          emit(ResetPasswordFailedState(msg: response.data["message"]));
-        }
-      } on DioException catch (e) {
-        handleDioException(e);
+        response.fold((l)=>emit(ResetPasswordFailedState(msg: l.toString())), (r)=>emit(ResetPasswordSuccessState()));
       } catch (e) {
         emit(ResetPasswordFailedState(msg: 'An unknown error: $e'));
         logger.e(e);
       }
     }
   }
-
-  void handleDioException(DioException e) {
-    switch (e.type) {
-      case DioExceptionType.cancel:
-        emit(ResetPasswordFailedState(msg: "Request was cancelled"));
-        break;
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.receiveTimeout:
-      case DioExceptionType.sendTimeout:
-        emit(NetworkErrorState());
-        break;
-      case DioExceptionType.badResponse:
-        emit(ResetPasswordFailedState(msg: e.response?.data["message"]));
-        break;
-      default:
-        emit(NetworkErrorState());
-    }
-    logger.e(e);
-  }
-
   changeVisibility() {
     isObscure = !isObscure;
     emit(ChangeVisibilityState());

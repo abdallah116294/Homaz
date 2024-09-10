@@ -11,7 +11,7 @@ import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
-
+import 'package:homez/injection_container.dart'as di;
 import 'cubit.dart';
 import 'states.dart';
 
@@ -21,7 +21,7 @@ class ChangePasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChangePasswordCubit(),
+      create: (context) => di.sl<ChangePasswordCubit>(),
       child: const _ChangePasswordBody(),
     );
   }

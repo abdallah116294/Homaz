@@ -21,4 +21,9 @@ class ApiConstants {
 
   //home
   static const String showHome = "${apiBaseUrl}home";
+  //Take a Look
+  static const String takeLook = "${apiBaseUrl}look-apartment/";
+  //Favorite
+  static const addOrRemoveFavoirte = "toggle-btw-add-remove-favoutrite/";
+  static const showFavorite = "show-favoutrite";
 }
