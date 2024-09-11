@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
+import 'package:homez/features/appartment_details/data/model/remove_favorite_model.dart';
 import 'package:homez/features/saved/data/repo/favorite_repo.dart';
 
 part 'favorite_state.dart';
@@ -11,6 +12,17 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   int _currentPage = 1;
   bool _hasMore = true;
   List<Datum> _apartments = [];
+  Future<void> removFromFavoirte({required int id}) async {
+    emit(RemoveFromFavoriteLoading());
+    try {
+      final response = await favoriteRepo.removeFavorite(apartmentId: id);
+      response.fold((l) => emit(RemoveFromFavoriteFailed()),
+          (r) => emit(RemoveFromFavoriteSuccess(removeFavoriteModel: r)));
+    } catch (e) {
+      emit(RemoveFromFavoriteFailed());
+    }
+  }
+
   Future<void> fetchFavoriteData({bool isLoadMore = false}) async {
     if (!_hasMore && isLoadMore) return; // If no more data, don't load more
 

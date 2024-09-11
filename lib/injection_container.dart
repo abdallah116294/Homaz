@@ -86,7 +86,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ApartmentRepo>(
       () => ApartmentRepo(apiConsumer: sl()));
   //cubit
-  sl.registerFactory(() => AppartmentDetailsCubit(apartmentRepo: sl()));
+  sl.registerFactory(() => AppartmentDetailsCubit(apartmentRepo: sl(),favoriteRepo: sl()));
   //!Favorite
   //repo
   sl.registerLazySingleton<FavoriteRepo>(

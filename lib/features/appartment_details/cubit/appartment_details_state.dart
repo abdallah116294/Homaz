@@ -14,3 +14,9 @@ class AddToFavoriteSuccess extends AppartmentDetailsState{
   AddToFavoriteSuccess({required this.favoriteModel});
 }
 class AddToFavoriteFailed extends AppartmentDetailsState{}
+class RemoveFromFavoriteLoading extends AppartmentDetailsState{}
+class RemoveFromFavoriteSuccess extends AppartmentDetailsState{
+  final RemoveFavoriteModel removeFavoriteModel;
+  RemoveFromFavoriteSuccess({required this.removeFavoriteModel});
+}
+class RemoveFromFavoriteFailed extends AppartmentDetailsState{}

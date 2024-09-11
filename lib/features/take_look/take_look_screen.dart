@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,10 +93,11 @@ class _TakeLookBodyState extends State<TakeLookBody> {
           },
           builder: (context, state) {
             if (state is TakeLookSuccess) {
-              List<String> newImages = state.takeLookData.data!.apartments!.images;
-                storyItemList.addAll(
-              newImages.map((image) => storyItem(image: image)).toList(),
-            );
+              List<String> newImages =
+                  state.takeLookData.data!.apartments!.images;
+              storyItemList.addAll(
+                newImages.map((image) => storyItem(image: image)).toList(),
+              );
               return Stack(children: [
                 StoryView(
                   storyItems: storyItemList,
@@ -102,7 +105,11 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                     print("Showing a story");
                   },
                   onComplete: () {
-                    MagicRouter.navigateTo(page:  ApartmentDetailsScreen(takeLookData: state.takeLookData,));
+                    log('ApartmentID:${state.takeLookData.data!.apartments!.id}');
+                    MagicRouter.navigateTo(
+                        page: ApartmentDetailsScreen(
+                      takeLookData: state.takeLookData,
+                    ));
                   },
                   progressPosition: ProgressPosition.top,
                   indicatorColor: Colors.black,
@@ -366,7 +373,6 @@ class _TakeLookBodyState extends State<TakeLookBody> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-              
             }
             //   return state is TakeLookSuccess?
 

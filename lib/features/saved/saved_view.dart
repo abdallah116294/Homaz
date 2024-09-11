@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
+import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
 import 'package:homez/features/appartment_details/screen/appartment_details.dart';
@@ -22,14 +23,14 @@ class SavedView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: ColorManager.bgColor,
         body: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 15.w),
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Column(
             children: [
-                const CustomAppBarTitle(
-                            title: "Saved",
-                            withBack: false,
-                          ),
-                          10.verticalSpace,
+              const CustomAppBarTitle(
+                title: "Saved",
+                withBack: false,
+              ),
+              10.verticalSpace,
               Expanded(
                 child: BlocBuilder<FavoriteCubit, FavoriteState>(
                   builder: (context, state) {
@@ -50,42 +51,59 @@ class SavedView extends StatelessWidget {
                           }
                         },
                         child: ListView.separated(
-                          separatorBuilder: (context,index)=>SizedBox(height: 10.h,),
-                          itemCount:
-                              apartments.length + 1, // Add 1 for the loading indicator
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 10.h,
+                          ),
+                          itemCount: apartments.length +
+                              1, // Add 1 for the loading indicator
                           itemBuilder: (context, index) {
-                            if (index < apartments.length) {
+                            if (index < apartments.length&&index==0) {
+                              print(index);
                               final apartment = apartments[index];
-                              return GestureDetector(
+
+                              return apartments.isEmpty?CustomText(text: 'You don\'t add Apartment to Favorite', color: ColorManager.white, fontWeight: FontWeight.bold, fontSize: 18.sp): GestureDetector(
                                 onTap: () {
-                                  // MagicRouter.navigateTo(
-                                  //   page:  ApartmentDetailsScreen(
-                                  //     takeLookData: ,
-                                  //   ),
-                                  // );
+                                  MagicRouter.navigateTo(
+                                    page: ApartmentDetailsScreen(
+                                      apartmentId: apartment.id,
+                                    ),
+                                  );
                                 },
-                                child:  SavedItem(
+                                child: SavedItem(
+                                  oTap: () {
+                                    context
+                                        .read<FavoriteCubit>()
+                                        .removFromFavoirte(id: apartment.id!)
+                                        .then((onValue) {
+                                      context
+                                          .read<FavoriteCubit>()
+                                          .fetchFavoriteData();
+                                    });
+                                  },
                                   apartment: apartment,
                                 ),
                               );
                             } else {
+                                print(index);
                               return state.hasMore
                                   ? const Padding(
                                       padding: EdgeInsets.all(8.0),
-                                      child: Center(child: CircularProgressIndicator()),
+                                      child: Center(
+                                          child: CircularProgressIndicator()),
                                     )
-                                  : const Padding(
+                                  : const  Padding(
                                       padding: EdgeInsets.all(8.0),
-                                      child: Center(child: Text('No More Apartments')),
+                                      child:Center(
+                                          child: CircularProgressIndicator()),
                                     );
                             }
                           },
                         ),
                       );
-                    }else if (state is GetFavoriteFailed){
+                    } else if (state is GetFavoriteFailed) {
                       return Center(child: Text(state.message));
-                    }else{
-                        return const Center(child: Text('No favorites found.'));
+                    } else {
+                      return const Center(child: Text('No favorites found.'));
                     }
                   },
                 ),
@@ -97,4 +115,3 @@ class SavedView extends StatelessWidget {
     );
   }
 }
-

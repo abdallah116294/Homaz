@@ -3,6 +3,7 @@ import 'package:homez/core/error/failures.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/api_consumer.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
+import 'package:homez/features/appartment_details/data/model/remove_favorite_model.dart';
 
 class FavoriteRepo {
   final ApiConsumer apiConsumer;
@@ -17,6 +18,22 @@ class FavoriteRepo {
       }
     } catch (e) {
       if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure('An unknown error: $e'));
+    }
+  }
+    Future<Either<Failure,RemoveFavoriteModel>>removeFavorite({required int apartmentId})async{
+     try {
+      final response = await apiConsumer.post(ApiConstants.addOrRemoveFavoirte+apartmentId.toString());
+      if(response.statusCode == 200){
+       return Right(RemoveFavoriteModel.fromJson(response.data));
+      }else{
+      return Left(ServerFailure(response.data));
+      }
+      
+    } catch (e) {
+      if(e is ServerFailure){
         return Left(e);
       }
       return Left(ServerFailure('An unknown error: $e'));

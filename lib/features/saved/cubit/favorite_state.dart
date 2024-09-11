@@ -19,4 +19,10 @@ class GetFavoriteFailed extends FavoriteState{
   final String message;
   GetFavoriteFailed(this.message);
 }
+class RemoveFromFavoriteLoading extends FavoriteState{}
+class RemoveFromFavoriteSuccess extends FavoriteState{
+  final RemoveFavoriteModel removeFavoriteModel;
+  RemoveFromFavoriteSuccess({required this.removeFavoriteModel});
+}
+class RemoveFromFavoriteFailed extends FavoriteState{}
 
