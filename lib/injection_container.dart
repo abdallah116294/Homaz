@@ -22,6 +22,8 @@ import 'package:homez/features/reset_password/cubit.dart';
 import 'package:homez/features/reset_password/data/repo/reset_password_repo.dart';
 import 'package:homez/features/saved/cubit/favorite_cubit.dart';
 import 'package:homez/features/saved/data/repo/favorite_repo.dart';
+import 'package:homez/features/search/cubit/search_cubit.dart';
+import 'package:homez/features/search/data/repo/search_repo.dart';
 import 'package:homez/features/take_look/cubit/take_look_cubit.dart';
 import 'package:homez/features/take_look/data/repo/take_look_repo.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -93,6 +95,12 @@ Future<void> init() async {
       () => FavoriteRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(() => FavoriteCubit(favoriteRepo: sl()));
+  //!Search
+  //repo
+  sl.registerLazySingleton<SearchRepo>(
+      () => SearchRepo(apiConsumer: sl()));
+  //cubit
+  sl.registerFactory(() => SearchCubit(searchRepo: sl()));
   //core
   sl.registerLazySingleton<ApiConsumer>(() => DioManager(dio: sl()));
   sl.registerLazySingleton(() => PrettyDioLogger(

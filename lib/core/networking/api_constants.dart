@@ -26,4 +26,7 @@ class ApiConstants {
   //Favorite
   static const addOrRemoveFavoirte = "toggle-btw-add-remove-favoutrite/";
   static const showFavorite = "show-favoutrite";
+  //Search
+  static const String recentSearch = "recentResearch";
+  static const String deleteRecentSearchById = "delete-search-By-Id/";
 }
