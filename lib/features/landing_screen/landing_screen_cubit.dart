@@ -7,7 +7,9 @@ import 'package:homez/features/chat/message_screen.dart';
 import 'package:homez/features/home/home_cubit.dart';
 import 'package:homez/features/home/home_view.dart';
 import 'package:homez/features/profile/profile_view.dart';
+import 'package:homez/features/saved/cubit/favorite_cubit.dart';
 import 'package:homez/features/saved/saved_view.dart';
+import 'package:homez/features/search/cubit/search_cubit.dart';
 import 'package:homez/features/search/search_screen.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:homez/injection_container.dart' as di;
@@ -88,11 +90,17 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
   ];
   List<Widget> screens = [
     BlocProvider(
-      create: (context) =>di.sl<HomeCubit>()..getHomeData(),
+      create: (context) => di.sl<HomeCubit>()..getHomeData(),
       child: const HomeScreenView(),
     ),
-    const SearchScreenViews(),
-    const SavedView(),
+    BlocProvider(
+      create: (context) => di.sl<SearchCubit>()..fetchRecentSearch(),
+      child: const SearchScreenViews(),
+    ),
+    BlocProvider(
+      create: (context) => di.sl<FavoriteCubit>()..fetchFavoriteData(),
+      child: const SavedView(),
+    ),
     const MessagesScreen(),
     const ProfileView()
   ];

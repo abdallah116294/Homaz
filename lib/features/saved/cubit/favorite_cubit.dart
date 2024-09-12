@@ -16,10 +16,10 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(RemoveFromFavoriteLoading());
     try {
       final response = await favoriteRepo.removeFavorite(apartmentId: id);
-      response.fold((l) => emit(RemoveFromFavoriteFailed()),
-          (r) => emit(RemoveFromFavoriteSuccess(removeFavoriteModel: r)));
+      response.fold((l) => emit(RemoveFromFavoriteFailedFav()),
+          (r) => emit(RemoveFromFavoriteSuccessFav(removeFavoriteModel: r)));
     } catch (e) {
-      emit(RemoveFromFavoriteFailed());
+      emit(RemoveFromFavoriteFailedFav());
     }
   }
 

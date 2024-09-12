@@ -20,3 +20,15 @@ class DeleteRecentSearchByIdSuccess extends SearchState {
   const DeleteRecentSearchByIdSuccess({required this.recentSearchModel});
 }
 class DeleteRecentSearchByIdFailed extends SearchState {}
+class DefaultSearchLoading extends SearchState {}
+class DefaultSearchSuccess extends SearchState {
+  final SearchResultModel searchResultModel;
+  const DefaultSearchSuccess({required this.searchResultModel});
+}
+class DefaultSearchFailed extends SearchState {}
+class AddToFavoriteLoading extends SearchState{}
+class AddToFavoriteSuccess extends SearchState{
+ final FavoriteModel  favoriteModel;
+  AddToFavoriteSuccess({required this.favoriteModel});
+}
+class AddToFavoriteFailed extends SearchState{}
