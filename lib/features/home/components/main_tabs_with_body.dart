@@ -1,7 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
@@ -67,7 +69,7 @@ class MainTabsWithBody extends StatelessWidget {
                                 width: 141.w,
                                 child: CustomElevated(
                                   borderRadius: 8.sp,
-                                  text: "Take a Look ",
+                                  text: context.translate(LangKeys.takeALook),
                                   press: () {
                                     print("${homeData.apartments[index].id}");
                                     MagicRouter.navigateTo(

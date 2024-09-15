@@ -1,12 +1,16 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
+import 'package:homez/core/localization/app_localization_setup.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/splash/view.dart';
 
-import 'core/helpers/navigator.dart';
+import '../../core/helpers/navigator.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -69,14 +73,29 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
-          child: MaterialApp(
-            title: "Home Z",
-            debugShowCheckedModeBanner: false,
-            navigatorKey: navigatorKey,
-            home: child,
-          ),
+        return BlocProvider(
+          create: (context) => AppCubit(),
+          child: BlocBuilder<AppCubit, AppState>(builder: (context, state) {
+            if (state is SelectedLocale) {
+              log(state.locale.languageCode);
+              return GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+                child: MaterialApp(
+                  locale: state.locale,
+                  supportedLocales: AppLocalizationsSetup.supportedLocales,
+                  localizationsDelegates:
+                      AppLocalizationsSetup.localizationsDelegates,
+                  localeResolutionCallback:
+                      AppLocalizationsSetup.localeResolutionCallback,
+                  title: "Home Z",
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: navigatorKey,
+                  home: child,
+                ),
+              );
+            }
+            return Container();
+          }),
         );
       },
       child: const SplashView(),

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
@@ -52,7 +54,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                 ),
                 backgroundColor: const Color.fromRGBO(161, 161, 161, 1),
                 title: CustomText(
-                    text: 'Apartment Details',
+                    text: context.translate(LangKeys.apartment_detials),
                     color: ColorManager.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 17.sp),
@@ -171,7 +173,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               height: 41.h,
                               width: 140.w,
                               child: CustomElevated(
-                                  text: 'Call',
+                                  text: context.translate(LangKeys.call),
                                   press: () {},
                                   btnColor: ColorManager.mainColor),
                             ),
@@ -179,7 +181,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               height: 41.h,
                               width: 140.w,
                               child: CustomElevated(
-                                  text: 'Message',
+                                  text: context.translate(LangKeys.message),
                                   press: () {},
                                   btnColor: ColorManager.mainColor),
                             )

@@ -24,9 +24,11 @@ class DioManager implements ApiConsumer {
     //!Use Injection
     dio.interceptors.add(di.sl<PrettyDioLogger>());
     String token = CacheHelper.getToken() ?? "";
+    String langcode = CacheHelper.get(key: "selected_language")??"en";
     token.isNotEmpty
         ? dio.options.headers["Authorization"] = "Bearer $token"
         : null;
+     dio.options.headers["Accept-Language"] = langcode;   
     print(token);
   }
   @override

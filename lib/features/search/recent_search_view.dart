@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
@@ -19,7 +21,7 @@ class RecentSearchView extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CustomText(
-                text: 'History',
+                text: context.translate(LangKeys.history),
                 color: ColorManager.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18),

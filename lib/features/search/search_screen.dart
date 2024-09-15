@@ -1,11 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/appartment_details/screen/appartment_details.dart';
+import 'package:homez/features/landing_screen/landing_screen_cubit.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
 import 'package:homez/features/search/recent_search_view.dart';
 import 'package:homez/features/search/widgets/model_bottom_sheet.dart';
@@ -54,7 +57,7 @@ class _SearchScreenViewsState extends State<SearchScreenViews> {
                             width: size.width * .7,
                             color: ColorManager.bgColor,
                             child: SearchTextField(
-                              hint: "Search",
+                              hint: context.translate(LangKeys.search),
                               controller: searchController,
                               onFieldSubmitted: (value) {
                                 context

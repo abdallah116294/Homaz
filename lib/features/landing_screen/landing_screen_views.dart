@@ -35,7 +35,8 @@ class LandingBody extends StatelessWidget {
               onTap: (index) {
                 cubit.changeNavigationBottom(index);
               },
-              items: cubit.bottomNavigationItems),
+              margin:  const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+              items: cubit.buildBottomNavigationItems(context)),
         );
       },
     );

@@ -1,18 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/features/appartment_details/screen/apartment_details_after_take_look.dart';
 import 'package:homez/features/change_password/view.dart';
 import 'package:homez/features/login/view.dart';
 import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
+import 'package:homez/features/profile/widgets/change_lang_widget.dart';
+import 'package:homez/features/profile/widgets/model_bottom_sheet.dart';
 import 'package:homez/features/profile/widgets/profile_item.dart';
 import 'package:homez/features/profile_details/profile_details.dart';
-import 'package:homez/injection_container.dart'as di;
+import 'package:homez/injection_container.dart' as di;
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
@@ -57,8 +66,8 @@ class ProfileViewBody extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
               children: [
-                const CustomAppBarTitle(
-                  title: "My Account",
+                CustomAppBarTitle(
+                  title: context.translate(LangKeys.myAccount),
                   withBack: false,
                 ),
                 30.verticalSpace,
@@ -89,7 +98,7 @@ class ProfileViewBody extends StatelessWidget {
                 12.verticalSpace,
                 ProfileItem(
                   icon: AssetsStrings.bell,
-                  text: "Notifications",
+                  text: context.translate(LangKeys.notifications),
                   onTap: () {
                     MagicRouter.navigateTo(
                       page: const NotificationView(),
@@ -98,22 +107,26 @@ class ProfileViewBody extends StatelessWidget {
                 ),
                 ProfileItem(
                   icon: AssetsStrings.language,
-                  text: "Language ",
-                  onTap: () {},
+                  text: context.translate(LangKeys.language),
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                  //  log(prefs.toString());
+                    ModalBottomSheet.changeLangueBottomSheet(context);
+                  },
                 ),
                 ProfileItem(
                   icon: AssetsStrings.info,
-                  text: "About",
+                  text: context.translate(LangKeys.about),
                   onTap: () {},
                 ),
                 ProfileItem(
                   icon: AssetsStrings.rateUs,
-                  text: "Rate Us",
+                  text: context.translate(LangKeys.rateUs),
                   onTap: () {},
                 ),
                 ProfileItem(
                     icon: AssetsStrings.lock,
-                    text: "Change Password",
+                    text: context.translate(LangKeys.changePassword),
                     haveTrailing: true,
                     onTap: () {
                       MagicRouter.navigateTo(
@@ -131,7 +144,7 @@ class ProfileViewBody extends StatelessWidget {
                   },
                   child: ProfileItem(
                     icon: AssetsStrings.logOut,
-                    text: "Log Out",
+                    text: context.translate(LangKeys.logOut),
                     haveTrailing: false,
                     onTap: () {
                       cubit.logOut();
