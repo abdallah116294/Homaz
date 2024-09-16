@@ -46,7 +46,17 @@ android {
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
-
+   flavorDimensions "default"
+   productFlavors{
+    production{
+        dimension "default"
+        resValue "string","app_name","Homz"
+    }
+    development{
+        dimension "default"
+        resValue "string","app_name","Homz Development"
+    }
+   }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/app_config.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/localization/app_localization_setup.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
@@ -73,6 +74,7 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
+         final config = AppConfig.of(context);
         return BlocProvider(
           create: (context) => AppCubit(),
           child: BlocBuilder<AppCubit, AppState>(builder: (context, state) {
@@ -88,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                   localeResolutionCallback:
                       AppLocalizationsSetup.localeResolutionCallback,
                   title: "Home Z",
-                  debugShowCheckedModeBanner: false,
+                  debugShowCheckedModeBanner:config!.appTitle=="Homze Development "? true:false,
                   navigatorKey: navigatorKey,
                   home: child,
                 ),
