@@ -32,3 +32,21 @@ class AddToFavoriteSuccess extends SearchState{
   AddToFavoriteSuccess({required this.favoriteModel});
 }
 class AddToFavoriteFailed extends SearchState{}
+class GetSearchWithFilterLoading extends SearchState{}
+class GetSearchWithFilterSuccess extends SearchState{
+  final SearchResultModel searchResultModel;
+  const GetSearchWithFilterSuccess({required this.searchResultModel});
+}
+class GetSearchWithFilterFailed extends SearchState{}
+class SetPriceRange extends SearchState{}
+class PropertyTypeState  extends SearchState{
+  final int selectedIndex;
+  PropertyTypeState({required this.selectedIndex});
+}
+
+class GetDataInSearchLoading extends SearchState{}
+class GetDataInSearchSuccess extends SearchState{
+  final DataInSearch dataInSearch;
+  const GetDataInSearchSuccess({required this.dataInSearch});
+}
+class GetDataInSearchFailed extends SearchState{}

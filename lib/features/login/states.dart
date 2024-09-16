@@ -1,10 +1,16 @@
+import 'package:homez/features/login/data/model/login_model_success.dart';
+
 abstract class LoginStates {}
 
 class LoginInitialState extends LoginStates {}
 
 class LoginLoadingState extends LoginStates {}
 
-class LoginSuccessState extends LoginStates {}
+class LoginSuccessState extends LoginStates {
+  final LoginUserSuccess loginModel;
+
+  LoginSuccessState({required this.loginModel});
+}
 
 class SignInWithGoogleLoadingState extends LoginStates {}
 

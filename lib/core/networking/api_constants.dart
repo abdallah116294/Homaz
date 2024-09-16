@@ -29,5 +29,6 @@ class ApiConstants {
   //Search
   static const String recentSearch = "recentResearch";
   static const String deleteRecentSearchById = "delete-search-By-Id/";
-  static const String search="search-filter";
+  static const String search = "search-filter";
+  static const String getDataInSearch = "get-data-in-search";
 }

@@ -7,13 +7,14 @@ import 'package:homez/features/search/rent_search_filter_view.dart';
 import 'package:homez/features/search/widgets/custom_type_tap.dart';
 
 class SearchFilterView extends StatefulWidget {
-  const SearchFilterView({super.key});
-
+   SearchFilterView({super.key, required this.searchController});
+  TextEditingController searchController;
   @override
   State<SearchFilterView> createState() => _SearchFilterViewState();
 }
 
 class _SearchFilterViewState extends State<SearchFilterView> {
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,8 +26,11 @@ class _SearchFilterViewState extends State<SearchFilterView> {
             fontWeight: FontWeight.bold,
             fontSize: 14),
         SizedBox(height: 20.h),
-        const SearchTextField(
+        SearchTextField(
           hint: 'Search',
+          controller: widget.searchController
+          
+          ,
         ),
         SizedBox(height: 12.h),
         DefaultTabController(
@@ -37,16 +41,9 @@ class _SearchFilterViewState extends State<SearchFilterView> {
                   CustomTabBarType(
                     pages: [
                       // First page for "Rent"
-                      RentSearchFilterView(),
+                      RentSearchFilterView(searchString: widget.searchController.text,index: 1,),
                       // Second page for "Buy"
-                      Center(
-                        child: CustomText(
-                          text: 'Buy Page Content',
-                          color: ColorManager.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
+                      RentSearchFilterView(searchString: widget.searchController.text,index: 2,),
                     ],
                     tabs: [
                       Column(children: [

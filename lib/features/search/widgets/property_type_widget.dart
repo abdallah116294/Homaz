@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/search/cubit/search_cubit.dart';
+
+import '../data/models/data_search.dart';
 
 class PropertyTypeWidget extends StatefulWidget {
-  const PropertyTypeWidget({super.key});
-
+  const PropertyTypeWidget({super.key, required this.onSelectionChanged,required this.categories});
+  final Function(int)? onSelectionChanged;
+  final Data categories;
   @override
   State<PropertyTypeWidget> createState() => _PropertyTypeWidgetState();
 }
@@ -29,69 +34,76 @@ class _PropertyTypeWidgetState extends State<PropertyTypeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100.h,
-      width: 340.w,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: ColorManager.grey12,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Row(
+    return BlocBuilder<SearchCubit, SearchState>(
+      builder: (context, state) {
+        int selectedIndex = -1;
+        if (state is PropertyTypeState) {
+          selectedIndex = state.selectedIndex;
+        }
+        return Container(
+          height: 100.h,
+          width: 340.w,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: ColorManager.grey12,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
             children: [
-              SvgPicture.asset(
-                AssetsStrings.propertyTpe,
-                height: 15,
-                colorFilter:
-                    ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                   "assets/icons/buildings.svg",
+                    height: 15,
+                    colorFilter:
+                        ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
+                  ),
+                  CustomText(
+                      text: 'Property Type',
+                      color: ColorManager.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp)
+                ],
               ),
-              CustomText(
-                  text: 'Property Type',
-                  color: ColorManager.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp)
+              SizedBox(
+                height: 10.h,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  //spacing: 10,
+                  children: List<Widget>.generate(
+                   widget.categories.categories.length,
+                    (int index) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: ChoiceChip(
+                          showCheckmark: false,
+                          label: Text(
+                            widget.categories.categories[index].name.toString(),
+                            style: TextStyle(color: ColorManager.white),
+                          ),
+                          selected: _selectedIndex == index,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _selectedIndex = selected ? index : -1;
+                            });
+                            if (widget.onSelectionChanged != null) {
+                              widget.onSelectionChanged!(_selectedIndex);
+                            }
+                          },
+                          selectedColor: Colors.blue,
+                          backgroundColor: ColorManager.grey23,
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ),
             ],
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              //spacing: 10,
-              children: List<Widget>.generate(
-                _chipLabels.length,
-                (int index) {
-                  return Padding(
-                    padding:  EdgeInsets.only(right: 10.w),
-                    child: ChoiceChip(
-                      showCheckmark: false,
-                      label: Text(
-                        _chipLabels[index],
-                        style: TextStyle(color: ColorManager.white),
-                      ),
-                      selected: _selectedIndex == index,
-                      onSelected: (bool selected) {
-                        setState(() {
-                          _selectedIndex = selected ? index : -1;
-                        });
-                        setState(() {
-                          selectedDuration =
-                              _extractNumberFromLabel(_chipLabels[_selectedIndex])!;
-                        });
-                      },
-                      selectedColor: Colors.blue,
-                      backgroundColor: ColorManager.grey23,
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

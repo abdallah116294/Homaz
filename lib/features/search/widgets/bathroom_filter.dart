@@ -7,8 +7,8 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 
 class BathroomFilterWidget extends StatefulWidget {
-  const BathroomFilterWidget({super.key});
-
+  const BathroomFilterWidget({super.key,required this.onSelectionChanged});
+final Function(int index,String value)? onSelectionChanged;
   @override
   State<BathroomFilterWidget> createState() => _BathroomFilterWidget();
 }
@@ -23,8 +23,7 @@ class _BathroomFilterWidget extends State<BathroomFilterWidget> {
     "3",
     "4",
     "5",
-    "6+",
-
+    "12",
   ];
   int? _extractNumberFromLabel(String label) {
     final match = RegExp(r'\d+').firstMatch(label);
@@ -43,20 +42,24 @@ class _BathroomFilterWidget extends State<BathroomFilterWidget> {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                AssetsStrings.propertyTpe,
-                height: 15,
-                colorFilter:
-                    ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
-              ),
-              CustomText(
-                  text: 'BathRooms',
-                  color: ColorManager.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp)
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  AssetsStrings.bath,
+                  height: 22,
+                  colorFilter:
+                      ColorFilter.mode(ColorManager.white, BlendMode.srcIn),
+                ),
+                SizedBox(width: 10.w),
+                CustomText(
+                    text: 'BathRooms',
+                    color: ColorManager.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp)
+              ],
+            ),
           ),
           SizedBox(
             height: 10.h,
@@ -86,6 +89,9 @@ class _BathroomFilterWidget extends State<BathroomFilterWidget> {
                         setState(() {
                           _selectedIndex = selected ? index : -1;
                         });
+                         if(widget.onSelectionChanged!=null&&_selectedIndex!=-1){
+                           widget.onSelectionChanged!(_selectedIndex,_chipLabels[_selectedIndex]);
+                         }
                         setState(() {
                           selectedDuration =
                               _extractNumberFromLabel(_chipLabels[_selectedIndex])!;

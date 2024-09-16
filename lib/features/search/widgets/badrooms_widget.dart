@@ -7,8 +7,8 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 
 class BadRoomsFilterWidget extends StatefulWidget {
-  const BadRoomsFilterWidget({super.key});
-
+  const BadRoomsFilterWidget({super.key,required this.onSelectionChanged});
+  final Function(int)? onSelectionChanged;
   @override
   State<BadRoomsFilterWidget> createState() => _BadRoomsFilterWidgetState();
 }
@@ -43,20 +43,24 @@ class _BadRoomsFilterWidgetState extends State<BadRoomsFilterWidget> {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                AssetsStrings.propertyTpe,
-                height: 15,
-                colorFilter:
-                    ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
-              ),
-              CustomText(
-                  text: 'BadRooms',
-                  color: ColorManager.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp)
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  AssetsStrings.bed,
+                  height: 22,
+                  colorFilter:
+                      ColorFilter.mode(ColorManager.white, BlendMode.srcIn),
+                ),
+                SizedBox(width: 10.w),
+                CustomText(
+                    text: 'BadRooms',
+                    color: ColorManager.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp)
+              ],
+            ),
           ),
           SizedBox(
             height: 10.h,
@@ -86,10 +90,9 @@ class _BadRoomsFilterWidgetState extends State<BadRoomsFilterWidget> {
                         setState(() {
                           _selectedIndex = selected ? index : -1;
                         });
-                        setState(() {
-                          selectedDuration =
-                              _extractNumberFromLabel(_chipLabels[_selectedIndex])!;
-                        });
+                         if(widget.onSelectionChanged!=null){
+                           widget.onSelectionChanged!(_selectedIndex);
+                         }
                       },
                       selectedColor: Colors.blue,
                       backgroundColor: ColorManager.grey23,

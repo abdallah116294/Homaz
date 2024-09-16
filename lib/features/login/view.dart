@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -13,7 +14,7 @@ import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/forget_password/forget_pass_view.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
-import 'package:homez/injection_container.dart'as di;
+import 'package:homez/injection_container.dart' as di;
 import 'components/or_divider.dart';
 import 'components/register_line.dart';
 import 'cubit.dart';
@@ -225,6 +226,7 @@ class _LoginButton extends StatelessWidget {
             color: ColorManager.red,
           );
         } else if (state is LoginSuccessState) {
+          CacheHelper.saveToken(state.loginModel.data!.user!.token!);
           MagicRouter.navigateTo(
             page: const LandingScreenViews(),
             withHistory: false,
@@ -295,7 +297,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 return Expanded(
                   child: GestureDetector(
                     onTap: () {
-                     // cubit.signInWithGoogle();
+                      // cubit.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       AssetsStrings.google,
@@ -327,7 +329,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                   // cubit.signInWithApple();
+                    // cubit.signInWithApple();
                   },
                   child: SvgPicture.asset(
                     AssetsStrings.apple,

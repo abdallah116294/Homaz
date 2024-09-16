@@ -95,7 +95,7 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
     ),
     BlocProvider(
       create: (context) => di.sl<SearchCubit>()..fetchRecentSearch(),
-      child: const SearchScreenViews(),
+      child:  SearchScreenViews(),
     ),
     BlocProvider(
       create: (context) => di.sl<FavoriteCubit>()..fetchFavoriteData(),

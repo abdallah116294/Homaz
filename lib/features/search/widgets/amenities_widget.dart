@@ -6,9 +6,12 @@ import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 
-class AmenitiesFilterWidget extends StatefulWidget {
-  const AmenitiesFilterWidget({super.key});
+import '../data/models/data_search.dart';
 
+class AmenitiesFilterWidget extends StatefulWidget {
+  const AmenitiesFilterWidget({super.key, this.onSelectionChanged, required this.amenities});
+  final Function(int)? onSelectionChanged;
+  final Data amenities;
   @override
   State<AmenitiesFilterWidget> createState() => _AmenitiesFilterWidgetState();
 }

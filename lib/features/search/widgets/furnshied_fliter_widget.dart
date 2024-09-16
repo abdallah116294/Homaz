@@ -7,8 +7,8 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 
 class FurnishedFilterWidget extends StatefulWidget {
-  const FurnishedFilterWidget({super.key});
-
+  const FurnishedFilterWidget({super.key,required this.onSelectionChanged});
+   final Function(int)? onSelectionChanged;
   @override
   State<FurnishedFilterWidget> createState() => _FurnishedFilterWidgetState();
 }
@@ -20,7 +20,6 @@ class _FurnishedFilterWidgetState extends State<FurnishedFilterWidget> {
   final List<String> _chipLabels = [
     'Furnished',
     'unFurnished',
-  
   ];
   int? _extractNumberFromLabel(String label) {
     final match = RegExp(r'\d+').firstMatch(label);
@@ -77,10 +76,13 @@ class _FurnishedFilterWidgetState extends State<FurnishedFilterWidget> {
                         setState(() {
                           _selectedIndex = selected ? index : -1;
                         });
-                        setState(() {
-                          selectedDuration =
-                              _extractNumberFromLabel(_chipLabels[_selectedIndex])!;
-                        });
+                         if(widget.onSelectionChanged!=null){
+                           widget.onSelectionChanged!(_selectedIndex);
+                         }
+                        // setState(() {
+                        //   selectedDuration =
+                        //       _extractNumberFromLabel(_chipLabels[_selectedIndex])!;
+                        // });
                       },
                       selectedColor: Colors.blue,
                       backgroundColor: ColorManager.grey23,
