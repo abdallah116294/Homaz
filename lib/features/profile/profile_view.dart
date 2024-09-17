@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
@@ -75,6 +76,7 @@ class ProfileViewBody extends StatelessWidget {
                   onTap: () {
                     MagicRouter.navigateTo(
                         page: ProfileDetailsView(
+                          userData: profileData,
                       fullName: '${profileData.fullname}',
                       phone: '${profileData.phone}',
                     ));
@@ -97,17 +99,8 @@ class ProfileViewBody extends StatelessWidget {
                 ),
                 12.verticalSpace,
                 ProfileItem(
-                  icon: AssetsStrings.bell,
-                  text: context.translate(LangKeys.notifications),
-                  onTap: () {
-                    MagicRouter.navigateTo(
-                      page: const NotificationView(),
-                    );
-                  },
-                ),
-                ProfileItem(
                   icon: AssetsStrings.language,
-                  text: context.translate(LangKeys.language),
+                  text: "${context.translate(LangKeys.language)}${CacheHelper.get(key: 'selected_language')} ",
                   onTap: () async {
                     final prefs = await SharedPreferences.getInstance();
                   //  log(prefs.toString());

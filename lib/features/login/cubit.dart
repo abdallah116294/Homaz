@@ -36,9 +36,12 @@ class LoginCubit extends Cubit<LoginStates> {
             deviceType: '${CacheHelper.get(key: 'deviceType')}');
         response.fold(
             (l) => emit(LoginFailedState(msg: l.toString())),
-            (r) => emit(LoginSuccessState(
+            (r){  
+              CacheHelper.saveToken(r.data!.user!.token!);
+              isRemember ? CacheHelper.saveIfRemember() : null;
+              emit(LoginSuccessState(
               loginModel: r
-            )));
+            ));});
       } catch (e) {
         emit(LoginFailedState(msg: 'An unknown error: $e'));
         logger.e(e);

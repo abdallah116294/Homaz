@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc_test: ^9.1.7
+  build_runner: ^2.4.12
   cached_network_image: ^3.2.3
   card_swiper: ^3.0.1
   cupertino_icons: ^1.0.6
@@ -51,6 +53,7 @@ dependencies:
   google_sign_in: null
   image_picker: ^1.0.0
   logger: ^1.4.0
+  mockito: ^5.4.4
   pinput: ^2.2.31
   pretty_dio_logger: ^1.3.1
   salomon_bottom_bar: null
@@ -71,7 +74,6 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   min_sdk_android: 21 # android min sdk min:16, default 21
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -88,8 +90,6 @@ flutter:
     - assets/images/
     - lang/ar.json
     - lang/en.json
-
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

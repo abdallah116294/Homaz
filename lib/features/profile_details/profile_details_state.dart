@@ -28,3 +28,11 @@ class UpdatePhoneFailedState extends ProfileDetailsState {
 
   UpdatePhoneFailedState({required this.msg});
 }
+class PickImageLoadingState extends ProfileDetailsState{}
+class PickImageSuccessState extends ProfileDetailsState{}
+class PickImageFailedState extends ProfileDetailsState{
+  final String msg;
+
+  PickImageFailedState(this.msg);
+}
+

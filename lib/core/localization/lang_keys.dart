@@ -16,4 +16,5 @@ class LangKeys {
   static const String logOut = "log_out";
   static const String apartment_detials = "apartment_details";
   static const String saved = "saved";
+  static const String account_details = "account_details";
 }
