@@ -1,3 +1,5 @@
+import 'package:homez/features/register/data/model/register_model.dart';
+
 abstract class RegisterStates {}
 
 class RegisterInitialState extends RegisterStates {}
@@ -16,7 +18,11 @@ class RegisterFailedState extends RegisterStates {
 
 class RegisterWithGoogleLoadingState extends RegisterStates {}
 
-class RegisterWithGoogleSuccessState extends RegisterStates {}
+class RegisterWithGoogleSuccessState extends RegisterStates {
+  RegisterUserSuccess registerUserSuccess;
+
+  RegisterWithGoogleSuccessState({required this.registerUserSuccess});
+}
 
 class RegisterWithGoogleFailedState extends RegisterStates {
   final String msg;

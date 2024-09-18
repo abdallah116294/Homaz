@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:homez/core/networking/api_consumer.dart';
 import 'package:homez/core/networking/dio_manager.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart';
 import 'package:homez/features/change_password/cubit.dart';
@@ -12,6 +13,8 @@ import 'package:homez/features/home/data/repo/home_repo.dart';
 import 'package:homez/features/home/home_cubit.dart';
 import 'package:homez/features/login/cubit.dart';
 import 'package:homez/features/login/data/repo/login_repo.dart';
+import 'package:homez/features/otp/cubit.dart';
+import 'package:homez/features/otp/data/repo/otp_repo.dart';
 import 'package:homez/features/profile/data/repo/profile_repo.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
 import 'package:homez/features/profile_details/data/repo/profile_repo.dart';
@@ -47,6 +50,12 @@ Future<void> init() async {
   //cubit
   sl.registerFactory<ResetPasswordCubit>(
       () => ResetPasswordCubit(resetPasswordRepo: sl()));
+  //!OTP
+  //cubit
+  sl.registerFactory(() => OtpCubit(otpRepo: sl()));
+  //repo
+  sl.registerLazySingleton<OTPRepo>(() => OTPRepo(apiConsumer: sl()));
+
   //!Change Password
   //repo
   sl.registerLazySingleton<ChangePassRepo>(
@@ -88,29 +97,29 @@ Future<void> init() async {
   sl.registerLazySingleton<ApartmentRepo>(
       () => ApartmentRepo(apiConsumer: sl()));
   //cubit
-  sl.registerFactory(() => AppartmentDetailsCubit(apartmentRepo: sl(),favoriteRepo: sl()));
+  sl.registerFactory(
+      () => AppartmentDetailsCubit(apartmentRepo: sl(), favoriteRepo: sl()));
   //!Favorite
   //repo
-  sl.registerLazySingleton<FavoriteRepo>(
-      () => FavoriteRepo(apiConsumer: sl()));
+  sl.registerLazySingleton<FavoriteRepo>(() => FavoriteRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(() => FavoriteCubit(favoriteRepo: sl()));
   //!Search
   //repo
-  sl.registerLazySingleton<SearchRepo>(
-      () => SearchRepo(apiConsumer: sl()));
+  sl.registerLazySingleton<SearchRepo>(() => SearchRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(() => SearchCubit(searchRepo: sl()));
   //core
   sl.registerLazySingleton<ApiConsumer>(() => DioManager(dio: sl()));
+  sl.registerLazySingleton<DioManager>(() => DioManager(dio: sl()));
   sl.registerLazySingleton(() => PrettyDioLogger(
-              requestHeader: true,
-      requestBody: true,
-      request: true,
-      responseBody: true,
-      responseHeader: true,
-      compact: true,
-      maxWidth: 120,
-  ));
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+        responseBody: true,
+        responseHeader: true,
+        compact: true,
+        maxWidth: 120,
+      ));
   sl.registerFactory(() => Dio());
 }

@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/helpers/app_methods.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -157,7 +159,7 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                   fontSize: 24.sp),
                               CustomText(
                                   text:
-                                      '\$  ${state.takeLookData.data!.apartments!.buyPrice}',
+                                      '\$  ${CacheHelper.get(key: "selected_language") == "en" ? state.takeLookData.data!.apartments!.buyPrice : AppMethods.replaceFarsiNumber(state.takeLookData.data!.apartments!.buyPrice.toString())}',
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16.sp),

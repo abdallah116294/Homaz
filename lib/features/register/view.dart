@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -326,7 +327,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                   );
                 } else if (state is RegisterWithGoogleSuccessState) {
                   MagicRouter.navigateTo(
-                    page: const LandingScreenViews(),
+                    page:  OtpView(phone: state.registerUserSuccess.data!.user!.phone!,),
                     withHistory: false,
                   );
                 }
@@ -342,7 +343,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 return Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      //cubit.registerWithGoogle();
+                      cubit.registerWithGoogle();
                     },
                     child: SvgPicture.asset(
                       AssetsStrings.google,

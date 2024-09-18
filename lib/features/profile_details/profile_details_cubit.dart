@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:homez/core/error/failures.dart';
+import 'package:homez/core/helpers/either_extension.dart';
+import 'package:homez/core/models/profile_data_model.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/profile_details/data/repo/profile_repo.dart';
@@ -41,13 +44,20 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
       emit(PickImageFailedState(e.toString()));
     }
   }
-Future<void>profileInfoData()async{
-  try{
-    final response = await profileRepo.profileInfoData();
-  }catch(e){
-    logger.e(e);
+
+  Future<void> profileInfoData() async {
+    try {
+      Either<Failure, ProfileDataModel> response =
+          await profileRepo.profileInfoData();
+      if (response.isRight()) {
+        final righavlue = response.asRight();
+        controllers.phoneController.text = righavlue.data!.user!.phone!;
+      }
+    } catch (e) {
+      logger.e(e);
+    }
   }
-}
+
   changeVisibility() {
     isObscure = !isObscure;
     emit(ChanceVisibilityState());
@@ -68,12 +78,13 @@ Future<void>profileInfoData()async{
     }
   }
 
-  Future<void> updatePhone() async {
+  Future<void> updatePhone({
+    required String phone,
+  }) async {
     if (formKey.currentState!.validate()) {
       emit(UpdatePhoneLoadingState());
       try {
-        final response = await profileRepo.updatePhone(
-            phone: controllers.phoneController.text);
+        final response = await profileRepo.updatePhone(phone: phone);
         response.fold((l) => emit(UpdatePhoneFailedState(msg: l.toString())),
             (r) => emit(UpdatePhoneSuccessState()));
       } catch (e) {
@@ -92,9 +103,9 @@ Future<void>profileInfoData()async{
       final response =
           await profileRepo.updateProfile2(fullName: fullName, image: image);
       response.fold((l) {
-        if(l is ServerFailure){
+        if (l is ServerFailure) {
           log('Server Failure:${l.errMessage}');
-        }else{
+        } else {
           log('An unknown error: $l');
         }
         emit(UpdateProfileFailedState(msg: l.toString()));

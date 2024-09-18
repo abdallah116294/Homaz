@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "800348276964",
-    "project_id": "homz-d74f2",
-    "storage_bucket": "homz-d74f2.appspot.com"
+    "project_number": "822141352330",
+    "project_id": "homz-3f8b5",
+    "storage_bucket": "homz-3f8b5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:800348276964:android:88d6e785938067c7b184f1",
+        "mobilesdk_app_id": "1:822141352330:android:e63d80ca1894d2cb7c3073",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjuyLBzXfw8vyKICkW_Wf_O3cImqUuZCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822141352330:android:4b6a3cce577a71177c3073",
         "android_client_info": {
           "package_name": "com.example.homez"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBUxp6TzKZq-N22keo6FoC21-WS3nb3kAc"
+          "current_key": "AIzaSyDjuyLBzXfw8vyKICkW_Wf_O3cImqUuZCI"
         }
       ],
       "services": {

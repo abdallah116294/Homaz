@@ -7,8 +7,8 @@ import 'package:homez/app_config.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/language_cach.dart';
 import 'package:homez/features/app/cubit/bloc_observer.dart';
-import 'package:homez/firebase_options.dart';
 import 'package:homez/features/app/my_app.dart';
+import 'package:homez/firebase_options.dart';
 import 'package:homez/main_common.dart';
 import 'injection_container.dart' as di;
 

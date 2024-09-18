@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/register/data/repo/register_repo.dart';
@@ -14,7 +17,7 @@ import 'states.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit({required this.registerRepo}) : super(RegisterInitialState());
-RegisterRepo registerRepo;
+  RegisterRepo registerRepo;
   static RegisterCubit get(context) => BlocProvider.of(context);
 
   //final dioManager = DioManager();
@@ -28,13 +31,14 @@ RegisterRepo registerRepo;
     if (formKey.currentState!.validate()) {
       emit(RegisterLoadingState());
       try {
-        final response=await registerRepo.registerUser(
+        final response = await registerRepo.registerUser(
           name: controllers.nameController.text,
           phone: controllers.phoneController.text,
           password: controllers.passwordController.text,
           confirmPassword: controllers.confirmPasswordController.text,
-        ); 
-        response.fold((l)=>emit(RegisterFailedState(msg: l.toString())), (r)=>emit(RegisterSuccessState()));
+        );
+        response.fold((l) => emit(RegisterFailedState(msg: l.toString())),
+            (r) => emit(RegisterSuccessState()));
       } catch (e) {
         emit(RegisterFailedState(msg: 'An unknown error: $e'));
         logger.e(e);
@@ -42,6 +46,25 @@ RegisterRepo registerRepo;
     }
   }
 
+  Future<void> registerWithGoogle() async {
+    emit(RegisterWithGoogleLoadingState());
+    try {
+      final rseponse = await registerRepo.registerWithGoogle(
+              fullname: controllers.nameController.text,
+              password: controllers.passwordController.text,
+              confirmPassword:controllers.confirmPasswordController.text,
+              phone:controllers.phoneController.text,
+      );
+      rseponse.fold(
+          (l) => emit(RegisterWithGoogleFailedState(msg: l.toString())), (r) {
+          //   CacheHelper.saveToken(r.data!.user!.!);
+        emit(RegisterWithGoogleSuccessState(registerUserSuccess: r));
+      });
+      // emit(RegisterWithGoogleSuccessState(registerUserSuccess: ));
+    } catch (e) {
+      emit(RegisterWithGoogleFailedState(msg: e.toString()));
+    }
+  }
   // Future<void> registerWithGoogle() async {
   //   emit(RegisterWithGoogleLoadingState());
   //   try {

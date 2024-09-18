@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/helpers/app_methods.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/models/profile_data_model.dart';
@@ -19,9 +20,11 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/otp/view.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
 import 'package:homez/features/profile_details/profile_details_cubit.dart';
+import 'package:homez/features/profile_details/update_phone_number.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'package:image_picker/image_picker.dart';
 
@@ -121,6 +124,7 @@ class ProfileDetailsBody extends StatelessWidget {
                                         ),
                         ),
                       ),
+                      SizedBox(width: 4.w),
                       Expanded(
                         child: InkWell(
                           onTap: () {
@@ -167,8 +171,21 @@ class ProfileDetailsBody extends StatelessWidget {
                 cubit: cubit,
               ),
               SizedBox(height: 32.h),
+              // CustomElevated(
+              //     text:
+              //         "Update Phone Number:${cubit.controllers.phoneController.text}",
+              //     press: () {
+              //       MagicRouter.navigateTo(
+              //           page: BlocProvider(
+              //         create: (context) => di.sl<ProfileDetailsCubit>(),
+              //         child: UpdatePhoneNumber(),
+              //       ));
+              //     },
+              //     btnColor: ColorManager.mainColor),
               _PhoneTextField(
-                cubit: cubit,
+                cubit: cubit.controllers.phoneController.text.isEmpty
+                    ? cubit
+                    : cubit,
               ),
               // SizedBox(height: 32.h),
               // BlocBuilder<ProfileDetailsCubit, ProfileDetailsState>(
@@ -178,6 +195,7 @@ class ProfileDetailsBody extends StatelessWidget {
               // ),
               SizedBox(height: 32.h),
               _SaverButton(
+                phoneNumber: phone,
                 cubit: cubit,
                 fullName: fullName,
                 navigateFromProfile: navigateFromProfile,
@@ -231,12 +249,15 @@ class _PhoneTextField extends StatelessWidget {
       controller: cubit.controllers.phoneController,
       keyboardType: TextInputType.phone,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      prefixIcon: Padding(
-        padding: EdgeInsets.all(0.0197.sh),
-        child: SvgIcon(
-          icon: AssetsStrings.phone,
-          height: 0.029.sh,
-          color: ColorManager.grey10,
+      prefixIcon: Align(
+        alignment: context.read<AppCubit>().getAlignment(),
+        child: Padding(
+          padding: EdgeInsets.all(0.0197.sh),
+          child: SvgIcon(
+            icon: AssetsStrings.phone,
+            height: 0.029.sh,
+            color: ColorManager.grey10,
+          ),
         ),
       ),
       hint: "Mobile Number",
@@ -303,13 +324,14 @@ class _SaverButton extends StatelessWidget {
       {required this.cubit,
       required this.fullName,
       required this.navigateFromProfile,
-      required this.image});
+      required this.image,
+      required this.phoneNumber});
 
   final ProfileDetailsCubit cubit;
   final String fullName;
   final bool navigateFromProfile;
   final XFile? image;
-
+  final String phoneNumber;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileDetailsCubit, ProfileDetailsState>(
@@ -345,17 +367,58 @@ class _SaverButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Save",
-          press: () {            
+          text: context.translate(LangKeys.save),
+          press: () {
+             String newFullName = cubit.controllers.nameController.text;
+            String newPhoneNumber = cubit.controllers.phoneController.text;
+
+            bool isNameChanged = fullName != newFullName;
+            bool isPhoneChanged = phoneNumber != newPhoneNumber;
+            bool isImageChanged = image != null && cubit.pickedImage != null;
+
             log(fullName != cubit.controllers.nameController.text
                 ? cubit.controllers.nameController.text
                 : null.toString());
+            //update only phone number
+            if (phoneNumber != cubit.controllers.phoneController.text) {
+              cubit.updatePhone(phone: newPhoneNumber);
+              //Update 3 things
+            } 
+            // else if (phoneNumber != cubit.controllers.phoneController.text &&
+            //     image != null &&
+            //     fullName != cubit.controllers.nameController.text) {
+            //   cubit.updateProfile2(
+            //     fullName: fullName != cubit.controllers.nameController.text
+            //         ? cubit.controllers.nameController.text
+            //         : null,
+            //     image: cubit.pickedImage ?? null,
+            //   );
+            //   cubit.updatePhone(phone: phoneNumber);
+            //   //Update 2 things
+            // } 
+            else if (fullName != cubit.controllers.nameController.text &&
+                image != null) {
+              cubit.updateProfile2(
+                fullName: fullName != cubit.controllers.nameController.text
+                    ? cubit.controllers.nameController.text
+                    : null,
+                image: cubit.pickedImage ?? null,
+              );
+              //default update 
+            }else{
             cubit.updateProfile2(
               fullName: fullName != cubit.controllers.nameController.text
                   ? cubit.controllers.nameController.text
                   : null,
-              image: cubit.pickedImage??null,
+              image: cubit.pickedImage ?? null,
             );
+            }
+            // cubit.updateProfile2(
+            //   fullName: fullName != cubit.controllers.nameController.text
+            //       ? cubit.controllers.nameController.text
+            //       : null,
+            //   image: cubit.pickedImage ?? null,
+            // );
             // fullName != cubit.controllers.phoneController.text
             //     ? cubit.updatePhone()
             //     : cubit.updateProfile();

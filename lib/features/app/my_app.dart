@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/app_config.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/localization/app_localization_setup.dart';
+import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/splash/view.dart';
-
+import 'package:homez/injection_container.dart'as di;
 import '../../core/helpers/navigator.dart';
 
 class MyApp extends StatefulWidget {
@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
          final config = AppConfig.of(context);
         return BlocProvider(
-          create: (context) => AppCubit(),
+          create: (context) =>AppCubit(),
           child: BlocBuilder<AppCubit, AppState>(builder: (context, state) {
             if (state is SelectedLocale) {
               log(state.locale.languageCode);

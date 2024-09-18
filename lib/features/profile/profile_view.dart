@@ -100,7 +100,7 @@ class ProfileViewBody extends StatelessWidget {
                 12.verticalSpace,
                 ProfileItem(
                   icon: AssetsStrings.language,
-                  text: "${context.translate(LangKeys.language)}${CacheHelper.get(key: 'selected_language')} ",
+                  text: "${context.translate(LangKeys.language)} ",
                   onTap: () async {
                     final prefs = await SharedPreferences.getInstance();
                   //  log(prefs.toString());

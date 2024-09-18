@@ -65,11 +65,8 @@ class ProfileDetailsRepo {
   Future<Either<Failure, dynamic>> updatePhone({required String phone}) async {
     try {
       final respnse = await apiConsumer.post(
-        ApiConstants.updateProfile,
+        ApiConstants.sendOtpToUpdatePhone,
         body: FormData.fromMap({'phone': phone}),
-        header: {
-          "Accept": "application/json",
-        },
       );
       if (respnse.statusCode == 200) {
         return Right(respnse.data);

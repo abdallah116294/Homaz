@@ -1,10 +1,15 @@
+import 'package:homez/features/otp/data/model/confirm_code_succes.dart';
+
 abstract class OtpStates {}
 
 class OtpInitialState extends OtpStates {}
 
 class OtpLoadingState extends OtpStates {}
 
-class OtpSuccessState extends OtpStates {}
+class OtpSuccessState extends OtpStates {
+final ConfirmeCodeSuccess confirmeCodeSuccess;
+  OtpSuccessState({required this.confirmeCodeSuccess});
+}
 
 class OtpFailureState extends OtpStates {
   final String msg;

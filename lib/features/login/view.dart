@@ -297,7 +297,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 return Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      // cubit.signInWithGoogle();
+                       cubit.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       AssetsStrings.google,

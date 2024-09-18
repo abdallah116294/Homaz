@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
+import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
-
+import 'package:homez/injection_container.dart'as di;
 class ChangeLangWidget extends StatefulWidget {
   const ChangeLangWidget({super.key});
 
@@ -12,6 +14,12 @@ class ChangeLangWidget extends StatefulWidget {
 
 class _ChangeLangWidgetState extends State<ChangeLangWidget> {
   bool isArabicSelected = false;
+  @override
+  void initState() {
+    super.initState();
+    final langCode = CacheHelper.get(key: "selected_language");
+    isArabicSelected = langCode == 'ar'; 
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

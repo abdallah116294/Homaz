@@ -11,6 +11,7 @@ import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/features/login/view.dart';
 import 'package:homez/features/reset_password/view.dart';
+import 'package:homez/injection_container.dart'as di;
 
 import 'components/pinput.dart';
 import 'cubit.dart';
@@ -30,7 +31,7 @@ class OtpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OtpCubit(),
+      create: (context) => di.sl<OtpCubit>(),
       child: _OtpBody(
         phone: phone,
         navigateFromForget: navigateFromForget,

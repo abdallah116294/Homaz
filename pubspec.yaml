@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc_test: ^9.1.7
+  win32: ^5.0.5
   build_runner: ^2.4.12
   cached_network_image: ^3.2.3
   card_swiper: ^3.0.1

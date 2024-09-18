@@ -23,14 +23,27 @@ class DioManager implements ApiConsumer {
       };
     //!Use Injection
     dio.interceptors.add(di.sl<PrettyDioLogger>());
-    String token = CacheHelper.getToken() ?? "";
-    String langcode = CacheHelper.get(key: "selected_language")??"en";
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options,handler){
+         String langcode = CacheHelper.get(key: "selected_language")??'en';
+         options.headers["Accept-Language"] = langcode;
+         return handler.next(options);
+      }
+    ));
+    String token = CacheHelper.getToken();
+    String langcode = CacheHelper.get(key: "selected_language");
+
     token.isNotEmpty
         ? dio.options.headers["Authorization"] = "Bearer $token"
         : null;
-     dio.options.headers["Accept-Language"] = langcode;   
+    // dio.options.headers["Accept-Language"] = langcode;
     print(token);
   }
+
+  void updateLanguage(String langcode) {
+    dio.options.headers["Accept-Language"] = langcode;
+  }
+
   @override
   Future delete(String url, {Map<String, dynamic>? header, data}) async {
     try {
