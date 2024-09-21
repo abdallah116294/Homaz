@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -12,10 +12,8 @@ import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/features/login/components/or_divider.dart';
-import 'package:homez/features/otp/view.dart';
-import 'package:homez/injection_container.dart'as di;
+import 'package:homez/injection_container.dart' as di;
 import 'cubit.dart';
 import 'states.dart';
 
@@ -267,12 +265,15 @@ class _RegisterButton extends StatelessWidget {
             color: ColorManager.red,
           );
         } else if (state is RegisterSuccessState) {
-          MagicRouter.navigateTo(
-            page: OtpView(
-              phone: cubit.controllers.phoneController.text,
-            ),
-            withHistory: false,
-          );
+          context.pushName(AppRoutes.otpView, arguments: {
+            "phone": cubit.controllers.phoneController.text,
+          });
+          // MagicRouter.navigateTo(
+          //   page: OtpView(
+          //     phone: cubit.controllers.phoneController.text,
+          //   ),
+          //   withHistory: false,
+          // );
         }
       },
       builder: (context, state) {
@@ -326,10 +327,15 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                     color: ColorManager.red,
                   );
                 } else if (state is RegisterWithGoogleSuccessState) {
-                  MagicRouter.navigateTo(
-                    page:  OtpView(phone: state.registerUserSuccess.data!.user!.phone!,),
-                    withHistory: false,
-                  );
+                  context.pushName(AppRoutes.otpView, arguments: {
+                    "phone": state.registerUserSuccess.data!.user!.phone!,
+                  });
+                  // MagicRouter.navigateTo(
+                  //   page: OtpView(
+                  //     phone: state.registerUserSuccess.data!.user!.phone!,
+                  //   ),
+                  //   withHistory: false,
+                  // );
                 }
               },
               builder: (context, state) {
@@ -367,10 +373,11 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                   color: ColorManager.red,
                 );
               } else if (state is RegisterWithAppleSuccessState) {
-                MagicRouter.navigateTo(
-                  page: const LandingScreenViews(),
-                  withHistory: false,
-                );
+                context.pushName(AppRoutes.landingViews);
+                // MagicRouter.navigateTo(
+                //   page: const LandingScreenViews(),
+                //   withHistory: false,
+                // );
               }
             }, builder: (context, state) {
               return Expanded(

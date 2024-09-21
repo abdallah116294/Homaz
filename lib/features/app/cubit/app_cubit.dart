@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/networking/dio_manager.dart';
 
 part 'app_state.dart';
 

@@ -18,6 +18,10 @@
     "apartment_details":"Apartment Details",
     "saved":"saved",
     "account_details":"Account Details",
-    "save":"save"
-    
+    "save":"save",
+    "change_password_about":"Don’t worry! It’s happens. Please enter your old and new password.",
+    "old_password":"Old Password",
+   "new_password":"New Password",
+   "new_password_confirmation":"New Password Confirmation ",
+   "change":"Change"
 }

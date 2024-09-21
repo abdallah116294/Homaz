@@ -5,7 +5,6 @@ import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/models/profile_data_model.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/api_consumer.dart';
-import 'package:homez/features/login/data/model/login_model_success.dart';
 
 class ProfileRepo {
   final ApiConsumer apiConsumer;

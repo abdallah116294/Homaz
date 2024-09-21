@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/networking/dio_manager.dart';
+import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
-import 'package:homez/injection_container.dart'as di;
 class ChangeLangWidget extends StatefulWidget {
   const ChangeLangWidget({super.key});
 
@@ -29,7 +28,9 @@ class _ChangeLangWidgetState extends State<ChangeLangWidget> {
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-                    children: [
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -40,6 +41,7 @@ class _ChangeLangWidgetState extends State<ChangeLangWidget> {
                       isArabicSelected = false; // Set to English
                       // Change to English
                     });
+                     MagicRouter.navigatePop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isArabicSelected
@@ -56,6 +58,7 @@ class _ChangeLangWidgetState extends State<ChangeLangWidget> {
                       isArabicSelected = true; // Set to Arabic
                       // _changeLanguage(Locale('ar', '')); // Change to Arabic
                     });
+                    MagicRouter.navigatePop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isArabicSelected

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:homez/core/networking/api_consumer.dart';
 import 'package:homez/core/networking/dio_manager.dart';
-import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart';
 import 'package:homez/features/change_password/cubit.dart';

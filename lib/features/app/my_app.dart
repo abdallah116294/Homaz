@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/app_config.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/localization/app_localization_setup.dart';
-import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/splash/view.dart';
-import 'package:homez/injection_container.dart'as di;
-import '../../core/helpers/navigator.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -89,9 +87,11 @@ class _MyAppState extends State<MyApp> {
                       AppLocalizationsSetup.localizationsDelegates,
                   localeResolutionCallback:
                       AppLocalizationsSetup.localeResolutionCallback,
+
                   title: "Home Z",
                   debugShowCheckedModeBanner:config!.appTitle=="Homze Development "? true:false,
                   navigatorKey: navigatorKey,
+                  onGenerateRoute: AppRoutes.onGenerateRoute,                 
                   home: child,
                 ),
               );

@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/colors.dart';
-import 'package:homez/features/register/view.dart';
 
 class RegisterLineWidget extends StatelessWidget {
   const RegisterLineWidget({super.key});
@@ -29,9 +29,10 @@ class RegisterLineWidget extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                MagicRouter.navigateTo(
-                  page: const RegisterView(),
-                );
+                context.pushName(AppRoutes.registerView);
+                // MagicRouter.navigateTo(
+                //   page: const RegisterView(),
+                // );
               },
           ),
         ],

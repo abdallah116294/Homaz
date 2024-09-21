@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
-import 'package:homez/features/login/view.dart';
 
 import 'cubit.dart';
 import 'states.dart';
@@ -77,10 +77,11 @@ class OnBoardingView extends StatelessWidget {
                       text: "Get Started",
                       press: () {
                         CacheHelper.saveIfNotFirstTime();
-                        MagicRouter.navigateTo(
-                          page: const LoginView(),
-                          withHistory: false,
-                        );
+                        context.pushName(AppRoutes.loginView);
+                        // MagicRouter.navigateTo(
+                        //   page: const LoginView(),
+                        //   withHistory: false,
+                        // );
                       },
                       btnColor: ColorManager.mainColor,
                     )

@@ -1,9 +1,9 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
@@ -14,7 +14,6 @@ import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/otp/view.dart';
 import 'package:homez/features/profile_details/profile_details_cubit.dart';
 
 class UpdatePhoneNumber extends StatefulWidget {
@@ -43,7 +42,7 @@ class _UpdatePhoneNumberState extends State<UpdatePhoneNumber> {
             30.verticalSpace,
             _PhoneTextField(phoneController: phoneController),
             30.verticalSpace,
-            _SaverButton(cubit: cubit,phone:phoneController.text ),
+            _SaverButton(cubit: cubit, phone: phoneController.text),
           ],
         ),
       )),
@@ -55,7 +54,7 @@ class _PhoneTextField extends StatelessWidget {
   const _PhoneTextField({required this.phoneController});
 
   //final ProfileDetailsCubit cubit;
-final  TextEditingController phoneController;
+  final TextEditingController phoneController;
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
@@ -106,11 +105,15 @@ class _SaverButton extends StatelessWidget {
           cubit.profileInfoData();
           MagicRouter.navigatePop();
         } else if (state is UpdatePhoneSuccessState) {
-          MagicRouter.navigateTo(
-              page: OtpView(
-            phone: cubit.controllers.phoneController.text,
-            navigateFromProfile: true,
-          ));
+          context.pushName(AppRoutes.otpView,arguments: {
+            "phone":cubit.controllers.phoneController.text,
+            "navigateFromProfile":true,
+          });
+          // MagicRouter.navigateTo(
+          //     page: OtpView(
+          //   phone: cubit.controllers.phoneController.text,
+          //   navigateFromProfile: true,
+          // ));
         }
       },
       builder: (context, state) {

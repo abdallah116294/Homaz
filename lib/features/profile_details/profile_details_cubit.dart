@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:homez/core/error/failures.dart';
 import 'package:homez/core/helpers/either_extension.dart';
 import 'package:homez/core/models/profile_data_model.dart';
-import 'package:homez/core/networking/api_constants.dart';
-import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/profile_details/data/repo/profile_repo.dart';
 import 'package:homez/features/register/controller.dart';
 import 'package:image_picker/image_picker.dart';

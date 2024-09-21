@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
-import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
-import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
-import 'package:homez/features/appartment_details/screen/appartment_details.dart';
-import 'package:homez/features/details/details_view.dart';
 import 'package:homez/features/saved/cubit/favorite_cubit.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'widgets/saved_item.dart';
@@ -35,8 +32,7 @@ class _SavedViewState extends State<SavedView> {
                 color: ColorManager.blue);
           } else if (state is RemoveFromFavoriteFailedFav) {
             showMessage(
-                message: 'Error Remove From Favorite',
-                color: ColorManager.red);
+                message: 'Error Remove From Favorite', color: ColorManager.red);
           }
         },
         builder: (context, state) {
@@ -93,11 +89,17 @@ class _SavedViewState extends State<SavedView> {
                                           fontSize: 18.sp)
                                       : GestureDetector(
                                           onTap: () {
-                                            MagicRouter.navigateTo(
-                                              page: ApartmentDetailsScreen(
-                                                apartmentId: apartment.id,
-                                              ),
-                                            );
+                                            context.pushName(
+                                                AppRoutes.apartmentDetailsView,
+                                                arguments: {
+                                                  "apartmentId": apartment.id,
+                                                  //"takeLookData": Null
+                                                });
+                                            // MagicRouter.navigateTo(
+                                            //   page: ApartmentDetailsScreen(
+                                            //     apartmentId: apartment.id,
+                                            //   ),
+                                            // );
                                           },
                                           child: SavedItem(
                                             oTap: () async {

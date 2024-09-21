@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:homez/config/routes/app_routes.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+// final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MagicRouter {
   static BuildContext currentContext = navigatorKey.currentContext!;

@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
-import 'package:homez/core/helpers/app_methods.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/models/profile_data_model.dart';
@@ -20,11 +20,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/app/cubit/app_cubit.dart';
-import 'package:homez/features/otp/view.dart';
-import 'package:homez/features/profile/profile_cubit.dart';
 import 'package:homez/features/profile_details/profile_details_cubit.dart';
-import 'package:homez/features/profile_details/update_phone_number.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'package:image_picker/image_picker.dart';
 
@@ -249,15 +245,12 @@ class _PhoneTextField extends StatelessWidget {
       controller: cubit.controllers.phoneController,
       keyboardType: TextInputType.phone,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      prefixIcon: Align(
-        alignment: context.read<AppCubit>().getAlignment(),
-        child: Padding(
-          padding: EdgeInsets.all(0.0197.sh),
-          child: SvgIcon(
-            icon: AssetsStrings.phone,
-            height: 0.029.sh,
-            color: ColorManager.grey10,
-          ),
+      prefixIcon: Padding(
+        padding: EdgeInsets.all(0.0197.sh),
+        child: SvgIcon(
+          icon: AssetsStrings.phone,
+          height: 0.029.sh,
+          color: ColorManager.grey10,
         ),
       ),
       hint: "Mobile Number",
@@ -349,11 +342,15 @@ class _SaverButton extends StatelessWidget {
           cubit.profileInfoData();
           MagicRouter.navigatePop();
         } else if (state is UpdatePhoneSuccessState) {
-          MagicRouter.navigateTo(
-              page: OtpView(
-            phone: cubit.controllers.phoneController.text,
-            navigateFromProfile: true,
-          ));
+          context.pushName(AppRoutes.otpView,arguments: {
+            "phone":cubit.controllers.phoneController.text,
+            "navigateFromProfile":true,
+          });
+          // MagicRouter.navigateTo(
+          //     page: OtpView(
+          //   phone: cubit.controllers.phoneController.text,
+          //   navigateFromProfile: true,
+          // ));
         }
       },
       builder: (context, state) {

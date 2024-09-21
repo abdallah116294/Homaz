@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:homez/core/error/failures.dart';
-import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/core/networking/api_consumer.dart';
 import 'package:homez/features/register/controller.dart';

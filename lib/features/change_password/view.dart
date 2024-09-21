@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -10,8 +12,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/landing_screen/landing_screen_views.dart';
-import 'package:homez/injection_container.dart'as di;
+import 'package:homez/injection_container.dart' as di;
 import 'cubit.dart';
 import 'states.dart';
 
@@ -47,15 +48,14 @@ class _ChangePasswordBody extends StatelessWidget {
               children: [
                 const CustomAppBarTitle(title: ""),
                 CustomText(
-                  text: "Change password",
+                  text: context.translate(LangKeys.changePassword),
                   color: ColorManager.white,
                   fontSize: 30.sp,
                   fontWeight: FontWeight.w700,
                 ),
                 SizedBox(height: 8.h),
                 CustomText(
-                  text:
-                      "Don’t worry! It’s happens. Please enter your old and new password.",
+                  text: context.translate(LangKeys.changePasswordAbout),
                   color: ColorManager.white,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w400,
@@ -101,7 +101,8 @@ class _ChangePasswordBody extends StatelessWidget {
                         message: "Password Updated Successfully",
                         color: ColorManager.green,
                       );
-                      MagicRouter.navigateTo(page: const LandingScreenViews());
+                      context.pushName(AppRoutes.landingViews);
+                      // MagicRouter.navigateTo(page: const LandingScreenViews());
                     }
                   },
                   builder: (context, state) {
@@ -112,7 +113,7 @@ class _ChangePasswordBody extends StatelessWidget {
                       ));
                     }
                     return CustomElevated(
-                      text: "Change",
+                      text: context.translate(LangKeys.change),
                       press: () {
                         cubit.changePassword();
                       },
@@ -141,7 +142,7 @@ class _CurrentPasswordTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: "Old Password",
+          text: context.translate(LangKeys.oldPassword),
           color: ColorManager.white,
           fontSize: 16.sp,
           fontWeight: FontWeight.w700,
@@ -198,7 +199,7 @@ class _NewPasswordTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: "New Password",
+          text: context.translate(LangKeys.newPassword),
           color: ColorManager.white,
           fontSize: 16.sp,
           fontWeight: FontWeight.w700,
@@ -257,7 +258,7 @@ class _ConfPassTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: "New Password Confirmation",
+          text: context.translate(LangKeys.newPasswordConfirmation),
           color: ColorManager.white,
           fontSize: 16.sp,
           fontWeight: FontWeight.w700,

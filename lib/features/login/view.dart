@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
@@ -12,8 +13,6 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/forget_password/forget_pass_view.dart';
-import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'components/or_divider.dart';
 import 'components/register_line.dart';
@@ -186,11 +185,13 @@ class _ForgetPasswordWidget extends StatelessWidget {
             SizedBox(width: 10.w),
             TextButton(
               onPressed: () {
-                MagicRouter.navigateTo(
-                  page: ForgetPasswordViews(
-                    phone: cubit.controllers.phoneController.text,
-                  ),
-                );
+                context.pushName(AppRoutes.forgetPasswordView,
+                    arguments: cubit.controllers.phoneController.text);
+                // MagicRouter.navigateTo(
+                //   page: ForgetPasswordViews(
+                //     phone: cubit.controllers.phoneController.text,
+                //   ),
+                // );
               },
               child: CustomText(
                 text: "Forget Password?",
@@ -227,10 +228,11 @@ class _LoginButton extends StatelessWidget {
           );
         } else if (state is LoginSuccessState) {
           CacheHelper.saveToken(state.loginModel.data!.user!.token!);
-          MagicRouter.navigateTo(
-            page: const LandingScreenViews(),
-            withHistory: false,
-          );
+          context.pushName(AppRoutes.landingViews);
+          // MagicRouter.navigateTo(
+          //   page: const LandingScreenViews(),
+          //   withHistory: false,
+          // );
         }
       },
       builder: (context, state) {
@@ -280,10 +282,11 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                     color: ColorManager.red,
                   );
                 } else if (state is SignInWithGoogleSuccessState) {
-                  MagicRouter.navigateTo(
-                    page: const LandingScreenViews(),
-                    withHistory: false,
-                  );
+                  context.pushName(AppRoutes.landingViews);
+                  // MagicRouter.navigateTo(
+                  //   page: const LandingScreenViews(),
+                  //   withHistory: false,
+                  // );
                 }
               },
               builder: (context, state) {
@@ -297,7 +300,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 return Expanded(
                   child: GestureDetector(
                     onTap: () {
-                       cubit.signInWithGoogle();
+                      cubit.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       AssetsStrings.google,
@@ -320,10 +323,11 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                   color: ColorManager.red,
                 );
               } else if (state is SignInWithAppleSuccessState) {
-                MagicRouter.navigateTo(
-                  page: const LandingScreenViews(),
-                  withHistory: false,
-                );
+                context.pushName(AppRoutes.landingViews);
+                // MagicRouter.navigateTo(
+                //   page: const LandingScreenViews(),
+                //   withHistory: false,
+                // );
               }
             }, builder: (context, state) {
               return Expanded(

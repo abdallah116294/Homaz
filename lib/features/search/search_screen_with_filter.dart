@@ -2,20 +2,19 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
-import 'package:homez/features/appartment_details/screen/appartment_details.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
 import 'package:homez/features/search/widgets/model_bottom_sheet.dart';
 import 'package:homez/features/search/widgets/serch_item_widget.dart';
 import 'package:homez/injection_container.dart' as di;
 
 class SearchScreenWithFilter extends StatefulWidget {
-   SearchScreenWithFilter({super.key,this.searchString});
+  SearchScreenWithFilter({super.key, this.searchString});
   String? searchString;
   @override
   State<SearchScreenWithFilter> createState() => _SearchScreenWithFilterState();
@@ -69,7 +68,8 @@ class _SearchScreenWithFilterState extends State<SearchScreenWithFilter> {
                         Center(
                           child: IconButton(
                               onPressed: () {
-                                ModalBottomSheet.searchFilter(context,searchController);
+                                ModalBottomSheet.searchFilter(
+                                    context, searchController);
                               },
                               icon: const Icon(Icons.filter_alt_outlined)),
                         ),
@@ -86,11 +86,13 @@ class _SearchScreenWithFilterState extends State<SearchScreenWithFilter> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                               onTap: () {
-                                MagicRouter.navigateTo(
-                                    page: ApartmentDetailsScreen(
-                                  apartmentId: state.searchResultModel.data!
-                                      .apartment!.data[index].id!,
-                                ));
+                                context
+                                    .pushName(AppRoutes.apartmentDetailsView,arguments: state.searchResultModel.data!.apartment!.data[index]);
+                                // MagicRouter.navigateTo(
+                                //     page: ApartmentDetailsScreen(
+                                //   apartmentId: state.searchResultModel.data!
+                                //       .apartment!.data[index].id!,
+                                // ));
                               },
                               child: SearchItemWidget(
                                   oTap: () async {

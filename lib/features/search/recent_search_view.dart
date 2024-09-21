@@ -5,7 +5,6 @@ import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
-import 'package:homez/injection_container.dart' as di;
 
 class RecentSearchView extends StatelessWidget {
   const RecentSearchView({super.key});

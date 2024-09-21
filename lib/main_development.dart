@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:homez/app_config.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/language_cach.dart';
 import 'package:homez/features/app/cubit/bloc_observer.dart';
 import 'package:homez/features/app/my_app.dart';
 import 'package:homez/firebase_options.dart';

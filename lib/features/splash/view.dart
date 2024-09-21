@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
-import 'package:homez/features/landing_screen/landing_screen_views.dart';
-import 'package:homez/features/login/view.dart';
-import 'package:homez/features/on_boarding/view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -27,16 +25,23 @@ class _SplashViewState extends State<SplashView> {
     String token = CacheHelper.getToken();
 
     await Future.delayed(
-      const Duration(seconds: 5),
+       Duration(seconds: 5),
       () {
-        MagicRouter.navigateTo(
-          page: isFirstTime
-              ? const OnBoardingView()
+        context.pushName(
+          isFirstTime
+              ? AppRoutes.onBoardingView
               : token.isEmpty
-                  ? const LoginView()
-                  : const LandingScreenViews(),
-          withHistory: false,
+                  ? AppRoutes.loginView
+                  : AppRoutes.landingViews,
         );
+        // MagicRouter.navigateTo(
+        //   page: isFirstTime
+        //       ? const OnBoardingView()
+        //       : token.isEmpty
+        //           ? const LoginView()
+        //           : const LandingScreenViews(),
+        //   withHistory: false,
+        // );
       },
     );
   }

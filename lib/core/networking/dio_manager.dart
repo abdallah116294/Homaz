@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:homez/core/error/error.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/networking/api_consumer.dart';
@@ -26,6 +25,10 @@ class DioManager implements ApiConsumer {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options,handler){
          String langcode = CacheHelper.get(key: "selected_language")??'en';
+         String token = CacheHelper.getToken();
+         token.isNotEmpty
+         ? options.headers["Authorization"] = "Bearer $token"
+         : null;
          options.headers["Accept-Language"] = langcode;
          return handler.next(options);
       }

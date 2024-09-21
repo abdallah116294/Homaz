@@ -18,5 +18,10 @@
    "apartment_details":"تفاصيل الشقة",
    "saved":"المحفوظات",
    "account_details":"تفاصيل الحساب",
-   "save":"حفظ"
+   "save":"حفظ",
+   "change_password_about":"لا تقلق! لقد حدث ذلك. الرجاء إدخال كلمة المرور القديمة والجديدة.",
+   "old_password":"كلمة المرور القديمة",
+   "new_password":"كلمة المرور الجديدة",
+   "new_password_confirmation":"تأكيد كلمة المرور الجديدة",
+   "change":"تغيير"
 }

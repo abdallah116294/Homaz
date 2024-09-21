@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
-import 'package:homez/core/widgets/svg_icons.dart';
 
 class BathroomFilterWidget extends StatefulWidget {
   const BathroomFilterWidget({super.key,required this.onSelectionChanged});

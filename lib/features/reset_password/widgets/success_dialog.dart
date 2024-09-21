@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
-import 'package:homez/features/login/view.dart';
 
 successDialog({required BuildContext context}) {
   showDialog(
@@ -47,7 +47,8 @@ successDialog({required BuildContext context}) {
               CustomElevated(
                 text: "Continue",
                 press: () {
-                  MagicRouter.navigateTo(page: const LoginView(), withHistory: false);
+                  context.pushName(AppRoutes.loginView);
+                  //   MagicRouter.navigateTo(page: const LoginView(), withHistory: false);
                 },
                 btnColor: ColorManager.mainColor,
               ),

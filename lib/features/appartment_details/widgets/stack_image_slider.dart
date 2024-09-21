@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
-import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 import 'package:homez/features/take_look/data/model/take_look_model.dart';
-import 'package:homez/features/take_look/take_look_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:homez/injection_container.dart' as di;
 

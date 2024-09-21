@@ -9,7 +9,6 @@ import 'package:homez/features/appartment_details/data/model/favorite_model.dart
 import 'package:homez/features/appartment_details/data/model/remove_favorite_model.dart';
 import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart';
 import 'package:homez/features/saved/data/repo/favorite_repo.dart';
-import 'package:homez/features/take_look/data/repo/take_look_repo.dart';
 import 'package:dartz/dartz.dart';
 part 'appartment_details_state.dart';
 

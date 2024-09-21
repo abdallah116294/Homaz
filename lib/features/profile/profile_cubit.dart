@@ -5,11 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/error/failures.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/models/profile_data_model.dart';
-import 'package:homez/core/networking/api_constants.dart';
 import 'package:homez/features/profile/data/repo/profile_repo.dart';
 import 'package:logger/logger.dart';
-
-import '../../core/networking/dio_manager.dart';
 
 part 'profile_state.dart';
 
@@ -67,8 +64,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(LogOutLoadingState());
     try {
       final response = await profileRepo.logOut();
-      response.fold((l) => emit(LogOutFailedState(msg: l.toString())),
-          (r) => emit(LogOutSuccessState()));
+      response.fold((l) => emit(LogOutFailedState(msg: l.toString())), (r) {
+        CacheHelper.removeToken();
+        emit(LogOutSuccessState());
+      });
     } catch (e) {
       emit(LogOutFailedState(msg: 'An unknown error: $e'));
       logger.e(e);

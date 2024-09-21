@@ -1,25 +1,17 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
-import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
-import 'package:homez/features/appartment_details/screen/apartment_details_after_take_look.dart';
-import 'package:homez/features/change_password/view.dart';
-import 'package:homez/features/login/view.dart';
-import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
-import 'package:homez/features/profile/widgets/change_lang_widget.dart';
 import 'package:homez/features/profile/widgets/model_bottom_sheet.dart';
 import 'package:homez/features/profile/widgets/profile_item.dart';
-import 'package:homez/features/profile_details/profile_details.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,12 +66,19 @@ class ProfileViewBody extends StatelessWidget {
                 30.verticalSpace,
                 ListTile(
                   onTap: () {
-                    MagicRouter.navigateTo(
-                        page: ProfileDetailsView(
-                          userData: profileData,
-                      fullName: '${profileData.fullname}',
-                      phone: '${profileData.phone}',
-                    ));
+                    context.pushName(AppRoutes.profileDetailsView, arguments: {
+                      "fullName": "${profileData.fullname}",
+                      "phone": "${profileData.phone}",
+                      "userData": profileData,
+                      "navigateFromProfile":false,
+                     
+                    });
+                    // MagicRouter.navigateTo(
+                    //     page: ProfileDetailsView(
+                    //       userData: profileData,
+                    //   fullName: '${profileData.fullname}',
+                    //   phone: '${profileData.phone}',
+                    // ));
                   },
                   leading: CircleAvatar(
                     radius: 30,
@@ -103,7 +102,7 @@ class ProfileViewBody extends StatelessWidget {
                   text: "${context.translate(LangKeys.language)} ",
                   onTap: () async {
                     final prefs = await SharedPreferences.getInstance();
-                  //  log(prefs.toString());
+                    //  log(prefs.toString());
                     ModalBottomSheet.changeLangueBottomSheet(context);
                   },
                 ),
@@ -122,17 +121,19 @@ class ProfileViewBody extends StatelessWidget {
                     text: context.translate(LangKeys.changePassword),
                     haveTrailing: true,
                     onTap: () {
-                      MagicRouter.navigateTo(
-                        page: const ChangePasswordView(),
-                      );
+                      context.pushName(AppRoutes.changePasswordView);
+                      // MagicRouter.navigateTo(
+                      //   page: const ChangePasswordView(),
+                      // );
                     }),
                 BlocListener<ProfileCubit, ProfileState>(
                   listener: (context, state) {
                     if (state is LogOutSuccessState) {
-                      MagicRouter.navigateTo(
-                        page: const LoginView(),
-                        withHistory: false,
-                      );
+                      context.pushReplacementNamed(AppRoutes.loginView);
+                      // MagicRouter.navigateTo(
+                      //   page: const LoginView(),
+                      //   withHistory: false,
+                      // );
                     }
                   },
                   child: ProfileItem(

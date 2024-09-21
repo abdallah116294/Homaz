@@ -1,8 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
-import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -10,10 +10,8 @@ import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_tab_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/take_look/take_look_screen.dart';
 
 import '../data/model/home_success_model.dart';
-
 
 class MainTabsWithBody extends StatelessWidget {
   const MainTabsWithBody({super.key, required this.homeData});
@@ -62,7 +60,7 @@ class MainTabsWithBody extends StatelessWidget {
                         Positioned(
                           right: 18,
                           bottom: 20,
-                          child:  Row(
+                          child: Row(
                             children: [
                               SizedBox(
                                 height: 38.h,
@@ -72,11 +70,12 @@ class MainTabsWithBody extends StatelessWidget {
                                   text: context.translate(LangKeys.takeALook),
                                   press: () {
                                     print("${homeData.apartments[index].id}");
-                                    MagicRouter.navigateTo(
-                                      page: TakeLookScreen(
-                                        id: homeData.apartments[index].id!,
-                                      ),
-                                    );
+                                    context.pushName(AppRoutes.takeALookView,arguments: homeData.apartments[index].id);
+                                    // MagicRouter.navigateTo(
+                                    //   page: TakeLookScreen(
+                                    //     id: homeData.apartments[index].id!,
+                                    //   ),
+                                    // );
                                   },
                                   btnColor: ColorManager.mainColor,
                                 ),
@@ -93,7 +92,7 @@ class MainTabsWithBody extends StatelessWidget {
                             ],
                           ),
                         ),
-                         const Positioned(
+                        const Positioned(
                           right: 25,
                           top: 30,
                           child: CircleAvatar(

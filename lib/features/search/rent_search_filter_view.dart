@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
-import 'package:homez/features/search/search_screen.dart';
 import 'package:homez/features/search/widgets/amenities_widget.dart';
 import 'package:homez/features/search/widgets/badrooms_widget.dart';
 import 'package:homez/features/search/widgets/bathroom_filter.dart';
@@ -44,11 +44,12 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
             if (state.searchResultModel.data!.apartment!.data.length == 0) {
               showMessage(message: "No Result Found", color: ColorManager.red);
             } else {
-              MagicRouter.navigateTo(
-                  page: BlocProvider(
-                create: (context) => di.sl<SearchCubit>(),
-                child: SearchScreenViews(searchString: widget.searchString),
-              ));
+              context.pushName(AppRoutes.searchScreenView,arguments: widget.searchString);
+              // MagicRouter.navigateTo(
+              //     page: BlocProvider(
+              //   create: (context) => di.sl<SearchCubit>(),
+              //   child: SearchScreenViews(searchString: widget.searchString),
+              // ));
             }
           }
         },
@@ -143,9 +144,9 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
                                           type: "rent",
                                         )
                                         .then((value) {
-                                        context
-                                            .read<SearchCubit>()
-                                            .getDataInSearch();
+                                      context
+                                          .read<SearchCubit>()
+                                          .getDataInSearch();
                                     });
                                   } else {
                                     log(hasFurnishedSelected.toString());

@@ -18,4 +18,9 @@ class LangKeys {
   static const String saved = "saved";
   static const String account_details = "account_details";
   static const String save = "save";
+  static const String changePasswordAbout = "change_password_about";
+  static const String oldPassword = "old_password";
+  static const String newPassword = "new_password";
+  static const String newPasswordConfirmation = "new_password_confirmation";
+  static const String change = "change";
 }

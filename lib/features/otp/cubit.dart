@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/networking/api_constants.dart';
-import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/otp/data/repo/otp_repo.dart';
 import 'package:logger/logger.dart';
 

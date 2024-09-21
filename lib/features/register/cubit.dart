@@ -1,16 +1,9 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:homez/core/helpers/cache_helper.dart';
-import 'package:homez/core/networking/api_constants.dart';
-import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/register/data/repo/register_repo.dart';
 import 'package:logger/logger.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'controller.dart';
 import 'states.dart';

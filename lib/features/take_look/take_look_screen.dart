@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/app_methods.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
@@ -10,7 +12,6 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
-import 'package:homez/features/appartment_details/screen/appartment_details.dart';
 import 'package:homez/features/take_look/SweetNavBar/src/sweet_nav_bar.dart';
 import 'package:homez/features/take_look/cubit/take_look_cubit.dart';
 import 'package:story_view/story_view.dart';
@@ -108,10 +109,14 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                   },
                   onComplete: () {
                     log('ApartmentID:${state.takeLookData.data!.apartments!.id}');
-                    MagicRouter.navigateTo(
-                        page: ApartmentDetailsScreen(
-                      takeLookData: state.takeLookData,
-                    ));
+                    context.pushName(AppRoutes.apartmentDetailsView,arguments: {
+                      "apartmentId":state.takeLookData.data!.apartments!.id,
+                      "takeLookData":state.takeLookData,
+                    } ,);
+                    // MagicRouter.navigateTo(
+                    //     page: ApartmentDetailsScreen(
+                    //   takeLookData: state.takeLookData,
+                    // ));
                   },
                   progressPosition: ProgressPosition.top,
                   indicatorColor: Colors.black,

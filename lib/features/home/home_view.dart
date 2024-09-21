@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/home/components/tab_bar_widget.dart';
-import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'components/main_tabs_with_body.dart';
 import 'home_cubit.dart';
+
 class HomeScreenView extends StatelessWidget {
   const HomeScreenView({super.key});
 
@@ -48,9 +49,10 @@ class HomeScreenBody extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   onPressed: () {
-                    MagicRouter.navigateTo(
-                      page: const NotificationView(),
-                    );
+                    context.pushName(AppRoutes.notificationView);
+                    // MagicRouter.navigateTo(
+                    //   page: const NotificationView(),
+                    // );
                   },
                   icon: SvgIcon(
                     icon: AssetsStrings.bell,
@@ -99,27 +101,26 @@ class HomeScreenBody extends StatelessWidget {
                       ],
                     );
                   }
-                  final homedata=cubit.homeData!.data!;
+                  final homedata = cubit.homeData!.data!;
                   return ListView(
-                      children: [
-                        MainTabsWithBody(homeData: homedata),
-                        DefaultTabController(
-                          length: homedata.categories.length,
-                          child: TabBarWidget(
-                            tabs: List.generate(
-                              homedata.categories.length,
-                              (index) {
-                                final categories =
-                                    homedata.categories[index];
-                                return Text(
-                                  "${categories.name}",
-                                );
-                              },
-                            ),
+                    children: [
+                      MainTabsWithBody(homeData: homedata),
+                      DefaultTabController(
+                        length: homedata.categories.length,
+                        child: TabBarWidget(
+                          tabs: List.generate(
+                            homedata.categories.length,
+                            (index) {
+                              final categories = homedata.categories[index];
+                              return Text(
+                                "${categories.name}",
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    );
+                      ),
+                    ],
+                  );
                   // final homeData = cubit.homeData!.data!;
                   //   return ListView(
                   //     children: [
