@@ -20,7 +20,7 @@ class CircleImageWidget extends StatelessWidget {
         color: Colors.transparent,
         shape: BoxShape.circle,
       ),
-      child: Image.asset(
+      child: Image.network(
         image,
         fit: BoxFit.cover,
       ),

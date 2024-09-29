@@ -82,7 +82,7 @@ class ProfileViewBody extends StatelessWidget {
                   },
                   leading: CircleAvatar(
                     radius: 30,
-                    backgroundImage: NetworkImage(profileData!.image!),
+                    backgroundImage: NetworkImage(profileData!.image!??""),
                     backgroundColor: ColorManager.mainColor,
                   ),
                   title: CustomText(

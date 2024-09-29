@@ -17,6 +17,7 @@ class RegisterRepo {
   final ApiConsumer apiConsumer;
   RegisterRepo({required this.apiConsumer});
   var controllers = RegisterControllers();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   Future<Either<Failure, RegisterUserSuccess>> registerUser({
     required String name,
     required String phone,
@@ -31,6 +32,7 @@ class RegisterRepo {
             "confirm_password": confirmPassword,
             "phone": phone,
             "terms": '1',
+            "type":"normal"
           }),
           header: {
             "Accept": 'application/json',
@@ -48,14 +50,9 @@ class RegisterRepo {
     }
   }
 
-  Future<Either<Failure, RegisterUserSuccess>> registerWithGoogle({
-    required String fullname,
-    required String password,
-    required String confirmPassword,
-    required String phone,
-  }) async {
+  Future<Either<Failure, RegisterUserSuccess>> registerWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         log('User canceled the sign-in');
         return Left(ServerFailure("User canceled the sign-in"));
@@ -71,49 +68,53 @@ class RegisterRepo {
 
       final result =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      if (result.user?.photoURL != null) {
-        final response = await http.get(Uri.parse(result.user!.photoURL!));
-        if (response.statusCode != 200) {
-          log('Failed to download image');
-          return Left(ServerFailure('Failed to download image'));
-        }
-        final Uint8List imageBytes = response.bodyBytes;
-        log(result.user!.phoneNumber.toString());
-        final FormData formData = FormData.fromMap({
-          'fullname': result.user!.displayName,
-          'password': "passwordE@123",
-          'confirm_password': "confirmPasswordE@123",
-          'phone':"1122335523" ,
-          'terms': '1',
-          'provider': 'google',
-          'provider_id': result.user!.uid,
-        });
-       // CacheHelper.put(key: 'phone_number', value: result.user!.phoneNumber);
+      if (result.user != null) {
+        final String displayName = result.user!.displayName ?? "UKnow User";
+        log("Display Name:$displayName");
 
-        final apiResponse =
-            await apiConsumer.post(ApiConstants.register, body: FormData.fromMap({
-          'fullname': result.user!.displayName,
-          'password': "passwordE@123",
-          'confirm_password': "confirmPasswordE@123",
-          'phone':"1122335523" ,
-          'terms': '1',
-          'provider': 'google',
-          'provider_id': result.user!.uid,
-        }));
-
-        if (apiResponse.statusCode == 200) {
-          log('Handle successful sign-in');
-          return Right(RegisterUserSuccess.fromJson(apiResponse.data));
+        if (result.user?.photoURL != null) {
+          final response = await http.get(Uri.parse(result.user!.photoURL!));
+          if (response.statusCode != 200) {
+            log('Failed to download image');
+            return Left(ServerFailure('Failed to download image'));
+          }
+          final Uint8List imageBytes = response.bodyBytes;
+          // log(result.user!.phoneNumber.toString());
+          log(result.user!.displayName.toString());
+          final FormData formData = FormData.fromMap({
+            'fullname': displayName,
+            "terms": "1",
+            "email":result.user!.email,
+           // 'image': imageBytes,
+            "type": "social",
+            'provider': 'google',
+            'provider_id': result.user!.uid,
+          });
+          final apiResponse =
+              await apiConsumer.post(ApiConstants.register, body: formData);
+          log('Register with google response:${apiResponse.data}');
+          if (apiResponse.statusCode == 200) {
+            log('Handle successful sign-in');
+            return Right(RegisterUserSuccess.fromJson(apiResponse.data));
+          } else {
+            log('Handle sign-in failure: ${apiResponse.data}');
+            return Left(ServerFailure(apiResponse.data));
+          }
         } else {
-          log('Handle sign-in failure: ${apiResponse.data}');
-          return Left(ServerFailure(apiResponse.data));
+          log('No image URL found for user');
+          return Left(ServerFailure('No image URL found for user'));
         }
       } else {
-        log('No image URL found for user');
-        return Left(ServerFailure('No image URL found for user'));
+        log('No user Found');
+        return Left(ServerFailure('No User Found after sign-in'));
       }
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      if (e is GoogleSignInAccount) {
+        return Left(ServerFailure("User canceled the sign-in"));
+      } else {
+        log('An error occurred: $e');
+        return Left(ServerFailure('An error occurred: $e'));
+      }
     }
   }
 

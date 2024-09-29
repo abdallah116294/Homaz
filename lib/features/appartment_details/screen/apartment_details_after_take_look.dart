@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
@@ -13,6 +14,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
+import 'package:homez/features/appartment_details/widgets/dialog_alert_widget.dart';
 import 'package:homez/features/appartment_details/widgets/expandable_text.dart';
 import 'package:homez/features/appartment_details/widgets/stack_image_slider.dart';
 import 'package:homez/features/details/widgets/icon_text.dart';
@@ -28,6 +30,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
       create: (context) => di.sl<AppartmentDetailsCubit>(),
       child: BlocConsumer<AppartmentDetailsCubit, AppartmentDetailsState>(
         listener: (context, state) {
+          
           if (state is AddToFavoriteSuccess) {
             showMessage(
                 message: 'Add To Favorite Successfully',
@@ -36,6 +39,15 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
             showMessage(
                 message: 'Remove From Favorite Successfully',
                 color: ColorManager.blueColor);
+          }else if (state is CreateChatSuccess){
+                     context.pushName(
+              AppRoutes.chatScreen,
+              arguments: {
+                "chatName":takeLookData.data!.apartments!.name.toString(),
+                "imageUrl":takeLookData.data!.apartments!.images.toString(),
+                "roomId":takeLookData.data!.apartments!.id
+              }
+            );
           }
         },
         builder: (context, state) {
@@ -174,7 +186,9 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               width: 140.w,
                               child: CustomElevated(
                                   text: context.translate(LangKeys.call),
-                                  press: () {},
+                                  press: () {
+                                    CallModelBottomSheet.callAction(context);
+                                  },
                                   btnColor: ColorManager.mainColor),
                             ),
                             SizedBox(
@@ -182,7 +196,9 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               width: 140.w,
                               child: CustomElevated(
                                   text: context.translate(LangKeys.message),
-                                  press: () {},
+                                  press: () {
+                                    context.read<AppartmentDetailsCubit>().createChat(apartmentId:takeLookData.data!.apartments!.id! );
+                                  },
                                   btnColor: ColorManager.mainColor),
                             )
                           ],

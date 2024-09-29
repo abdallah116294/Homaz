@@ -6,6 +6,8 @@ import 'package:homez/features/appartment_details/cubit/appartment_details_cubit
 import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart';
 import 'package:homez/features/change_password/cubit.dart';
 import 'package:homez/features/change_password/data/repo/change_pass_repo.dart';
+import 'package:homez/features/chat/cubit/chat_cubit.dart';
+import 'package:homez/features/chat/data/repo/chat_repo.dart';
 import 'package:homez/features/forget_password/data/repo/forget_pass_repo.dart';
 import 'package:homez/features/forget_password/forget_password_cubit.dart';
 import 'package:homez/features/home/data/repo/home_repo.dart';
@@ -108,6 +110,11 @@ Future<void> init() async {
   sl.registerLazySingleton<SearchRepo>(() => SearchRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(() => SearchCubit(searchRepo: sl()));
+  //!Chat
+  //repo
+  sl.registerLazySingleton(()=>ChatRepo(apiConsumer: sl()));
+  //cubit
+  sl.registerFactory(() => ChatCubit(chatRepo: sl()));
   //core
   sl.registerLazySingleton<ApiConsumer>(() => DioManager(dio: sl()));
   sl.registerLazySingleton<DioManager>(() => DioManager(dio: sl()));

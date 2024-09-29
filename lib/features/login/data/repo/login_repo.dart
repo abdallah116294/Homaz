@@ -40,15 +40,15 @@ class LoginRepo {
     }
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<Either<Failure, LoginUserSuccess>> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         // The user canceled the sign-in
-        return;
+        // return;
       }
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+          await googleUser!.authentication;
       AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -68,12 +68,19 @@ class LoginRepo {
       if (response.statusCode == 200) {
         log('Handle successful sign-in');
         // Handle successful sign-in
+        log("Login With Google Response:" + response.data.toString());
+        return Right(LoginUserSuccess.fromJson(response.data));
       } else {
         log('Handle sign-in failure');
+        return Left(ServerFailure(response.data));
         // Handle sign-in failure
       }
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      if (e is ServerFailure) {
+        return Left(ServerFailure(e.toString())) ;
+      } else {
+        return Left(ServerFailure('An unknown error: $e'));
+      }
     }
   }
 }

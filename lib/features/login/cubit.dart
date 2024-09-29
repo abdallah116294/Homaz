@@ -29,7 +29,7 @@ class LoginCubit extends Cubit<LoginStates> {
             password: controllers.passwordController.text,
             deviceToken: '${CacheHelper.get(key: 'deviceToken')}',
             deviceType: '${CacheHelper.get(key: 'deviceType')}');
-            response.fold((l) => emit(LoginFailedState(msg: l.toString())), (r) {
+        response.fold((l) => emit(LoginFailedState(msg: l.toString())), (r) {
           CacheHelper.saveToken(r.data!.user!.token!);
           isRemember ? CacheHelper.saveIfRemember() : null;
           emit(LoginSuccessState(loginModel: r));
@@ -45,7 +45,12 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(SignInWithGoogleLoadingState());
     try {
       final response = await loginRepo.signInWithGoogle();
-      emit(SignInWithGoogleSuccessState());
+      response.fold((l) => emit(SignInWithGoogleFailedState(msg: l.toString())),
+          (r)  {
+            CacheHelper.saveToken(r.data!.user!.token!);
+            isRemember ? CacheHelper.saveIfRemember() : null;
+            emit(SignInWithGoogleSuccessState(loginModel: r));});
+      // emit(SignInWithGoogleSuccessState());
     } catch (e) {
       emit(SignInWithGoogleFailedState(msg: e.toString()));
     }

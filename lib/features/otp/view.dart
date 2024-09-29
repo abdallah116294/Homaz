@@ -18,13 +18,15 @@ import 'cubit.dart';
 import 'states.dart';
 
 class OtpView extends StatelessWidget {
-  const OtpView(
+   OtpView(
       {super.key,
       required this.phone,
+      required this.email,
       this.navigateFromForget = false,
       this.navigateFromProfile = false});
 
-  final String phone;
+   String? phone;
+   String? email;
   final bool navigateFromForget;
   final bool navigateFromProfile;
 
@@ -34,6 +36,7 @@ class OtpView extends StatelessWidget {
       create: (context) => di.sl<OtpCubit>(),
       child: _OtpBody(
         phone: phone,
+        email: email,
         navigateFromForget: navigateFromForget,
         navigateFromProfile: navigateFromProfile,
       ),
@@ -42,14 +45,15 @@ class OtpView extends StatelessWidget {
 }
 
 class _OtpBody extends StatelessWidget {
-  const _OtpBody({
+   _OtpBody({
     required this.phone,
+    required this.email,
     required this.navigateFromForget,
     required this.navigateFromProfile,
   });
 
   final bool navigateFromForget;
-  final String phone;
+   String ? phone,email;
   final bool navigateFromProfile;
 
   @override
@@ -85,6 +89,7 @@ class _OtpBody extends StatelessWidget {
                 controller: otpCubit.otpController,
               ),
               _VerifyOtpButton(
+                email: email,
                 otpCubit: otpCubit,
                 phone: phone,
                 navigateFromForget: navigateFromForget,
@@ -93,7 +98,7 @@ class _OtpBody extends StatelessWidget {
               SizedBox(height: 0.04.sh),
               _ResendLineWidget(
                 otpCubit: otpCubit,
-                phone: phone,
+                phone: phone!,
               ),
               SizedBox(height: 0.2.sh),
             ],
@@ -105,14 +110,15 @@ class _OtpBody extends StatelessWidget {
 }
 
 class _VerifyOtpButton extends StatelessWidget {
-  const _VerifyOtpButton(
+   _VerifyOtpButton(
       {required this.otpCubit,
       required this.phone,
+      required this.email,
       required this.navigateFromForget,
       required this.navigateFromProfile});
 
   final OtpCubit otpCubit;
-  final String phone;
+   String? phone,email;
   final bool navigateFromForget;
   final bool navigateFromProfile;
 
@@ -138,7 +144,7 @@ class _VerifyOtpButton extends StatelessWidget {
             navigateFromForget
                 ? MagicRouter.navigateReplacement(
                     page: ResetPasswordView(
-                      phone: phone,
+                      phone: phone!,
                       otp: otpCubit.otpController.text,
                     ),
                   )
@@ -166,12 +172,13 @@ class _VerifyOtpButton extends StatelessWidget {
               );
             } else {
               if (navigateFromProfile) {
-                otpCubit.updatePhone(phone: phone);
+                otpCubit.updatePhone(phone: phone!);
               } else {
                 navigateFromForget
-                    ? otpCubit.checkCode(phone: phone)
+                    ? otpCubit.checkCode(phone: phone!)
                     : otpCubit.confirmCode(
                         phone: phone,
+                        email: email,
                       );
               }
             }

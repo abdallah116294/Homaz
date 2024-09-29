@@ -8,20 +8,39 @@ import 'package:homez/features/otp/data/model/confirm_code_succes.dart';
 class OTPRepo {
   final ApiConsumer apiConsumer;
   OTPRepo({required this.apiConsumer});
-  Future<Either<Failure, ConfirmeCodeSuccess>> confirmCode() async {
+  Future<Either<Failure, ConfirmeCodeSuccess>> confirmCode(
+    {String ? phoneNumber,
+    String ? email }
+  ) async {
     try {
-      final response = await apiConsumer.post(ApiConstants.sendOtp,
+      if(phoneNumber!=null){
+        final response = await apiConsumer.post(ApiConstants.sendOtp,
           body: FormData.fromMap({
-            "phone": "",
+            "phone": phoneNumber,
             "otp": "1111",
             'type': 'ios',
             'device_token': 'ssssssssssss'
           }));
-      if (response.statusCode == 200) {
+               if (response.statusCode == 200) {
         return Right(ConfirmeCodeSuccess.fromJson(response.data));
       } else {
         return Left(ServerFailure(response.data));
       }
+      }else{
+      final response = await apiConsumer.post(ApiConstants.sendOtp,
+          body: FormData.fromMap({
+            "email":email,
+            "otp": "1111",
+            'type': 'ios',
+            'device_token': 'ssssssssssss'
+          }));
+               if (response.statusCode == 200) {
+        return Right(ConfirmeCodeSuccess.fromJson(response.data));
+      } else {
+        return Left(ServerFailure(response.data));
+      }
+      }      
+ 
     } catch (e) {
       if (e is ServerFailure) {
         return Left(e);

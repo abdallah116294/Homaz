@@ -5,6 +5,7 @@ import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/chat/cubit/chat_cubit.dart';
 import 'package:homez/features/chat/message_screen.dart';
 import 'package:homez/features/home/home_cubit.dart';
 import 'package:homez/features/home/home_view.dart';
@@ -26,68 +27,67 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
     currentIndex = index;
     emit(ChangeBottomNavigationState());
   }
-   List<SalomonBottomBarItem> buildBottomNavigationItems(BuildContext context) {
-  return [
-    SalomonBottomBarItem(
-      icon: SvgIcon(
-        icon: AssetsStrings.home,
-        color: ColorManager.white,
-      ),
-      title: Text(
-        context.translate(LangKeys.home), // Use context.translate here
-        style: const TextStyle(color: Colors.white,fontSize: 12),
-      ),
-      selectedColor: ColorManager.blueColor,
-    ),
-    SalomonBottomBarItem(
-      icon: SvgIcon(
-        icon: AssetsStrings.search,
-        color: ColorManager.white,
-      ),
-      title: Text(
-        context.translate(LangKeys.search), // Translation for "Search"
-        style: const TextStyle(color: Colors.white,fontSize: 12),
-      ),
-      selectedColor: ColorManager.blueColor,
-    ),
 
-    SalomonBottomBarItem(
-      icon: SvgIcon(
-        icon: AssetsStrings.heart,
-        color: ColorManager.white,
+  List<SalomonBottomBarItem> buildBottomNavigationItems(BuildContext context) {
+    return [
+      SalomonBottomBarItem(
+        icon: SvgIcon(
+          icon: AssetsStrings.home,
+          color: ColorManager.white,
+        ),
+        title: Text(
+          context.translate(LangKeys.home), // Use context.translate here
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        selectedColor: ColorManager.blueColor,
       ),
-      title: Text(
-        context.translate(LangKeys.saved), // Translation for "Saved"
-        style: const TextStyle(color: Colors.white,fontSize: 12),
+      SalomonBottomBarItem(
+        icon: SvgIcon(
+          icon: AssetsStrings.search,
+          color: ColorManager.white,
+        ),
+        title: Text(
+          context.translate(LangKeys.search), // Translation for "Search"
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        selectedColor: ColorManager.blueColor,
       ),
-      selectedColor: ColorManager.blueColor,
-    ),
+      SalomonBottomBarItem(
+        icon: SvgIcon(
+          icon: AssetsStrings.heart,
+          color: ColorManager.white,
+        ),
+        title: Text(
+          context.translate(LangKeys.saved), // Translation for "Saved"
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        selectedColor: ColorManager.blueColor,
+      ),
+      SalomonBottomBarItem(
+        icon: SvgIcon(
+          icon: AssetsStrings.chat,
+          color: ColorManager.white,
+        ),
+        title: Text(
+          context.translate(LangKeys.message), // Translation for "Chat"
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        selectedColor: ColorManager.blueColor,
+      ),
+      SalomonBottomBarItem(
+        icon: SvgIcon(
+          icon: AssetsStrings.profile,
+          color: ColorManager.white,
+        ),
+        title: Text(
+          context.translate(LangKeys.profile), // Translation for "Profile"
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        selectedColor: ColorManager.blueColor,
+      ),
+    ];
+  }
 
-    SalomonBottomBarItem(
-      icon: SvgIcon(
-        icon: AssetsStrings.chat,
-        color: ColorManager.white,
-      ),
-      title: Text(
-        context.translate(LangKeys.message), // Translation for "Chat"
-        style: const TextStyle(color: Colors.white,fontSize: 12),
-      ),
-      selectedColor: ColorManager.blueColor,
-    ),
-
-    SalomonBottomBarItem(
-      icon: SvgIcon(
-        icon: AssetsStrings.profile,
-        color: ColorManager.white,
-      ),
-      title: Text(
-        context.translate(LangKeys.profile), // Translation for "Profile"
-        style: const TextStyle(color: Colors.white,fontSize: 12),
-      ),
-      selectedColor: ColorManager.blueColor,
-    ),
-  ];
-}
   List<Widget> screens = [
     BlocProvider(
       create: (context) => di.sl<HomeCubit>()..getHomeData(),
@@ -95,13 +95,17 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
     ),
     BlocProvider(
       create: (context) => di.sl<SearchCubit>()..fetchRecentSearch(),
-      child:  SearchScreenViews(),
+      child: SearchScreenViews(),
     ),
     BlocProvider(
       create: (context) => di.sl<FavoriteCubit>()..fetchFavoriteData(),
       child: const SavedView(),
     ),
-    const MessagesScreen(),
+    BlocProvider(
+      create: (context) => di
+     .sl<ChatCubit>(),
+      child: const MessagesScreen(),
+    ),
     const ProfileView()
   ];
 

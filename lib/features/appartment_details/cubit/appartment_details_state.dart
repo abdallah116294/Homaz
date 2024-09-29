@@ -20,3 +20,9 @@ class RemoveFromFavoriteSuccess extends AppartmentDetailsState{
   RemoveFromFavoriteSuccess({required this.removeFavoriteModel});
 }
 class RemoveFromFavoriteFailed extends AppartmentDetailsState{}
+class CreateChatLoading extends AppartmentDetailsState{}
+class CreateChatSuccess extends AppartmentDetailsState{
+  final CreateChatSuccessful createChatSuccessful;
+  CreateChatSuccess({required this.createChatSuccessful});
+}
+class CreateChatFailed extends AppartmentDetailsState{}

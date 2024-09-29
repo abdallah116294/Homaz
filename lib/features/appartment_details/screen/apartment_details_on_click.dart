@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -32,6 +34,7 @@ class ApartmentDetailsOnClick extends StatelessWidget {
       ],
       child: BlocConsumer<TakeLookCubit, TakeLookState>(
         listener: (context, state) {
+          if (state is CreateChatSuccess) {}
           // if (state is AddToFavoriteSuccess) {
           //   showMessage(
           //       message: 'Add To Favorite Successfully',
@@ -131,7 +134,7 @@ class ApartmentDetailsOnClick extends StatelessWidget {
                                           .addToFavorite(
                                               id: state.takeLookData.data!
                                                   .apartments!.id!)
-                                          .then((value) {                                           
+                                          .then((value) {
                                         showMessage(
                                             message:
                                                 'Remove From Favorite Successfully',
@@ -200,7 +203,26 @@ class ApartmentDetailsOnClick extends StatelessWidget {
                                     width: 140.w,
                                     child: CustomElevated(
                                         text: 'Message',
-                                        press: () {},
+                                        press: () {
+                                          context
+                                              .read<AppartmentDetailsCubit>()
+                                              .createChat(
+                                                  apartmentId: apartmentId)
+                                              .then((value) {
+                                            context.pushName(
+                                                AppRoutes.chatScreen,
+                                                arguments: {
+                                                  'chatName': state.takeLookData
+                                                      .data!.apartments!.name
+                                                      .toString(),
+                                                  "imageUrl": state.takeLookData
+                                                      .data!.apartments!.images
+                                                      .toString(),
+                                                  "roomId": state.takeLookData
+                                                      .data!.apartments!.id
+                                                });
+                                          });
+                                        },
                                         btnColor: ColorManager.mainColor),
                                   )
                                 ],

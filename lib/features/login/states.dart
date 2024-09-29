@@ -14,7 +14,11 @@ class LoginSuccessState extends LoginStates {
 
 class SignInWithGoogleLoadingState extends LoginStates {}
 
-class SignInWithGoogleSuccessState extends LoginStates {}
+class SignInWithGoogleSuccessState extends LoginStates {
+  final LoginUserSuccess loginModel;
+
+  SignInWithGoogleSuccessState({required this.loginModel});
+}
 
 class NetworkErrorState extends LoginStates {}
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/error/failures.dart';
 import 'package:homez/core/helpers/either_extension.dart';
+import 'package:homez/features/appartment_details/data/model/create_chat_success.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
 import 'package:homez/features/appartment_details/data/model/remove_favorite_model.dart';
 import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart';
@@ -75,6 +76,17 @@ class AppartmentDetailsCubit extends Cubit<AppartmentDetailsState> {
       }
     } catch (e) {
       emit(AddToFavoriteFailed());
+    }
+  }
+
+  Future<void> createChat({required int apartmentId}) async {
+    emit(CreateChatLoading());
+    try {
+      final response = await apartmentRepo.createChat(apartmentId: apartmentId);
+      response.fold((l) => emit(CreateChatFailed()),
+          (r) => emit(CreateChatSuccess(createChatSuccessful: r)));
+    } catch (e) {
+      emit(CreateChatFailed());
     }
   }
 }

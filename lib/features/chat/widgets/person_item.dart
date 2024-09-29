@@ -4,7 +4,12 @@ import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 
 class PersonItem extends StatelessWidget {
-  const PersonItem({super.key});
+  const PersonItem({super.key, required this.name, required this.imageUrl, required this.lastMessage, required this.time, required this.unreadCount});
+  final String name;
+  final String imageUrl;
+  final String lastMessage;
+  final String time;
+  final int unreadCount;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class PersonItem extends StatelessWidget {
           Row(
             children: [
               CustomText(
-                  text: 'Jaesica ',
+                  text: name,
                   color: ColorManager.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 18),
@@ -30,14 +35,14 @@ class PersonItem extends StatelessWidget {
             ],
           ),
           CustomText(
-              text: 'Sea you ',
+              text: lastMessage,
               color: ColorManager.grey6,
               fontWeight: FontWeight.w300,
               fontSize: 13)
         ],
       ),
-      leading: const CircleAvatar(
-        foregroundImage: const AssetImage(AssetsStrings.splashBg),
+      leading:  CircleAvatar(
+        foregroundImage:  NetworkImage(imageUrl),
         radius: 30,
       ),
     );

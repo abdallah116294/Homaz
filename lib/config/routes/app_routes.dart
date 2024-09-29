@@ -3,6 +3,7 @@ import 'package:homez/config/routes/base_routes.dart';
 import 'package:homez/core/models/profile_data_model.dart';
 import 'package:homez/features/appartment_details/screen/appartment_details.dart';
 import 'package:homez/features/change_password/view.dart';
+import 'package:homez/features/chat/chat_screen.dart';
 import 'package:homez/features/forget_password/forget_pass_view.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/features/login/view.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const String forgetPasswordView = "ForgetPasswordViews";
   static const String takeALookView = "TakeLookScreen";
   static const String notificationView = "NotificationView";
+  static const String chatScreen="ChatScreen";
   static BuildContext currentContext = navigatorKey.currentContext!;
   static Route? onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -62,6 +64,7 @@ class AppRoutes {
         final otpArg = args as Map<String, dynamic>;
         return BaseRoute(
             page: OtpView(
+          email: otpArg['email'] as String,    
           phone: otpArg['phone'] as String,
           navigateFromForget: otpArg['navigateFromForget'] as bool,
           navigateFromProfile: otpArg['navigateFromProfile'] as bool,
@@ -88,6 +91,14 @@ class AppRoutes {
         return BaseRoute(page: TakeLookScreen(id: args as int));
       case notificationView:
         return BaseRoute(page: const NotificationView());
+      case chatScreen:
+        final chatArgs = args as Map<String, dynamic>;
+        return BaseRoute(page:  ChatScreen(
+          chatName:chatArgs['chatName'] as String ,
+          imageUrl:chatArgs['imageUrl'] as String ,
+          roomId: chatArgs['roomId'] as int,
+        ));
+      
       default:
         return null;
     }

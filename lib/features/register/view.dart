@@ -327,9 +327,13 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                     color: ColorManager.red,
                   );
                 } else if (state is RegisterWithGoogleSuccessState) {
-                  context.pushName(AppRoutes.otpView, arguments: {
-                    "phone": state.registerUserSuccess.data!.user!.phone!,
-                  });
+                   context.pushName(AppRoutes.otpView,arguments: {
+                    "email":state.registerUserSuccess.data!.user!.email!,
+                    "phone":state.registerUserSuccess.data!.user!.phone!,
+                    ///"navigateFromForget":true,
+                   });                  // context.pushName(AppRoutes.otpView, arguments: {
+                  //   "phone": state.registerUserSuccess.data!.user!.phone!,
+                  // });
                   // MagicRouter.navigateTo(
                   //   page: OtpView(
                   //     phone: state.registerUserSuccess.data!.user!.phone!,

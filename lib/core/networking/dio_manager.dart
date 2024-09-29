@@ -34,7 +34,7 @@ class DioManager implements ApiConsumer {
       }
     ));
     String token = CacheHelper.getToken();
-    String langcode = CacheHelper.get(key: "selected_language");
+    String langcode = CacheHelper.get(key: "selected_language")??"en";
 
     token.isNotEmpty
         ? dio.options.headers["Authorization"] = "Bearer $token"

@@ -14,10 +14,13 @@ class OtpCubit extends Cubit<OtpStates> {
   final logger = Logger();
   final otpController = TextEditingController();
   bool isRemember = true;
-  Future<void> confirmCode({required String phone}) async {
+  Future<void> confirmCode({ String? phone,String? email }) async {
     emit(OtpLoadingState());
     try {
-      final response = await otpRepo.confirmCode();
+      final response = await otpRepo.confirmCode(
+        phoneNumber:phone,
+        email:email
+      );
       response.fold((l) => emit(OtpFailureState(msg: l.toString())), (r) {
         CacheHelper.saveToken(r.data!.user!.token!);
         isRemember ? CacheHelper.saveIfRemember() : null;

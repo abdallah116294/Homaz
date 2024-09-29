@@ -42,12 +42,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
   Future<void> registerWithGoogle() async {
     emit(RegisterWithGoogleLoadingState());
     try {
-      final rseponse = await registerRepo.registerWithGoogle(
-              fullname: controllers.nameController.text,
-              password: controllers.passwordController.text,
-              confirmPassword:controllers.confirmPasswordController.text,
-              phone:controllers.phoneController.text,
-      );
+      final rseponse = await registerRepo.registerWithGoogle();
       rseponse.fold(
           (l) => emit(RegisterWithGoogleFailedState(msg: l.toString())), (r) {
           //   CacheHelper.saveToken(r.data!.user!.!);
@@ -58,6 +53,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       emit(RegisterWithGoogleFailedState(msg: e.toString()));
     }
   }
+  
   // Future<void> registerWithGoogle() async {
   //   emit(RegisterWithGoogleLoadingState());
   //   try {
