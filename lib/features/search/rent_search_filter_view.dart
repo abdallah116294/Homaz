@@ -44,7 +44,10 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
             if (state.searchResultModel.data!.apartment!.data.length == 0) {
               showMessage(message: "No Result Found", color: ColorManager.red);
             } else {
-              context.pushName(AppRoutes.searchScreenView,arguments: widget.searchString);
+              context.pushName(AppRoutes.searchresultScreen, arguments: {
+                "apartment": state.searchResultModel.data!.apartment!
+              });
+              //context.pushName(AppRoutes.searchScreenView,arguments: widget.searchString);
               // MagicRouter.navigateTo(
               //     page: BlocProvider(
               //   create: (context) => di.sl<SearchCubit>(),
@@ -121,6 +124,7 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
                             CustomElevated(
                                 text: 'Show All Results',
                                 press: () {
+                                  log(widget.searchString.toString());
                                   if (widget.index == 1) {
                                     log(hasFurnishedSelected.toString());
                                     // log("Range Price Values $selectedRangeValues");

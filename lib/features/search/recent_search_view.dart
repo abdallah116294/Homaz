@@ -14,7 +14,8 @@ class RecentSearchView extends StatelessWidget {
     return Expanded(
       child: Container(
         width: double.infinity,
-        color: ColorManager.grey11,
+        //rgba(12, 14, 17, 1)
+        color:const Color(0xff0C0E11) ,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child:

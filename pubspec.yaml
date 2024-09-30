@@ -58,6 +58,7 @@ dependencies:
   pinput: ^2.2.31
   pretty_dio_logger: ^1.3.1
   pusher_channels_flutter: ^2.2.1
+  rating_dialog: ^2.0.4
   salomon_bottom_bar: null
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0

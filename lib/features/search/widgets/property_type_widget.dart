@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
 
 import '../data/models/data_search.dart';
@@ -41,7 +42,7 @@ class _PropertyTypeWidgetState extends State<PropertyTypeWidget> {
         return Container(
           height: 100.h,
           width: 340.w,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
           decoration: BoxDecoration(
             color: ColorManager.grey12,
             borderRadius: BorderRadius.circular(10),
@@ -50,12 +51,8 @@ class _PropertyTypeWidgetState extends State<PropertyTypeWidget> {
             children: [
               Row(
                 children: [
-                  SvgPicture.asset(
-                   "assets/icons/buildings.svg",
-                    height: 15,
-                    colorFilter:
-                        ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
-                  ),
+                  SvgIcon(icon: 'assets/icons/buildings.svg', color: ColorManager.white),
+                   SizedBox(width: 6.w,),
                   CustomText(
                       text: 'Property Type',
                       color: ColorManager.white,

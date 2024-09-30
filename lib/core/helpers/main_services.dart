@@ -48,4 +48,26 @@ class MainServices {
       return null;
     }
   }
+  static Future<List<File>?> getListCameraImagesUsingImagePicker(
+    ImageSource source) async {
+  final List<XFile>? pickedImages = await ImagePicker().pickMultiImage(
+    imageQuality: 15,
+  );
+  if (pickedImages != null && pickedImages.isNotEmpty) {
+    return pickedImages.map((image) => File(image.path)).toList();
+  } else {
+    return null;
+  }
+}
+
+static Future<List<File>?> getListImagesUsingImagePicker() async {
+  final List<XFile>? pickedImages = await ImagePicker().pickMultiImage(
+    imageQuality: 25,
+  );
+  if (pickedImages != null && pickedImages.isNotEmpty) {
+    return pickedImages.map((image) => File(image.path)).toList();
+  } else {
+    return null;
+  }
+}
 }

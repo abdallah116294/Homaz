@@ -1,19 +1,23 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/pusher_service/pusher_service.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/helpers/main_services.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/circle_image.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/svg_icons.dart';
 import 'package:homez/features/chat/cubit/chat_cubit.dart';
 import 'package:homez/features/chat/data/models/display_chat.dart';
 import 'package:homez/features/chat/data/models/pusher_event_model.dart';
-import 'package:homez/features/chat/widgets/recive_message_itme_widget.dart';
+import 'package:homez/features/chat/widgets/massage_text_formfield_with_image.dart';
+import 'package:homez/features/chat/widgets/sender_message_itme_widget.dart';
 import 'package:homez/features/chat/widgets/send_message_widget.dart';
-import 'package:homez/features/chat/widgets/sender_message_item.dart';
+import 'package:homez/features/chat/widgets/receiver_message_item.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:homez/injection_container.dart' as di;
 
@@ -66,9 +70,13 @@ class _ChatScreenState extends State<ChatScreen> {
     log("event came: ${event.data}");
     if (event.data != null) {
       final decodedData = jsonDecode(event.data);
-      Message message = Message.fromJson(
-          decodedData); 
-      displayChat!.data!.chat!.messages.insert(0, message);
+      Message message = Message.fromJson(decodedData);
+      if (message.attachments.isNotEmpty) {
+        displayChat!.data!.chat!.messages.insert(0, message);
+      } else {
+        displayChat!.data!.chat!.messages.insert(0, message);
+      }
+      // displayChat!.data!.chat!.messages.insert(0, message);
       log("Messages: $message");
       setState(() {});
       animateListToStart();
@@ -77,8 +85,18 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  List<File>? currentSelectedImage;
+  TextEditingController messageController = TextEditingController();
+  // late ChatCubit chatCubit;
+  @override
+  void initState() {
+    // chatCubit = ChatCubit.get(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var chatCubit = ChatCubit.get(context);
     return BlocProvider(
       create: (context) =>
           di.sl<ChatCubit>()..displayChat(chatId: widget.roomId),
@@ -104,10 +122,11 @@ class _ChatScreenState extends State<ChatScreen> {
               appBar: AppBar(
                 backgroundColor: ColorManager.black,
                 elevation: 0.0,
-                centerTitle: true,
+               // centerTitle: true,
                 actions: [
                   CircleImageWidget(
                     image: widget.imageUrl,
+                    size: 50,
                   ),
                 ],
                 title: CustomText(
@@ -137,17 +156,81 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemBuilder: (context, index) {
                       if (displayChat!.data!.chat!.messages[index].senderName ==
                           "superAdmin") {
-                        return SenderMsgItemWidget(
+                        return ReceiverMsgItemWidget(
                           message: displayChat!.data!.chat!.messages[index],
+                          imageUrl: widget.imageUrl,
                         );
                       } else {
-                        return ReceiverMsgItemWidget(
-                            message:displayChat!.data!.chat!.messages[index]);
+                        return SenderMsgItemWidget(
+                            message: displayChat!.data!.chat!.messages[index]);
                       }
                     },
                   )),
-                   SendMessageWidget(
-                    roomId:widget.roomId ,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CustomTextFormField(
+                      textFormField: TextFormField(
+                        minLines: 1,
+                        maxLines: 6,
+                        controller: messageController,
+                        style: TextStyle(color: ColorManager.white),
+                        decoration: InputDecoration(
+                            hintText: 'Type your message',
+                            hintStyle: TextStyle(color: ColorManager.grey15),
+                            focusColor: ColorManager.mainColor),
+                      ),
+                      images: currentSelectedImage != null
+                          ? List.generate(
+                              currentSelectedImage!.length,
+                              (index) => currentSelectedImage![index],
+                            )
+                          : [],
+                      imageButton: GestureDetector(
+                        onTap: () async {
+                          // Handle image button press
+                          currentSelectedImage = (await MainServices
+                              .getListImagesUsingImagePicker())!;
+                          if (currentSelectedImage != null) {
+                            setState(() {});
+                          }
+                        },
+                        child: SvgIcon(
+                            icon: "assets/icons/image-upload.svg",
+                            color: ColorManager.white),
+                      ),
+                      sendButton: GestureDetector(
+                          onTap: () async {
+                            if (currentSelectedImage != null) {
+                              chatCubit.sendMessage(
+                                  message: messageController.text,
+                                  attachment: currentSelectedImage,
+                                  chatId: widget.roomId);
+                            }
+                            if (messageController.text.isNotEmpty &&
+                                currentSelectedImage == null) {
+                              chatCubit.sendMessage(
+                                  message: messageController.text,
+                                  chatId: widget.roomId);
+                              messageController.clear();
+                              currentSelectedImage = null;
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            height: 42.h,
+                            width: 48.w,
+                            decoration: BoxDecoration(
+                              color: ColorManager.mainColor,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Center(
+                              child: SvgIcon(
+                                  height: 30,
+                                  icon: "assets/icons/send_button_white.svg",
+                                  color: ColorManager.white),
+                            ),
+                          )),
+                    ),
                   ),
                 ],
               ),

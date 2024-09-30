@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/svg_icons.dart';
 
 class FurnishedFilterWidget extends StatefulWidget {
   const FurnishedFilterWidget({super.key,required this.onSelectionChanged});
@@ -30,21 +31,18 @@ class _FurnishedFilterWidgetState extends State<FurnishedFilterWidget> {
     return Container(
       height: 100.h,
       width: 340.w,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
       decoration: BoxDecoration(
         color: ColorManager.grey12,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              SvgPicture.asset(
-                AssetsStrings.propertyTpe,
-                height: 15,
-                colorFilter:
-                    ColorFilter.mode(ColorManager.grey12, BlendMode.srcIn),
-              ),
+              SvgIcon(icon: 'assets/icons/furnshied.svg', color: ColorManager.white),
+              SizedBox(width: 6.w,),
               CustomText(
                   text: 'Furnishing',
                   color: ColorManager.white,

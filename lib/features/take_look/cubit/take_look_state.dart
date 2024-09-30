@@ -14,3 +14,9 @@ class TakeLookSuccess extends TakeLookState{
   TakeLookSuccess({required this.takeLookData});
 }
 class TakeLookFailed extends TakeLookState{}
+class CreateChatLoading extends TakeLookState{}
+class CreateChatSuccessTakeLookCubit extends TakeLookState{
+  CreateChatSuccessful createChatSuccessful;
+  CreateChatSuccessTakeLookCubit({required this.createChatSuccessful});
+}
+class CreateChatFailed extends TakeLookState{}

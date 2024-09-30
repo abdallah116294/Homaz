@@ -30,7 +30,6 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
       create: (context) => di.sl<AppartmentDetailsCubit>(),
       child: BlocConsumer<AppartmentDetailsCubit, AppartmentDetailsState>(
         listener: (context, state) {
-          
           if (state is AddToFavoriteSuccess) {
             showMessage(
                 message: 'Add To Favorite Successfully',
@@ -39,15 +38,12 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
             showMessage(
                 message: 'Remove From Favorite Successfully',
                 color: ColorManager.blueColor);
-          }else if (state is CreateChatSuccess){
-                     context.pushName(
-              AppRoutes.chatScreen,
-              arguments: {
-                "chatName":takeLookData.data!.apartments!.name.toString(),
-                "imageUrl":takeLookData.data!.apartments!.images.toString(),
-                "roomId":takeLookData.data!.apartments!.id
-              }
-            );
+          } else if (state is CreateChatSuccess) {
+            context.pushName(AppRoutes.chatScreen, arguments: {
+              "chatName": takeLookData.data!.apartments!.name.toString(),
+              "imageUrl": takeLookData.data!.apartments!.images.toString(),
+              "roomId": state.createChatSuccessful.data!.chat!.id
+            });
           }
         },
         builder: (context, state) {
@@ -197,7 +193,11 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               child: CustomElevated(
                                   text: context.translate(LangKeys.message),
                                   press: () {
-                                    context.read<AppartmentDetailsCubit>().createChat(apartmentId:takeLookData.data!.apartments!.id! );
+                                    context
+                                        .read<AppartmentDetailsCubit>()
+                                        .createChat(
+                                            apartmentId: takeLookData
+                                                .data!.apartments!.id!);
                                   },
                                   btnColor: ColorManager.mainColor),
                             )

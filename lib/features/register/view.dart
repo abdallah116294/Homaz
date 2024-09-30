@@ -267,6 +267,9 @@ class _RegisterButton extends StatelessWidget {
         } else if (state is RegisterSuccessState) {
           context.pushName(AppRoutes.otpView, arguments: {
             "phone": cubit.controllers.phoneController.text,
+            "email":"",
+            "navigateFromForget":false,
+            "navigateFromProfile":false,
           });
           // MagicRouter.navigateTo(
           //   page: OtpView(

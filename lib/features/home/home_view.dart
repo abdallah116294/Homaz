@@ -7,6 +7,7 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/home/components/tab_bar_widget.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'components/main_tabs_with_body.dart';
@@ -38,31 +39,17 @@ class HomeScreenBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
-              children: [
-                CustomText(
-                  text: "Homz",
-                  color: ColorManager.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 32.sp,
-                ),
-                const Spacer(),
-                IconButton(
-                  onPressed: () {
-                    context.pushName(AppRoutes.notificationView);
-                    // MagicRouter.navigateTo(
-                    //   page: const NotificationView(),
-                    // );
-                  },
-                  icon: SvgIcon(
-                    icon: AssetsStrings.bell,
-                    color: ColorManager.white,
-                    height: 25,
-                  ),
-                ),
-              ],
+            16.verticalSpace,
+            Align(
+              alignment: context.read<AppCubit>().getAlignment(),
+              child: CustomText(
+                text: "Homz",
+                color: ColorManager.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 32.sp,
+              ),
             ),
-            10.verticalSpace,
+            6.verticalSpace,
             Expanded(
               child: BlocBuilder<HomeCubit, HomeStates>(
                 builder: (context, state) {

@@ -31,18 +31,16 @@ class ChatRepo {
   Future<Either<Failure, SendMessageSuccess>> sendMessage({
     required int chatId,
     required String message,
-    File? attachment,
+    List<File>? attachment,
   }) async {
     try {
-      FormData formData = FormData.fromMap({
-        'chat_id': chatId,
-        'message': message,
-        if (attachment != null) // Only add attachment if it's not null
-          'attachment[0]': await MultipartFile.fromFile(
-            attachment.path,
-            filename: attachment.path.split('/').last,
-          ),
-      });
+      FormData formData =
+          FormData.fromMap({"chat_id": chatId, "message": message});
+      if (attachment != null && attachment.isNotEmpty) {
+        for (int i = 0; i < attachment.length; i++) {
+          formData.files.add(MapEntry('attachment[$i]', await MultipartFile.fromFile(attachment[i].path,filename: attachment[i].path.split('/').last)));
+        }
+      }
       final response = await apiConsumer
           .post("${ApiConstants.chats}/$chatId/messages", body: formData);
       if (response.statusCode == 200) {

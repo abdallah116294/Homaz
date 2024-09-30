@@ -22,13 +22,13 @@ class DefaultSearchView extends StatefulWidget {
 }
 
 class _DefaultSearchViewState extends State<DefaultSearchView> {
-    TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-        final searchCubit = context.read<SearchCubit>();
+    final searchCubit = context.read<SearchCubit>();
     Size size = MediaQuery.of(context).size;
-    return  BlocProvider(
+    return BlocProvider(
       create: (context) => di.sl<SearchCubit>()..fetchRecentSearch(),
       child: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {
@@ -68,7 +68,10 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
                         Center(
                           child: IconButton(
                               onPressed: () {
-                                ModalBottomSheet.searchFilter(context,searchController);
+                                context.pushName(AppRoutes.searchFilter,arguments: {
+                                  "searchController":searchController
+                                });
+                                // ModalBottomSheet.searchFilter(context,searchController);
                               },
                               icon: const Icon(Icons.filter_alt_outlined)),
                         ),
@@ -87,9 +90,11 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                               onTap: () {
-                                context.pushName(AppRoutes.apartmentDetailsView,arguments:{
-                                  "apartmentId": state.searchResultModel.data!.apartment!.data[index].id,
-                                } );
+                                context.pushName(AppRoutes.apartmentDetailsView,
+                                    arguments: {
+                                      "apartmentId": state.searchResultModel
+                                          .data!.apartment!.data[index].id,
+                                    });
                                 // MagicRouter.navigateTo(
                                 //     page: ApartmentDetailsScreen(
                                 //   apartmentId: state.searchResultModel.data!
@@ -125,6 +130,5 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
         },
       ),
     );
-   
   }
 }

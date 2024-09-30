@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/config/routes/base_routes.dart';
 import 'package:homez/core/models/profile_data_model.dart';
+import 'package:homez/features/about_us/screen/about_us_screen.dart';
 import 'package:homez/features/appartment_details/screen/appartment_details.dart';
 import 'package:homez/features/change_password/view.dart';
 import 'package:homez/features/chat/chat_screen.dart';
+import 'package:homez/features/chat/cubit/chat_cubit.dart';
 import 'package:homez/features/forget_password/forget_pass_view.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
+import 'package:homez/features/legel/screens/legel_and_poilices.dart';
 import 'package:homez/features/login/view.dart';
 import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/on_boarding/view.dart';
 import 'package:homez/features/otp/view.dart';
 import 'package:homez/features/profile_details/profile_details.dart';
 import 'package:homez/features/register/view.dart';
+import 'package:homez/features/search/data/models/search_result_model.dart';
+import 'package:homez/features/search/search_filter_view.dart';
+import 'package:homez/features/search/search_result_screen.dart';
 import 'package:homez/features/search/search_screen.dart';
 import 'package:homez/features/splash/view.dart';
 import 'package:homez/features/take_look/data/model/take_look_model.dart';
 
 import '../../features/take_look/take_look_screen.dart';
+import 'package:homez/injection_container.dart' as di;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -34,7 +42,12 @@ class AppRoutes {
   static const String forgetPasswordView = "ForgetPasswordViews";
   static const String takeALookView = "TakeLookScreen";
   static const String notificationView = "NotificationView";
-  static const String chatScreen="ChatScreen";
+  static const String chatScreen = "ChatScreen";
+  static const String legalAndPoliciesScreen = "LegalAndPoliciesScreen";
+  static const String aboutHomzPage = "AboutHomzPage";
+  static const String searchFilter = "SearchFilterView";
+  static const String searchresultScreen = "SearchResultScreen";
+
   static BuildContext currentContext = navigatorKey.currentContext!;
   static Route? onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -64,7 +77,7 @@ class AppRoutes {
         final otpArg = args as Map<String, dynamic>;
         return BaseRoute(
             page: OtpView(
-          email: otpArg['email'] as String,    
+          email: otpArg['email'] as String,
           phone: otpArg['phone'] as String,
           navigateFromForget: otpArg['navigateFromForget'] as bool,
           navigateFromProfile: otpArg['navigateFromProfile'] as bool,
@@ -76,7 +89,8 @@ class AppRoutes {
           fullName: profileDatailsArgs['fullName'] as String,
           phone: profileDatailsArgs['phone'] as String,
           userData: profileDatailsArgs['userData'] as User,
-          navigateFromProfile: profileDatailsArgs["navigateFromProfile"] as bool,
+          navigateFromProfile:
+              profileDatailsArgs["navigateFromProfile"] as bool,
         ));
       case changePasswordView:
         return BaseRoute(page: const ChangePasswordView());
@@ -93,12 +107,30 @@ class AppRoutes {
         return BaseRoute(page: const NotificationView());
       case chatScreen:
         final chatArgs = args as Map<String, dynamic>;
-        return BaseRoute(page:  ChatScreen(
-          chatName:chatArgs['chatName'] as String ,
-          imageUrl:chatArgs['imageUrl'] as String ,
-          roomId: chatArgs['roomId'] as int,
+        return BaseRoute(
+            page: BlocProvider(
+          create: (context) => di.sl<ChatCubit>()
+            ..displayChat(chatId: chatArgs['roomId'] as int),
+          child: ChatScreen(
+            chatName: chatArgs['chatName'] as String,
+            imageUrl: chatArgs['imageUrl'] as String,
+            roomId: chatArgs['roomId'] as int,
+          ),
         ));
-      
+      case legalAndPoliciesScreen:
+        return BaseRoute(page: const LegalAndPoliciesScreen());
+      case aboutHomzPage:
+        return BaseRoute(page: const AboutHomzPage());
+      case searchFilter:
+        final searchFilterArgs = args as Map<String, dynamic>;
+        return BaseRoute(
+            page: SearchFilterView(
+          searchController:
+              searchFilterArgs['searchController'] as TextEditingController,
+        ));
+      case searchresultScreen:
+        final searchScreenArgs = args as Map<String, dynamic>;
+        return BaseRoute(page: SearchResultScreen(apartment:searchScreenArgs['apartment']! as Apartment ,));
       default:
         return null;
     }

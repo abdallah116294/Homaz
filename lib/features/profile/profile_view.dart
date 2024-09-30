@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +11,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/profile/profile_cubit.dart';
 import 'package:homez/features/profile/widgets/model_bottom_sheet.dart';
 import 'package:homez/features/profile/widgets/profile_item.dart';
+import 'package:homez/features/profile/widgets/rating_dialog.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,19 +70,14 @@ class ProfileViewBody extends StatelessWidget {
                       "fullName": "${profileData.fullname}",
                       "phone": "${profileData.phone}",
                       "userData": profileData,
-                      "navigateFromProfile":false,
-                     
+                      "navigateFromProfile": false,
                     });
-                    // MagicRouter.navigateTo(
-                    //     page: ProfileDetailsView(
-                    //       userData: profileData,
-                    //   fullName: '${profileData.fullname}',
-                    //   phone: '${profileData.phone}',
-                    // ));
                   },
                   leading: CircleAvatar(
                     radius: 30,
-                    backgroundImage: NetworkImage(profileData!.image!??""),
+                    backgroundImage: profileData!.image == ""
+                        ? const AssetImage('assets/images/user.png')
+                        : NetworkImage(profileData.image!),
                     backgroundColor: ColorManager.mainColor,
                   ),
                   title: CustomText(
@@ -107,33 +102,57 @@ class ProfileViewBody extends StatelessWidget {
                   },
                 ),
                 ProfileItem(
-                  icon: AssetsStrings.info,
-                  text: context.translate(LangKeys.about),
-                  onTap: () {},
-                ),
-                ProfileItem(
-                  icon: AssetsStrings.rateUs,
-                  text: context.translate(LangKeys.rateUs),
-                  onTap: () {},
-                ),
-                ProfileItem(
                     icon: AssetsStrings.lock,
                     text: context.translate(LangKeys.changePassword),
                     haveTrailing: true,
                     onTap: () {
                       context.pushName(AppRoutes.changePasswordView);
-                      // MagicRouter.navigateTo(
-                      //   page: const ChangePasswordView(),
-                      // );
                     }),
+                ProfileItem(
+                  icon: AssetsStrings.info,
+                  text: context.translate(LangKeys.about),
+                  onTap: () {
+                    context.pushName(AppRoutes.aboutHomzPage);
+                  },
+                ),
+                ProfileItem(
+                  icon: AssetsStrings.rateUs,
+                  text: context.translate(LangKeys.rateUs),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => Theme(
+                        data: ThemeData(
+                          dialogBackgroundColor:
+                              ColorManager.callColor, // Dialog background color
+                          primaryColor:
+                              ColorManager.mainColor, // Primary color (used for buttons)
+                          textTheme: const TextTheme(
+                            labelLarge: TextStyle(
+                                color: Colors.white), // Button text color
+                          ),
+                        ),
+                        child: RatingAlertDialog.dialog,
+                      ),
+                    );
+                    // showDialog(
+                    //     context: context,
+                    //     barrierDismissible: true, // set to false if you want to force a rating
+                    //     builder: (context) =>  RatingAlertDialog.dialog,
+                    //   );
+                  },
+                ),
+                ProfileItem(
+                  icon: "assets/icons/shield-check.svg",
+                  text: 'Legal and Policies',
+                  onTap: () {
+                    context.pushName(AppRoutes.legalAndPoliciesScreen);
+                  },
+                ),
                 BlocListener<ProfileCubit, ProfileState>(
                   listener: (context, state) {
                     if (state is LogOutSuccessState) {
                       context.pushReplacementNamed(AppRoutes.loginView);
-                      // MagicRouter.navigateTo(
-                      //   page: const LoginView(),
-                      //   withHistory: false,
-                      // );
                     }
                   },
                   child: ProfileItem(

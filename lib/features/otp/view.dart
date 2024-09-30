@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -11,22 +13,22 @@ import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/landing_screen/landing_screen_views.dart';
 import 'package:homez/features/login/view.dart';
 import 'package:homez/features/reset_password/view.dart';
-import 'package:homez/injection_container.dart'as di;
+import 'package:homez/injection_container.dart' as di;
 
 import 'components/pinput.dart';
 import 'cubit.dart';
 import 'states.dart';
 
 class OtpView extends StatelessWidget {
-   OtpView(
+  OtpView(
       {super.key,
       required this.phone,
       required this.email,
       this.navigateFromForget = false,
       this.navigateFromProfile = false});
 
-   String? phone;
-   String? email;
+  String? phone;
+  String? email;
   final bool navigateFromForget;
   final bool navigateFromProfile;
 
@@ -45,7 +47,7 @@ class OtpView extends StatelessWidget {
 }
 
 class _OtpBody extends StatelessWidget {
-   _OtpBody({
+  _OtpBody({
     required this.phone,
     required this.email,
     required this.navigateFromForget,
@@ -53,7 +55,7 @@ class _OtpBody extends StatelessWidget {
   });
 
   final bool navigateFromForget;
-   String ? phone,email;
+  String? phone, email;
   final bool navigateFromProfile;
 
   @override
@@ -110,7 +112,7 @@ class _OtpBody extends StatelessWidget {
 }
 
 class _VerifyOtpButton extends StatelessWidget {
-   _VerifyOtpButton(
+  _VerifyOtpButton(
       {required this.otpCubit,
       required this.phone,
       required this.email,
@@ -118,7 +120,7 @@ class _VerifyOtpButton extends StatelessWidget {
       required this.navigateFromProfile});
 
   final OtpCubit otpCubit;
-   String? phone,email;
+  String? phone, email;
   final bool navigateFromForget;
   final bool navigateFromProfile;
 
@@ -140,7 +142,7 @@ class _VerifyOtpButton extends StatelessWidget {
             MagicRouter.navigateReplacement(
               page: const LandingScreenViews(),
             );
-          } else {
+          } else if (navigateFromForget) {
             navigateFromForget
                 ? MagicRouter.navigateReplacement(
                     page: ResetPasswordView(
@@ -151,6 +153,12 @@ class _VerifyOtpButton extends StatelessWidget {
                 : MagicRouter.navigateReplacement(
                     page: const LoginView(),
                   );
+          } else {
+            showMessage(
+              message: "Code Verified Successfully",
+              color: ColorManager.green,
+            );
+            context.pushReplacementNamed(AppRoutes.landingViews);
           }
         }
       },
@@ -191,8 +199,7 @@ class _VerifyOtpButton extends StatelessWidget {
 }
 
 class _ResendLineWidget extends StatelessWidget {
-  const _ResendLineWidget(
-      {required this.otpCubit, required this.phone});
+  const _ResendLineWidget({required this.otpCubit, required this.phone});
 
   final OtpCubit otpCubit;
   final String phone;

@@ -233,10 +233,10 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                     //     file: currentSelectedFile!);
                   }
                   if (currentSelectedImage != null) {
-                    chatCubit.sendMessage(
-                        message: messageController.text,
-                        attachment: currentSelectedImage,
-                        chatId: widget.roomId);
+                    // chatCubit.sendMessage(
+                    //     message: messageController.text,
+                    //     attachment: currentSelectedImage,
+                    //     chatId: widget.roomId);
                     // chatCubit.sendMessage(
                     //     type: MESSAGETYPE.IMAGE,
                     //     userId: widget.userId,

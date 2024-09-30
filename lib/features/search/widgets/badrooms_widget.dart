@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/svg_icons.dart';
 
 class BadRoomsFilterWidget extends StatefulWidget {
   const BadRoomsFilterWidget({super.key,required this.onSelectionChanged});
@@ -35,31 +36,23 @@ class _BadRoomsFilterWidgetState extends State<BadRoomsFilterWidget> {
     return Container(
       height: 100.h,
       width: 340.w,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
       decoration: BoxDecoration(
         color: ColorManager.grey12,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  AssetsStrings.bed,
-                  height: 22,
-                  colorFilter:
-                      ColorFilter.mode(ColorManager.white, BlendMode.srcIn),
-                ),
-                SizedBox(width: 10.w),
-                CustomText(
-                    text: 'BadRooms',
-                    color: ColorManager.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp)
-              ],
-            ),
+          Row(
+            children: [
+              SvgIcon(icon: AssetsStrings.bed, color: ColorManager.white),
+              SizedBox(width: 10.w),
+              CustomText(
+                  text: 'BadRooms',
+                  color: ColorManager.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp)
+            ],
           ),
           SizedBox(
             height: 10.h,

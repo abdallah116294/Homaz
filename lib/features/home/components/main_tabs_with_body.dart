@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
@@ -10,6 +11,8 @@ import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/custom_tab_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
+import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 
 import '../data/model/home_success_model.dart';
 
@@ -92,15 +95,18 @@ class MainTabsWithBody extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Positioned(
+                         Positioned(
                           right: 25,
                           top: 30,
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.black,
-                            child: SvgIcon(
-                              icon: AssetsStrings.favorite,
-                              color: Colors.white,
+                          child: GestureDetector(
+                            onTap: () =>context.read<AppartmentDetailsCubit>().addToFavorite(id: homeData.apartments[index].id!),
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.black,
+                              child: SvgIcon(
+                                icon: AssetsStrings.favorite,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),

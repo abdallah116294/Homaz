@@ -27,7 +27,7 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> sendMessage({
     required String message,
     required int chatId,
-    File? attachment,
+   List< File>? attachment,
   }) async {
     emit(SendMessageLoadingState());
     try {

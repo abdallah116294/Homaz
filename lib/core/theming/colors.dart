@@ -76,4 +76,6 @@ class ColorManager {
   static Color taskGreen = const Color.fromRGBO(0, 159, 35, 1);
   static Color taskGreen2 = const Color.fromRGBO(14, 181, 111, 1);
   static Color callColor = Color.fromRGBO(35, 35, 35, 1);
+  static Color messageTextFieldColor = Color.fromRGBO(32, 30, 36, 1);
+  //rgba(32, 30, 36, 1)
 }

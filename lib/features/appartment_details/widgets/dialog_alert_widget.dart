@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class CallModelBottomSheet {
   static void callAction(
@@ -41,23 +42,31 @@ class CallModelBottomSheet {
                           color: ColorManager.callColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              color: ColorManager.white,
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            CustomText(
-                                text: 'Call +201144585024',
-                                color: ColorManager.blueColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.sp)
-                          ],
+                        child: GestureDetector(
+                          onTap: () {
+                            UrlLauncher.launchUrl(Uri(
+                              scheme: 'tel',
+                              path: '+201144585024',
+                            ));
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                color: ColorManager.white,
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              CustomText(
+                                  text: 'Call +201144585024',
+                                  color: ColorManager.blueColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp)
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
