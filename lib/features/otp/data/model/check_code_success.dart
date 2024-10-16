@@ -1,5 +1,5 @@
-class ConfirmeCodeSuccess {
-    ConfirmeCodeSuccess({
+class CheckCodeSuccess {
+    CheckCodeSuccess({
         required this.result,
         required this.message,
         required this.status,
@@ -11,8 +11,8 @@ class ConfirmeCodeSuccess {
     final int? status;
     final Data? data;
 
-    factory ConfirmeCodeSuccess.fromJson(Map<String, dynamic> json){ 
-        return ConfirmeCodeSuccess(
+    factory CheckCodeSuccess.fromJson(Map<String, dynamic> json){ 
+        return CheckCodeSuccess(
             result: json["result"],
             message: json["message"],
             status: json["status"],
@@ -39,35 +39,17 @@ class Data {
 
 class User {
     User({
-        required this.id,
-        required this.fullname,
-        required this.isActive,
-        required this.email,
-        required this.image,
         required this.phone,
-        required this.token,
-        required this.otp
+        required this.otp,
     });
 
-    final int? id;
-    final String? fullname;
-    final bool? isActive;
-    final dynamic email;
-    final String? image;
     final String? phone;
-    final String? token;
-    final String? otp;
+    final int? otp;
 
     factory User.fromJson(Map<String, dynamic> json){ 
         return User(
-            id: json["id"],
-            fullname: json["fullname"],
-            isActive: json["is_active"],
-            email: json["email"],
-            image: json["image"],
             phone: json["phone"],
-            token: json["token"],
-            otp: json['top']
+            otp: json["otp"],
         );
     }
 

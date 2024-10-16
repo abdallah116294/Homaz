@@ -18,7 +18,7 @@ class RowIconTextWidget extends StatelessWidget {
         SvgIcon(
           icon: icon,
           color: ColorManager.white,
-          height: 25,
+          height: 25.h,
         ),
         10.horizontalSpace,
         Expanded(

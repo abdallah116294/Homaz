@@ -23,5 +23,24 @@
    "old_password":"كلمة المرور القديمة",
    "new_password":"كلمة المرور الجديدة",
    "new_password_confirmation":"تأكيد كلمة المرور الجديدة",
-   "change":"تغيير"
+   "change":"تغيير",
+   "network_check":"تحقق من الإنترنت الخاص بك وحاول الأخير",
+   "read_more":"اقرأ المزيد",
+   "read_less":"اقرأ أقل",
+   "rent":"إيجار",
+   "buy":"شراء",
+   "search_filter":"مرشح البحث",
+   "property_type":"نوع العقار",
+   "badrooms":"غرف نوم",
+   "bathrooms":"الحمامات",
+   "furnishing":"تأثيث",
+   "amenities":"وسائل الراحة",
+   "price_range":"نطاق السعر",
+   "show_all_result":"عرض كافة النتائج",
+   "properties":"عقار",
+   "please_enter_search_key":"الرجاء إدخال مفتاح البحث",
+   "search_result":"نتائج البحث"
+
+
+
 }

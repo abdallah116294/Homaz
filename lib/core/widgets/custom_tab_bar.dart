@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/circle_image.dart';
 
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
@@ -25,17 +27,17 @@ class CustomTabBar extends StatelessWidget {
               color: ColorManager.bgColor,
               border: Border.all(
                 color: ColorManager.grey10,
-                width: 1,
+                width: 1.w,
               ),
               borderRadius: BorderRadius.circular(12)),
           child: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorColor: Colors.transparent,
             labelStyle:
-                const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                 TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
             unselectedLabelColor: Colors.black,
             indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
               color: ColorManager.mainColor,
             ),
             dividerColor: Colors.transparent,

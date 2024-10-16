@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
+import 'package:homez/core/helpers/either_extension.dart';
 import 'package:homez/features/login/data/repo/login_repo.dart';
 import 'package:logger/logger.dart';
 
@@ -29,7 +30,13 @@ class LoginCubit extends Cubit<LoginStates> {
             password: controllers.passwordController.text,
             deviceToken: '${CacheHelper.get(key: 'deviceToken')}',
             deviceType: '${CacheHelper.get(key: 'deviceType')}');
-        response.fold((l) => emit(LoginFailedState(msg: l.toString())), (r) {
+        // if (response.isLeft()) {
+        //   logger.log( Level.warning,  response.asLeft().errMessage);
+        // }
+        response.fold((l) {
+          logger.e(l);
+          emit(LoginFailedState(msg:response.asLeft().errMessage.toString()));
+        }, (r) {
           CacheHelper.saveToken(r.data!.user!.token!);
           isRemember ? CacheHelper.saveIfRemember() : null;
           emit(LoginSuccessState(loginModel: r));
@@ -46,10 +53,11 @@ class LoginCubit extends Cubit<LoginStates> {
     try {
       final response = await loginRepo.signInWithGoogle();
       response.fold((l) => emit(SignInWithGoogleFailedState(msg: l.toString())),
-          (r)  {
-            CacheHelper.saveToken(r.data!.user!.token!);
-            isRemember ? CacheHelper.saveIfRemember() : null;
-            emit(SignInWithGoogleSuccessState(loginModel: r));});
+          (r) {
+        CacheHelper.saveToken(r.data!.user!.token!);
+        isRemember ? CacheHelper.saveIfRemember() : null;
+        emit(SignInWithGoogleSuccessState(loginModel: r));
+      });
       // emit(SignInWithGoogleSuccessState());
     } catch (e) {
       emit(SignInWithGoogleFailedState(msg: e.toString()));

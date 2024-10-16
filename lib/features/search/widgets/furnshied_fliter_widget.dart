@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
@@ -34,17 +36,17 @@ class _FurnishedFilterWidgetState extends State<FurnishedFilterWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
       decoration: BoxDecoration(
         color: ColorManager.grey12,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              SvgIcon(icon: 'assets/icons/furnshied.svg', color: ColorManager.white),
+              SvgIcon(icon: 'assets/icons/furnshied.svg', color: ColorManager.white,height: 20.h,),
               SizedBox(width: 6.w,),
               CustomText(
-                  text: 'Furnishing',
+                  text: context.translate(LangKeys.furnishing),
                   color: ColorManager.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp)
@@ -66,7 +68,7 @@ class _FurnishedFilterWidgetState extends State<FurnishedFilterWidget> {
                       showCheckmark: false,
                       label: Text(
                         _chipLabels[index],
-                        style: TextStyle(color: ColorManager.white),
+                        style: TextStyle(color: ColorManager.white,fontSize: 16.sp),
                       ),
                       selected: _selectedIndex == index,
                       onSelected: (bool selected) {

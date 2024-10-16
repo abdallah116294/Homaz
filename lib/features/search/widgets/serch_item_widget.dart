@@ -66,7 +66,7 @@ class _SearchItemWidgetState extends State<SearchItemWidget> {
                       child: SvgIcon(
                         color: ColorManager.white,
                         icon: AssetsStrings.favorite,
-                        height: 24,
+                        height: 24.h,
                       ),
                     ),
                   ),
@@ -118,12 +118,12 @@ class _SearchItemWidgetState extends State<SearchItemWidget> {
                       widget.data.name.toString().split(' ').take(4).join(' '),
                   color: ColorManager.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18),
+                  fontSize: 18.sp),
               CustomText(
                   text: "\$${widget.data.buyPrice}",
                   color: ColorManager.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14),
+                  fontSize: 14.sp),
             ],
           ),
         )

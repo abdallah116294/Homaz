@@ -26,3 +26,18 @@ class CreateChatSuccess extends AppartmentDetailsState{
   CreateChatSuccess({required this.createChatSuccessful});
 }
 class CreateChatFailed extends AppartmentDetailsState{}
+class AppartmentDetailsPageChanged extends AppartmentDetailsState {
+  final int currentPage;
+  
+  AppartmentDetailsPageChanged({required this.currentPage});
+}
+class FavoriteStatusChanged extends AppartmentDetailsState {
+  Iterable<Datum> isAlreadyFavorite;
+
+  FavoriteStatusChanged({required this.isAlreadyFavorite});
+}
+class ChatStatusChanged extends AppartmentDetailsState {
+  Iterable<ChatModel.Datum> hasAlreadyChats;
+
+  ChatStatusChanged({required this.hasAlreadyChats});
+}

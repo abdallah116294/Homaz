@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/config/pusher_service/pusher_service.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
 import 'package:homez/features/chat/cubit/chat_cubit.dart';
@@ -79,7 +80,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             appBar: AppBar(
               elevation: 0.0,
               title:
-                  Text("Messages", style: TextStyle(color: ColorManager.white)),
+                  Text(context.translate(LangKeys.message), style: TextStyle(color: ColorManager.white)),
               backgroundColor: ColorManager.black,
               centerTitle: true,
               leading: IconButton(
@@ -90,9 +91,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 ? SingleChildScrollView(
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: SearchTextField(),
+                         Padding(
+                          padding:const  EdgeInsets.all(8.0),
+                          child: SearchTextField(
+                            hint:context.translate(LangKeys.search) ,
+                          ),
                         ),
                         ListView.separated(
                           shrinkWrap: true,
@@ -110,20 +113,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                               });
                             },
                             child: PersonItem(
-                              imageUrl: state.chatsModel.data!.chats!
-                                  .data[index].aparmentImage
-                                  .toString(),
-                              name: state.chatsModel.data!.chats!.data[index]
-                                  .aparmentName
-                                  .toString(),
-                              lastMessage: state.chatsModel.data!.chats!
-                                  .data[index].lastMessage
-                                  .toString(),
-                              time: state.chatsModel.data!.chats!.data[index]
-                                  .lastMessageTime
-                                  .toString(),
-                              unreadCount: state.chatsModel.data!.chats!
-                                  .data[index].unreadCount!,
+                              data:state.chatsModel.data!.chats!
+                                  .data[index],
                             ),
                           ),
                           itemCount: state.chatsModel.data!.chats!.data.length,

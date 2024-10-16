@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/saved/widgets/saved_item.dart';
@@ -22,7 +23,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       appBar: AppBar(
         backgroundColor: ColorManager.bgColor,
         title: CustomText(
-            text: 'Search Results',
+            text: context.translate(LangKeys.search_result),
             color: ColorManager.white,
             fontWeight: FontWeight.bold,
             fontSize: 16.sp),
@@ -43,7 +44,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                  text: '${widget.apartment.data.length} Properties',
+                  text: '${widget.apartment.data.length} ${context.translate(LangKeys.properties)}',
                   color: ColorManager.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp),

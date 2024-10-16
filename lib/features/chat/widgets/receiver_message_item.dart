@@ -41,11 +41,11 @@ class ReceiverMsgItemWidget extends StatelessWidget {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (message.message!.isNotEmpty)
+                          if (message.message!=null)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
-                                message.messageContent.toString(),
+                                message.message.toString()==null?"":message.message.toString(),
                                 style:  TextStyle(
                                   fontSize: 16.sp,
                                   color: Colors.white,

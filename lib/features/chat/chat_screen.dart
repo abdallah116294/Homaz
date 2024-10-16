@@ -122,7 +122,7 @@ class _ChatScreenState extends State<ChatScreen> {
               appBar: AppBar(
                 backgroundColor: ColorManager.black,
                 elevation: 0.0,
-               // centerTitle: true,
+                // centerTitle: true,
                 actions: [
                   CircleImageWidget(
                     image: widget.imageUrl,
@@ -172,11 +172,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       textFormField: TextFormField(
                         minLines: 1,
                         maxLines: 6,
+                        textAlign: TextAlign.start,
                         controller: messageController,
-                        style: TextStyle(color: ColorManager.white),
+                        style: TextStyle(
+                            color: ColorManager.white, fontSize: 16.sp),
                         decoration: InputDecoration(
                             hintText: 'Type your message',
-                            hintStyle: TextStyle(color: ColorManager.grey15),
+                            hintStyle: TextStyle(
+                                color: ColorManager.grey15, fontSize: 16.sp),
                             focusColor: ColorManager.mainColor),
                       ),
                       images: currentSelectedImage != null
@@ -196,7 +199,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                         child: SvgIcon(
                             icon: "assets/icons/image-upload.svg",
-                            color: ColorManager.white),
+                            color: ColorManager.white,
+                            height: 30.h),
                       ),
                       sendButton: GestureDetector(
                           onTap: () async {
@@ -217,15 +221,16 @@ class _ChatScreenState extends State<ChatScreen> {
                             }
                           },
                           child: Container(
-                            height: 42.h,
+                            height: 50.h,
                             width: 48.w,
                             decoration: BoxDecoration(
                               color: ColorManager.mainColor,
-                              borderRadius: BorderRadius.circular(40),
+                              shape: BoxShape.circle,
+                              // borderRadius: BorderRadius.circular(40.r),
                             ),
                             child: Center(
                               child: SvgIcon(
-                                  height: 30,
+                                  height: 30.h,
                                   icon: "assets/icons/send_button_white.svg",
                                   color: ColorManager.white),
                             ),

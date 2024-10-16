@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/helpers/main_services.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/theming/constants.dart';
@@ -43,8 +44,8 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
     return Column(
       children: [
         currentSelectedFile != null || currentSelectedImage != null
-            ? const SizedBox(
-                height: 35,
+            ?  SizedBox(
+                height: 35.h,
               )
             : const SizedBox.shrink(),
         currentSelectedFile != null || currentSelectedImage != null
@@ -63,11 +64,11 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                         : Stack(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.r),
                                 child: Image.file(
                                   currentSelectedImage!,
-                                  width: 100,
-                                  height: 100,
+                                  width: 100.w,
+                                  height: 100.h,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -81,20 +82,20 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                                         });
                                       },
                                       child: Container(
-                                          height: 30,
-                                          width: 30,
+                                          height: 30.h,
+                                          width: 30.w,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadius.circular(30)),
+                                                  BorderRadius.circular(30.r)),
                                           child: const Icon(
                                             Icons.close,
                                             color: Colors.black,
                                           )))),
                             ],
                           ),
-                    const SizedBox(
-                      height: 20,
+                     SizedBox(
+                      height: 20.h,
                     ),
                     currentSelectedFile == null
                         ? const SizedBox.shrink()
@@ -108,12 +109,12 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                                     });
                                   },
                                   child: Container(
-                                      height: 30,
-                                      width: 30,
+                                      height: 30.h,
+                                      width: 30.w,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
-                                              BorderRadius.circular(30)),
+                                              BorderRadius.circular(30.r)),
                                       child: const Icon(
                                         Icons.close,
                                         color: Colors.black,
@@ -127,11 +128,11 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                                       size: 30,
                                       color: Colors.grey,
                                     ),
-                                    const SizedBox(
-                                      width: 20,
+                                     SizedBox(
+                                      width: 20.h,
                                     ),
                                     SizedBox(
-                                      width: 100,
+                                      width: 100.h,
                                       child: Text(
                                         currentSelectedFile!.path
                                             .split("/")
@@ -150,8 +151,8 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
               )
             : const SizedBox.shrink(),
         currentSelectedFile != null
-            ? const SizedBox(
-                height: 35,
+            ?  SizedBox(
+                height: 35.h,
               )
             : const SizedBox.shrink(),
         Container(
@@ -159,7 +160,7 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
           padding: EdgeInsets.only(top: 16, right: 16, left: 16, bottom: 28),
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(60),
+              borderRadius: BorderRadius.circular(60.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -199,8 +200,8 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                             size: 25,
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
+                         SizedBox(
+                          width: 10.h,
                         ),
                         // GestureDetector(
                         //     onTap: () async {
@@ -220,8 +221,8 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 16,
+               SizedBox(
+                width: 16.h,
               ),
               InkWell(
                 onTap: () {
@@ -261,8 +262,8 @@ class _SendMessageWidgetState extends State<SendMessageWidget> {
                   setState(() {});
                 },
                 child: Container(
-                  height: 46,
-                  width: 46,
+                  height: 46.h,
+                  width: 46.w,
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(

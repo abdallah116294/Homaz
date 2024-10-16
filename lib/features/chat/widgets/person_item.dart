@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/circle_image.dart';
 import 'package:homez/core/widgets/custom_text.dart';
-
+import 'package:homez/features/chat/data/models/chats_model.dart';
 class PersonItem extends StatelessWidget {
-  const PersonItem({super.key, required this.name, required this.imageUrl, required this.lastMessage, required this.time, required this.unreadCount});
-  final String name;
-  final String imageUrl;
-  final String lastMessage;
-  final String time;
-  final int unreadCount;
+  const PersonItem({super.key, 
+  // required this.name, required this.imageUrl, required this.lastMessage, required this.time, required this.unreadCount
+  required this.data});
+  // final String name;
+  // final String imageUrl;
+  // final String lastMessage;
+  // final String time;
+  // final int unreadCount;
+  final  Datum data;
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +26,33 @@ class PersonItem extends StatelessWidget {
           Row(
             children: [
               CustomText(
-                  text: name,
+                  text: data.aparmentName!.split(' ')
+                                          .take(2)
+                                          .join(' ')
+                                          .toString(),
                   color: ColorManager.white,
                   fontWeight: FontWeight.w600,
-                  fontSize: 18),
-              const Spacer(),
-              CustomText(
+                  fontSize: 16.sp,),
+                 Spacer(),
+                 
+             data.lastMessageTime!=null? CustomText(
                   text:
-                      "${DateTime.now().hour.toString()} : ${DateTime.now().minute.toString()}",
+                      data.lastMessageTime??"",
                   color: ColorManager.grey6,
                   fontWeight: FontWeight.w300,
-                  fontSize: 13),
+                  fontSize: 13.sp):SizedBox()
             ],
           ),
           CustomText(
-              text: lastMessage,
+              text: data.lastMessage!,
               color: ColorManager.grey6,
               fontWeight: FontWeight.w300,
-              fontSize: 13)
+              fontSize: 13.sp)
         ],
       ),
       leading:  CircleAvatar(
-        foregroundImage:  NetworkImage(imageUrl),
-        radius: 30,
+        foregroundImage:  NetworkImage(data.aparmentImage!),
+        radius: 30.r,
       ),
     );
   }

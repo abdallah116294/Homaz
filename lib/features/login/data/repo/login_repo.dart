@@ -30,13 +30,14 @@ class LoginRepo {
       if (response.statusCode == 200) {
         return Right(LoginUserSuccess.fromJson(response.data));
       } else {
-        return Left(ServerFailure(response.data));
+        return Left(ServerFailure.fromResponse(
+            response.statusCode!, response.data));
       }
     } catch (e) {
-      if (e is ServerFailure) {
-        return Left(e);
+      if (e is DioException) {
+        return Left(ServerFailure.fromResponse(422, e.response!.data));
       }
-      return Left(ServerFailure('An unknown error: $e'));
+      return Left(ServerFailure('An unknown error: ${e.toString()}'));
     }
   }
 
@@ -77,7 +78,7 @@ class LoginRepo {
       }
     } catch (e) {
       if (e is ServerFailure) {
-        return Left(ServerFailure(e.toString())) ;
+        return Left(ServerFailure(e.toString()));
       } else {
         return Left(ServerFailure('An unknown error: $e'));
       }

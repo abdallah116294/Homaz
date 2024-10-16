@@ -186,12 +186,9 @@ class _ForgetPasswordWidget extends StatelessWidget {
             TextButton(
               onPressed: () {
                 context.pushName(AppRoutes.forgetPasswordView,
-                    arguments: cubit.controllers.phoneController.text);
-                // MagicRouter.navigateTo(
-                //   page: ForgetPasswordViews(
-                //     phone: cubit.controllers.phoneController.text,
-                //   ),
-                // );
+                    arguments: {
+                      "phone":cubit.controllers.phoneController.text
+                    });
               },
               child: CustomText(
                 text: "Forget Password?",
@@ -217,6 +214,15 @@ class _LoginButton extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginStates>(
       listener: (context, state) {
         if (state is LoginFailedState) {
+          if (state.msg ==
+              "This account is not activated Pleaze Complete Your Register.") {
+            context.pushName(AppRoutes.otpView, arguments: {
+              "phone": cubit.controllers.phoneController.text,
+              "email": "",
+              "navigateFromForget": false,
+              "navigateFromProfile": false,
+            });
+          }
           showMessage(
             message: state.msg,
             color: ColorManager.red,
@@ -229,10 +235,6 @@ class _LoginButton extends StatelessWidget {
         } else if (state is LoginSuccessState) {
           CacheHelper.saveToken(state.loginModel.data!.user!.token!);
           context.pushName(AppRoutes.landingViews);
-          // MagicRouter.navigateTo(
-          //   page: const LandingScreenViews(),
-          //   withHistory: false,
-          // );
         }
       },
       builder: (context, state) {
@@ -282,11 +284,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                     color: ColorManager.red,
                   );
                 } else if (state is SignInWithGoogleSuccessState) {
-                  context.pushName(AppRoutes.landingViews);
-                  // MagicRouter.navigateTo(
-                  //   page: const LandingScreenViews(),
-                  //   withHistory: false,
-                  // );
+                  context.pushReplacementNamed(AppRoutes.landingViews);
                 }
               },
               builder: (context, state) {
@@ -324,10 +322,6 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                 );
               } else if (state is SignInWithAppleSuccessState) {
                 context.pushName(AppRoutes.landingViews);
-                // MagicRouter.navigateTo(
-                //   page: const LandingScreenViews(),
-                //   withHistory: false,
-                // );
               }
             }, builder: (context, state) {
               return Expanded(

@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 
 class ExpandableText extends StatefulWidget {
   const ExpandableText(
@@ -28,9 +31,10 @@ class ExpandableTextState extends State<ExpandableText> {
     final colorClickableText = Colors.blue;
     final widgetColor = Colors.white;
     TextSpan link = TextSpan(
-      text: _readMore ? "... Read more" : " Read less",
+      text: _readMore ? "... ${context.translate(LangKeys.read_more)}" : " ${context.translate(LangKeys.read_less)}",
       style: TextStyle(
         color: colorClickableText,
+        fontSize: 16.sp
       ),
       recognizer: TapGestureRecognizer()..onTap = _onTapLink
     );
@@ -59,7 +63,7 @@ class ExpandableTextState extends State<ExpandableText> {
         int? endIndex;
         final pos = textPainter.getPositionForOffset(Offset(
             textSize.width - linkSize.width,
-            textSize.height,
+            textSize.height.h,
         ));
         endIndex = textPainter.getOffsetBefore(pos.offset);
         var textSpan;
@@ -70,6 +74,7 @@ class ExpandableTextState extends State<ExpandableText> {
                 : widget.text,
             style: TextStyle(
               color: widgetColor,
+              fontSize: 16.sp,
             ),
             children: <TextSpan>[link],
           );

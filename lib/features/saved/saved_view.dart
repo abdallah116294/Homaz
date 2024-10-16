@@ -95,11 +95,6 @@ class _SavedViewState extends State<SavedView> {
                                                   "apartmentId": apartment.id,
                                                   //"takeLookData": Null
                                                 });
-                                            // MagicRouter.navigateTo(
-                                            //   page: ApartmentDetailsScreen(
-                                            //     apartmentId: apartment.id,
-                                            //   ),
-                                            // );
                                           },
                                           child: SavedItem(
                                             oTap: () async {

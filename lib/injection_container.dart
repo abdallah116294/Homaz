@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:homez/config/local_db/local_db.dart';
 import 'package:homez/core/networking/api_consumer.dart';
 import 'package:homez/core/networking/dio_manager.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
@@ -99,7 +100,7 @@ Future<void> init() async {
       () => ApartmentRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(
-      () => AppartmentDetailsCubit(apartmentRepo: sl(), favoriteRepo: sl()));
+      () => AppartmentDetailsCubit(apartmentRepo: sl(), favoriteRepo: sl(),chatRepo: sl()));
   //!Favorite
   //repo
   sl.registerLazySingleton<FavoriteRepo>(() => FavoriteRepo(apiConsumer: sl()));
@@ -115,6 +116,8 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>ChatRepo(apiConsumer: sl()));
   //cubit
   sl.registerFactory(() => ChatCubit(chatRepo: sl()));
+   //config
+  sl.registerLazySingleton(() => SqlDb());
   //core
   sl.registerLazySingleton<ApiConsumer>(() => DioManager(dio: sl()));
   sl.registerLazySingleton<DioManager>(() => DioManager(dio: sl()));

@@ -55,7 +55,7 @@ class SearchResultItemWidget extends StatelessWidget {
                       child: SvgIcon(
                         icon: AssetsStrings.heartFillRed,
                         color: ColorManager.red,
-                        height: 22,
+                        height: 22.h,
                       ),
                     ),
                   ),
@@ -99,7 +99,7 @@ class SearchResultItemWidget extends StatelessWidget {
                             child: SvgIcon(
                               icon: AssetsStrings.send,
                               color: ColorManager.white,
-                              height: 20,
+                              height: 20.h,
                             ),
                           ),
                           6.horizontalSpace,
@@ -109,7 +109,7 @@ class SearchResultItemWidget extends StatelessWidget {
                             child: SvgIcon(
                               icon: AssetsStrings.phone,
                               color: ColorManager.white,
-                              height: 20,
+                              height: 20.h,
                             ),
                           )
                         ],

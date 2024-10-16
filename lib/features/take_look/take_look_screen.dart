@@ -12,6 +12,8 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
+import 'package:homez/features/appartment_details/widgets/dialog_alert_widget.dart';
 import 'package:homez/features/take_look/SweetNavBar/src/sweet_nav_bar.dart';
 import 'package:homez/features/take_look/cubit/take_look_cubit.dart';
 import 'package:story_view/story_view.dart';
@@ -87,9 +89,16 @@ class _TakeLookBodyState extends State<TakeLookBody> {
     List<StoryItem> storyItemList = [];
     //  List<StoryItem> storyItemList =[];
     return Scaffold(
-      body: BlocProvider(
-        create: (context) =>
-            di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
+          ),
+          BlocProvider(
+            create: (context) => di.sl<AppartmentDetailsCubit>(),
+          ),
+        ],
         child: BlocConsumer<TakeLookCubit, TakeLookState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -101,6 +110,8 @@ class _TakeLookBodyState extends State<TakeLookBody> {
               storyItemList.addAll(
                 newImages.map((image) => storyItem(image: image)).toList(),
               );
+              final int appartmentId = state.takeLookData.data!.apartments!.id!;
+              final takeLookdata = state.takeLookData;
               return Stack(children: [
                 StoryView(
                   storyItems: storyItemList,
@@ -108,15 +119,14 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                     print("Showing a story");
                   },
                   onComplete: () {
-                    log('ApartmentID:${state.takeLookData.data!.apartments!.id}');
-                    context.pushName(AppRoutes.apartmentDetailsView,arguments: {
-                      "apartmentId":state.takeLookData.data!.apartments!.id,
-                      "takeLookData":state.takeLookData,
-                    } ,);
-                    // MagicRouter.navigateTo(
-                    //     page: ApartmentDetailsScreen(
-                    //   takeLookData: state.takeLookData,
-                    // ));
+                    log('ApartmentID://${state.takeLookData.data!.apartments!.id}');
+                    context.pushName(
+                      AppRoutes.apartmentDetailsView,
+                      arguments: {
+                        "apartmentId": state.takeLookData.data!.apartments!.id,
+                        "takeLookData": state.takeLookData,
+                      },
+                    );
                   },
                   progressPosition: ProgressPosition.top,
                   indicatorColor: Colors.black,
@@ -130,13 +140,13 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 80.h),
                   child: GestureDetector(
                     onTap: () {
-                      MagicRouter.navigatePop();
+                      context.pop();
                     },
                     child: CircleAvatar(
-                        radius: 26,
+                        radius: 26.r,
                         backgroundColor: ColorManager.black,
-                        child: const SvgIcon(
-                            height: 40,
+                        child: SvgIcon(
+                            height: 40.h,
                             icon: AssetsStrings.back,
                             color: Colors.white)),
                   ),
@@ -164,7 +174,7 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                   fontSize: 24.sp),
                               CustomText(
                                   text:
-                                      '\$  ${CacheHelper.get(key: "selected_language") == "en" ? state.takeLookData.data!.apartments!.buyPrice : AppMethods.replaceFarsiNumber(state.takeLookData.data!.apartments!.buyPrice.toString())}',
+                                      ' ${CacheHelper.get(key: "selected_language") == "en" ? state.takeLookData.data!.apartments!.buyPrice : AppMethods.replaceFarsiNumber(state.takeLookData.data!.apartments!.buyPrice.toString())}',
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16.sp),
@@ -174,25 +184,85 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              CircleAvatar(
-                                  radius: 26,
+                              BlocConsumer<AppartmentDetailsCubit,
+                                  AppartmentDetailsState>(
+                                listener: (context, state) {
+                                  if (state is CreateChatSuccess) {
+                                    log("First Navigate");
+                                    context.pushName(AppRoutes.chatScreen,
+                                        arguments: {
+                                          "chatName": takeLookdata
+                                              .data!.apartments!.name
+                                              .toString(),
+                                          "imageUrl": takeLookdata
+                                              .data!.apartments!.mainImage
+                                              .toString(),
+                                          "roomId": state.createChatSuccessful
+                                              .data!.chat!.id
+                                        });
+                                  } else if (state is ChatStatusChanged) {
+                                    if (state.hasAlreadyChats.isNotEmpty) {
+                                      log("Second Navigate");
+                                      final chat = state.hasAlreadyChats
+                                          .firstWhere((chat) =>
+                                              chat.aparmentId ==
+                                              takeLookdata
+                                                  .data!.apartments!.id);
+                                      final roomId = chat.chatId;
+                                      log(takeLookdata.data!.apartments!.images
+                                          .toString());
+                                      context.pushName(AppRoutes.chatScreen,
+                                          arguments: {
+                                            "chatName": takeLookdata
+                                                .data!.apartments!.name
+                                                .toString(),
+                                            "imageUrl": takeLookdata
+                                                .data!.apartments!.mainImage
+                                                .toString(),
+                                            "roomId": roomId
+                                          });
+                                    }
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<AppartmentDetailsCubit>()
+                                          .checkIfIsHasChat(
+                                              apartmentId: appartmentId);
+                                    },
+                                    child: CircleAvatar(
+                                        radius: 26.r,
+                                        backgroundColor: widget.isShops
+                                            ? Colors.black
+                                            : ColorManager.blueColor,
+                                        child: SvgIcon(
+                                            height: 25.h,
+                                            icon: AssetsStrings.send,
+                                            color: Colors.white)),
+                                  );
+                                },
+                              ),
+                              8.verticalSpace,
+                              GestureDetector(
+                                onTap: () {
+                                  CallModelBottomSheet.callAction(
+                                      context,
+                                      state.takeLookData.data!.apartments!
+                                          .contact.first.phone
+                                          .toString());
+                                },
+                                child: CircleAvatar(
+                                  radius: 26.r,
                                   backgroundColor: widget.isShops
                                       ? Colors.black
                                       : ColorManager.blueColor,
-                                  child: const SvgIcon(
-                                      height: 25,
-                                      icon: AssetsStrings.send,
-                                      color: Colors.white)),
-                              8.verticalSpace,
-                              CircleAvatar(
-                                radius: 26,
-                                backgroundColor: widget.isShops
-                                    ? Colors.black
-                                    : ColorManager.blueColor,
-                                child: const SvgIcon(
-                                  height: 25,
-                                  icon: AssetsStrings.phone,
-                                  color: Colors.white,
+                                  child: SvgIcon(
+                                    height: 25.h,
+                                    icon: AssetsStrings.phone,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ],
@@ -210,17 +280,17 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                 SweetNavBarItem(
                                   isGradient: false,
                                   sweetActive: CircleAvatar(
-                                      radius: 26,
+                                      radius: 26.r,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: const SvgIcon(
-                                          height: 23,
+                                      child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.bath,
                                           color: Colors.white)),
                                   sweetIcon: CircleAvatar(
                                       radius: 26,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: const SvgIcon(
-                                          height: 23,
+                                      child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.bath,
                                           color: Colors.white)),
                                   sweetLabel: 'BathRoom',
@@ -228,17 +298,17 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                 SweetNavBarItem(
                                   isGradient: false,
                                   sweetActive: CircleAvatar(
-                                      radius: 26,
+                                      radius: 26.r,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: const SvgIcon(
-                                          height: 23,
+                                      child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.bed,
                                           color: Colors.white)),
                                   sweetIcon: CircleAvatar(
-                                      radius: 26,
+                                      radius: 26.r,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: const SvgIcon(
-                                        height: 23,
+                                      child: SvgIcon(
+                                        height: 23.h,
                                         icon: AssetsStrings.bed,
                                         color: Colors.white,
                                       )),
@@ -247,17 +317,17 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                 SweetNavBarItem(
                                   isGradient: false,
                                   sweetActive: CircleAvatar(
-                                      radius: 26,
+                                      radius: 26.r,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: const SvgIcon(
-                                          height: 23,
+                                      child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.car,
                                           color: Colors.white)),
                                   sweetIcon: CircleAvatar(
-                                    radius: 26,
+                                    radius: 26.r,
                                     backgroundColor: ColorManager.blueColor,
-                                    child: const SvgIcon(
-                                      height: 23,
+                                    child: SvgIcon(
+                                      height: 23.h,
                                       icon: AssetsStrings.car,
                                       color: Colors.white,
                                     ),
@@ -267,19 +337,19 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                 SweetNavBarItem(
                                   isGradient: false,
                                   sweetActive: CircleAvatar(
-                                    radius: 26,
+                                    radius: 26.r,
                                     backgroundColor: ColorManager.blueColor,
-                                    child: const SvgIcon(
-                                      height: 18,
+                                    child: SvgIcon(
+                                      height: 18.h,
                                       icon: AssetsStrings.gym,
                                       color: Colors.white,
                                     ),
                                   ),
                                   sweetIcon: CircleAvatar(
-                                    radius: 26,
+                                    radius: 26.r,
                                     backgroundColor: ColorManager.blueColor,
-                                    child: const SvgIcon(
-                                      height: 18,
+                                    child: SvgIcon(
+                                      height: 18.h,
                                       icon: AssetsStrings.gym,
                                       color: Colors.white,
                                     ),
@@ -304,18 +374,18 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                     SweetNavBarItem(
                                       isGradient: false,
                                       sweetActive: CircleAvatar(
-                                          radius: 26,
+                                          radius: 26.r,
                                           backgroundColor:
                                               ColorManager.blueColor,
-                                          child: const SvgIcon(
-                                              height: 23,
+                                          child: SvgIcon(
+                                              height: 23.h,
                                               icon: AssetsStrings.bath,
                                               color: Colors.white)),
                                       sweetIcon: CircleAvatar(
-                                        radius: 26,
+                                        radius: 26.r,
                                         backgroundColor: ColorManager.blueColor,
-                                        child: const SvgIcon(
-                                          height: 23,
+                                        child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.bath,
                                           color: Colors.white,
                                         ),
@@ -325,18 +395,18 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                     SweetNavBarItem(
                                       isGradient: false,
                                       sweetActive: CircleAvatar(
-                                          radius: 26,
+                                          radius: 26.r,
                                           backgroundColor:
                                               ColorManager.blueColor,
-                                          child: const SvgIcon(
-                                              height: 23,
+                                          child: SvgIcon(
+                                              height: 23.h,
                                               icon: AssetsStrings.bed,
                                               color: Colors.white)),
                                       sweetIcon: CircleAvatar(
-                                        radius: 26,
+                                        radius: 26.r,
                                         backgroundColor: ColorManager.blueColor,
-                                        child: const SvgIcon(
-                                          height: 23,
+                                        child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.bed,
                                           color: Colors.white,
                                         ),
@@ -346,19 +416,19 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                     SweetNavBarItem(
                                       isGradient: false,
                                       sweetActive: CircleAvatar(
-                                        radius: 26,
+                                        radius: 26.r,
                                         backgroundColor: ColorManager.blueColor,
-                                        child: const SvgIcon(
-                                          height: 23,
+                                        child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.car,
                                           color: Colors.white,
                                         ),
                                       ),
                                       sweetIcon: CircleAvatar(
-                                        radius: 26,
+                                        radius: 26.r,
                                         backgroundColor: ColorManager.blueColor,
-                                        child: const SvgIcon(
-                                          height: 23,
+                                        child: SvgIcon(
+                                          height: 23.h,
                                           icon: AssetsStrings.car,
                                           color: Colors.white,
                                         ),

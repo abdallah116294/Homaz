@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -14,7 +15,6 @@ class RecentSearchView extends StatelessWidget {
     return Expanded(
       child: Container(
         width: double.infinity,
-        //rgba(12, 14, 17, 1)
         color:const Color(0xff0C0E11) ,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -24,8 +24,8 @@ class RecentSearchView extends StatelessWidget {
                 text: context.translate(LangKeys.history),
                 color: ColorManager.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 18),
-            const SizedBox(height: 10),
+                fontSize: 18.sp),
+             SizedBox(height: 10.h),
             BlocBuilder<SearchCubit,SearchState>(builder: (context, state) {
               if (state is GetRecentSearchSuccess) {
                 return ListView.separated(
@@ -56,12 +56,12 @@ class RecentSearchView extends StatelessWidget {
                                   .toString(),
                               color: ColorManager.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18),
+                              fontSize: 18.sp),
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => const SizedBox(
-                          height: 10,
+                    separatorBuilder: (context, index) =>  SizedBox(
+                          height: 10.h,
                         ),
                     itemCount: state
                         .recentSearchModel.data!.recentSearchHistory.length);
@@ -101,12 +101,12 @@ class RecentSearchView extends StatelessWidget {
                                   .toString(),
                               color: ColorManager.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18),
+                              fontSize: 18.sp),
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => const SizedBox(
-                          height: 10,
+                    separatorBuilder: (context, index) =>  SizedBox(
+                          height: 10.h,
                         ),
                     itemCount:
                         recentSearchModel.data!.recentSearchHistory.length);

@@ -19,15 +19,15 @@ class CustomTabBarType extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 55,
-          width: 219,
+          height: 55.h,
+          width: 219.w,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           margin: const EdgeInsets.symmetric(horizontal: 40),
           decoration: BoxDecoration(
               color: ColorManager.bgColor,
               border: Border.all(
                 color: ColorManager.grey10,
-                width: 1,
+                width: 1.w,
               ),
               borderRadius: BorderRadius.circular(12)),
           child: TabBar(

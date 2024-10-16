@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,17 +102,12 @@ class _SaverButton extends StatelessWidget {
             color: ColorManager.green,
           );
           cubit.profileInfoData();
-          MagicRouter.navigatePop();
+          context.pop();
         } else if (state is UpdatePhoneSuccessState) {
-          context.pushName(AppRoutes.otpView,arguments: {
-            "phone":cubit.controllers.phoneController.text,
-            "navigateFromProfile":true,
+          context.pushName(AppRoutes.otpView, arguments: {
+            "phone": cubit.controllers.phoneController.text,
+            "navigateFromProfile": true,
           });
-          // MagicRouter.navigateTo(
-          //     page: OtpView(
-          //   phone: cubit.controllers.phoneController.text,
-          //   navigateFromProfile: true,
-          // ));
         }
       },
       builder: (context, state) {

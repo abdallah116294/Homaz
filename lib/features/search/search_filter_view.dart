@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
@@ -25,16 +27,17 @@ class _SearchFilterViewState extends State<SearchFilterView> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 30,),
           child: Column(children: [
+            SizedBox(height: 20.h),
             CustomText(
-                text: 'Search Filter',
+                text:context.translate(LangKeys.search_filter),
                 color: ColorManager.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 14),
-            SizedBox(height: 20.h),
+                fontSize: 16.sp),
+            //SizedBox(height: 20.h),
             SearchTextField(
-              hint: 'Search',
+              hint: context.translate(LangKeys.search),
               controller: searchController,
               onFieldSubmitted: (String value) {
                 setState(() {
@@ -65,13 +68,13 @@ class _SearchFilterViewState extends State<SearchFilterView> {
                           ],
                           tabs: [
                             CustomText(
-                              text: "Rent",
+                              text: context.translate(LangKeys.rent),
                               color: ColorManager.white,
                               fontWeight: FontWeight.w400,
                               fontSize: 16.sp,
                             ),
                             CustomText(
-                              text: "Buy",
+                              text: context.translate(LangKeys.buy),
                               color: ColorManager.white,
                               fontWeight: FontWeight.w400,
                               fontSize: 16.sp,

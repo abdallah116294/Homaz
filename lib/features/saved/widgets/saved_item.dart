@@ -1,17 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
+import 'package:homez/features/appartment_details/widgets/dialog_alert_widget.dart';
 import 'package:homez/features/details/widgets/icon_text.dart';
 import 'package:homez/features/saved/cubit/favorite_cubit.dart';
 import 'package:homez/injection_container.dart' as di;
 
 class SavedItem extends StatelessWidget {
-  const SavedItem({super.key, required this.apartment,required this.oTap});
+  const SavedItem({super.key, required this.apartment, required this.oTap});
   // final String maniImage;
   // final String name;
   // final int buy_price;
@@ -19,8 +25,15 @@ class SavedItem extends StatelessWidget {
   final VoidCallback oTap;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<FavoriteCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<FavoriteCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<AppartmentDetailsCubit>(),
+        ),
+      ],
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
@@ -47,14 +60,14 @@ class SavedItem extends StatelessWidget {
                   top: 10,
                   right: 10,
                   child: GestureDetector(
-                    onTap:oTap ,
+                    onTap: oTap,
                     child: CircleAvatar(
                       radius: 25.r,
                       backgroundColor: ColorManager.black2,
                       child: SvgIcon(
                         icon: AssetsStrings.heartFillRed,
                         color: ColorManager.red,
-                        height: 22,
+                        height: 22.h,
                       ),
                     ),
                   ),
@@ -92,23 +105,70 @@ class SavedItem extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 18.r,
-                            backgroundColor: ColorManager.mainColor,
-                            child: SvgIcon(
-                              icon: AssetsStrings.send,
-                              color: ColorManager.white,
-                              height: 20,
-                            ),
+                          BlocConsumer<AppartmentDetailsCubit,
+                              AppartmentDetailsState>(
+                            listener: (context, state) {
+                              if (state is CreateChatSuccess) {
+                                log("First Navigate");
+                                context
+                                    .pushName(AppRoutes.chatScreen, arguments: {
+                                  "chatName": apartment.name.toString(),
+                                  "imageUrl": apartment.mainImage.toString(),
+                                  "roomId":
+                                      state.createChatSuccessful.data!.chat!.id
+                                });
+                              } else if (state is ChatStatusChanged) {
+                                if (state.hasAlreadyChats.isNotEmpty) {
+                                  log("Second Navigate");
+                                  final chat = state.hasAlreadyChats.firstWhere(
+                                      (chat) =>
+                                          chat.aparmentId == apartment.id);
+                                  final roomId = chat.chatId;
+                                  log(apartment.images.toString());
+                                  context.pushName(AppRoutes.chatScreen,
+                                      arguments: {
+                                        "chatName": apartment.name.toString(),
+                                        "imageUrl":
+                                            apartment.mainImage.toString(),
+                                        "roomId": roomId
+                                      });
+                                }
+                              }
+                            },
+                            builder: (context, state) {
+                              return GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<AppartmentDetailsCubit>()
+                                      .checkIfIsHasChat(
+                                          apartmentId: apartment.id!);
+                                },
+                                child: CircleAvatar(
+                                  radius: 18.r,
+                                  backgroundColor: ColorManager.mainColor,
+                                  child: SvgIcon(
+                                    icon: AssetsStrings.send,
+                                    color: ColorManager.white,
+                                    height: 30.h,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                           6.horizontalSpace,
-                          CircleAvatar(
-                            radius: 18.r,
-                            backgroundColor: ColorManager.mainColor,
-                            child: SvgIcon(
-                              icon: AssetsStrings.phone,
-                              color: ColorManager.white,
-                              height: 20,
+                          GestureDetector(
+                            onTap: () {
+                              CallModelBottomSheet.callAction(context,
+                                  apartment.contact.first.phone.toString());
+                            },
+                            child: CircleAvatar(
+                              radius: 18.r,
+                              backgroundColor: ColorManager.mainColor,
+                              child: SvgIcon(
+                                icon: AssetsStrings.phone,
+                                color: ColorManager.white,
+                                height: 30.h,
+                              ),
                             ),
                           )
                         ],

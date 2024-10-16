@@ -23,5 +23,24 @@
     "old_password":"Old Password",
    "new_password":"New Password",
    "new_password_confirmation":"New Password Confirmation ",
-   "change":"Change"
+   "change":"Change",
+   "network_check":"Check your internet connection and try again",
+   "read_more":"Read More",
+   "read_less":"Read Less",
+   "rent":"Rent",
+   "buy":"Buy",
+   "search_filter":"Search Filter",
+   "property_type":"Property Type",
+   "badrooms":"Bedrooms",
+   "bathrooms":"Bathrooms",
+   "furnishing":"Furnishing",
+   "amenities":"Amenities",
+   "price_range":"Price Range",
+   "show_all_result":"Show All Result",
+   "properties":"properties",
+   "please_enter_search_key":"Please enter search key",
+   "search_result":"Search Result"
+
+
+
 }

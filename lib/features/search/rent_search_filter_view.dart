@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
@@ -47,12 +48,6 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
               context.pushName(AppRoutes.searchresultScreen, arguments: {
                 "apartment": state.searchResultModel.data!.apartment!
               });
-              //context.pushName(AppRoutes.searchScreenView,arguments: widget.searchString);
-              // MagicRouter.navigateTo(
-              //     page: BlocProvider(
-              //   create: (context) => di.sl<SearchCubit>(),
-              //   child: SearchScreenViews(searchString: widget.searchString),
-              // ));
             }
           }
         },
@@ -122,63 +117,71 @@ class _RentSearchFilterViewState extends State<RentSearchFilterView> {
                               height: 20.h,
                             ),
                             CustomElevated(
-                                text: 'Show All Results',
+                                text:
+                                    context.translate(LangKeys.show_all_result),
                                 press: () {
-                                  log(widget.searchString.toString());
-                                  if (widget.index == 1) {
-                                    log(hasFurnishedSelected.toString());
-                                    // log("Range Price Values $selectedRangeValues");
-                                    List<int>? amenitiesIds =
-                                        amentiasSelected != null
-                                            ? [amentiasSelected!]
-                                            : null;
-                                    List<int>? categoryIds =
-                                        _selectedPropertyTypeIndex != null
-                                            ? [_selectedPropertyTypeIndex!]
-                                            : null;
-                                    context
-                                        .read<SearchCubit>()
-                                        .FilterSearch(
-                                          search_string: widget.searchString,
-                                          category_ids: categoryIds,
-                                          amenities_id: amenitiesIds,
-                                          has_furnished: hasFurnishedSelected,
-                                          max_price: maxPrice,
-                                          min_price: minPrice,
-                                          type: "rent",
-                                        )
-                                        .then((value) {
-                                      context
-                                          .read<SearchCubit>()
-                                          .getDataInSearch();
-                                    });
+                                  if (widget.searchString.isEmpty) {
+                                    showMessage(
+                                        message: context.translate(
+                                            LangKeys.please_enter_search_key),
+                                        color: ColorManager.red);
                                   } else {
-                                    log(hasFurnishedSelected.toString());
-                                    // log("Range Price Values $selectedRangeValues");
-                                    List<int>? amenitiesIds =
-                                        amentiasSelected != null
-                                            ? [amentiasSelected!]
-                                            : null;
-                                    List<int>? categoryIds =
-                                        _selectedPropertyTypeIndex != null
-                                            ? [_selectedPropertyTypeIndex!]
-                                            : null;
-                                    context
-                                        .read<SearchCubit>()
-                                        .FilterSearch(
-                                          search_string: widget.searchString,
-                                          category_ids: categoryIds,
-                                          amenities_id: amenitiesIds,
-                                          has_furnished: hasFurnishedSelected,
-                                          max_price: maxPrice,
-                                          min_price: minPrice,
-                                          type: "buy",
-                                        )
-                                        .then((value) {
+                                    log(widget.searchString.toString());
+                                    if (widget.index == 1) {
+                                      log(hasFurnishedSelected.toString());
+                                      // log("Range Price Values $selectedRangeValues");
+                                      List<int>? amenitiesIds =
+                                          amentiasSelected != null
+                                              ? [amentiasSelected!]
+                                              : null;
+                                      List<int>? categoryIds =
+                                          _selectedPropertyTypeIndex != null
+                                              ? [_selectedPropertyTypeIndex!]
+                                              : null;
                                       context
                                           .read<SearchCubit>()
-                                          .getDataInSearch();
-                                    });
+                                          .FilterSearch(
+                                            search_string: widget.searchString,
+                                            category_ids: categoryIds,
+                                            amenities_id: amenitiesIds,
+                                            has_furnished: hasFurnishedSelected,
+                                            max_price: maxPrice,
+                                            min_price: minPrice,
+                                            type: "rent",
+                                          )
+                                          .then((value) {
+                                        context
+                                            .read<SearchCubit>()
+                                            .getDataInSearch();
+                                      });
+                                    } else {
+                                      log(hasFurnishedSelected.toString());
+                                      // log("Range Price Values $selectedRangeValues");
+                                      List<int>? amenitiesIds =
+                                          amentiasSelected != null
+                                              ? [amentiasSelected!]
+                                              : null;
+                                      List<int>? categoryIds =
+                                          _selectedPropertyTypeIndex != null
+                                              ? [_selectedPropertyTypeIndex!]
+                                              : null;
+                                      context
+                                          .read<SearchCubit>()
+                                          .FilterSearch(
+                                            search_string: widget.searchString,
+                                            category_ids: categoryIds,
+                                            amenities_id: amenitiesIds,
+                                            has_furnished: hasFurnishedSelected,
+                                            max_price: maxPrice,
+                                            min_price: minPrice,
+                                            type: "buy",
+                                          )
+                                          .then((value) {
+                                        context
+                                            .read<SearchCubit>()
+                                            .getDataInSearch();
+                                      });
+                                    }
                                   }
                                 },
                                 btnColor: ColorManager.mainColor)

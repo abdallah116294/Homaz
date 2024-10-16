@@ -14,8 +14,11 @@ import 'package:homez/features/login/view.dart';
 import 'package:homez/features/notification/notification_view.dart';
 import 'package:homez/features/on_boarding/view.dart';
 import 'package:homez/features/otp/view.dart';
+import 'package:homez/features/profile_details/enter_password_to_delete_account_view.dart';
 import 'package:homez/features/profile_details/profile_details.dart';
+import 'package:homez/features/profile_details/profile_details_cubit.dart';
 import 'package:homez/features/register/view.dart';
+import 'package:homez/features/reset_password/view.dart';
 import 'package:homez/features/search/data/models/search_result_model.dart';
 import 'package:homez/features/search/search_filter_view.dart';
 import 'package:homez/features/search/search_result_screen.dart';
@@ -47,6 +50,9 @@ class AppRoutes {
   static const String aboutHomzPage = "AboutHomzPage";
   static const String searchFilter = "SearchFilterView";
   static const String searchresultScreen = "SearchResultScreen";
+  static const String enterPasswordToDeleteAccountView =
+      "EnterPasswordToDeleteAccountView";
+  static const String resetPasswordView = "ResetPasswordView";
 
   static BuildContext currentContext = navigatorKey.currentContext!;
   static Route? onGenerateRoute(RouteSettings settings) {
@@ -97,9 +103,10 @@ class AppRoutes {
       case registerView:
         return BaseRoute(page: const RegisterView());
       case forgetPasswordView:
+        final fogetPasswordArgs = args as Map<String, dynamic>?;
         return BaseRoute(
             page: ForgetPasswordViews(
-          phone: args as String,
+          phone: fogetPasswordArgs?['phone'] as String?,
         ));
       case takeALookView:
         return BaseRoute(page: TakeLookScreen(id: args as int));
@@ -130,7 +137,23 @@ class AppRoutes {
         ));
       case searchresultScreen:
         final searchScreenArgs = args as Map<String, dynamic>;
-        return BaseRoute(page: SearchResultScreen(apartment:searchScreenArgs['apartment']! as Apartment ,));
+        return BaseRoute(
+            page: SearchResultScreen(
+          apartment: searchScreenArgs['apartment']! as Apartment,
+        ));
+      case enterPasswordToDeleteAccountView:
+        return BaseRoute(
+            page: BlocProvider(
+          create: (context) => di.sl<ProfileDetailsCubit>(),
+          child: EnterPasswordToDeleteAccountView(),
+        ));
+      case resetPasswordView:
+        final resetpassewordArg = args as Map<String, dynamic>;
+        return BaseRoute(
+            page: ResetPasswordView(
+          phone: resetpassewordArg['phone'] as String,
+          otp: resetpassewordArg['otp'] as String,
+        ));
       default:
         return null;
     }

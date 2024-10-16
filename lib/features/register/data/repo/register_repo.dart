@@ -91,12 +91,16 @@ class RegisterRepo {
             'provider_id': result.user!.uid,
           });
           final apiResponse =
-              await apiConsumer.post(ApiConstants.register, body: formData);
+              await apiConsumer.post(ApiConstants.register, body: formData,);
           log('Register with google response:${apiResponse.data}');
           if (apiResponse.statusCode == 200) {
             log('Handle successful sign-in');
             return Right(RegisterUserSuccess.fromJson(apiResponse.data));
-          } else {
+          }else if(apiResponse.statusCode == 302){
+          log('Redirect detected, possible error: Email already registered');
+          return Left(ServerFailure("The email has already been taken."));
+          }
+           else {
             log('Handle sign-in failure: ${apiResponse.data}');
             return Left(ServerFailure(apiResponse.data));
           }

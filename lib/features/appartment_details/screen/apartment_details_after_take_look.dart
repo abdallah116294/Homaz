@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
@@ -27,7 +28,8 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<AppartmentDetailsCubit>(),
+      create: (context) => di.sl<AppartmentDetailsCubit>()
+        ..checkIfIsFavorite(id: takeLookData.data!.apartments!.id!),
       child: BlocConsumer<AppartmentDetailsCubit, AppartmentDetailsState>(
         listener: (context, state) {
           if (state is AddToFavoriteSuccess) {
@@ -41,9 +43,21 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
           } else if (state is CreateChatSuccess) {
             context.pushName(AppRoutes.chatScreen, arguments: {
               "chatName": takeLookData.data!.apartments!.name.toString(),
-              "imageUrl": takeLookData.data!.apartments!.images.toString(),
+              "imageUrl": takeLookData.data!.apartments!.mainImage.toString(),
               "roomId": state.createChatSuccessful.data!.chat!.id
             });
+          } else if (state is ChatStatusChanged) {
+            if (state.hasAlreadyChats.isNotEmpty) {
+              final chat = state.hasAlreadyChats.firstWhere((chat) =>
+                  chat.aparmentId == takeLookData.data!.apartments!.id);
+              final roomId = chat.chatId;
+              log(takeLookData.data!.apartments!.images.toString());
+              context.pushName(AppRoutes.chatScreen, arguments: {
+                "chatName": takeLookData.data!.apartments!.name.toString(),
+                "imageUrl": takeLookData.data!.apartments!.mainImage.toString(),
+                "roomId": roomId
+              });
+            }
           }
         },
         builder: (context, state) {
@@ -57,7 +71,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
                   onPressed: () {
-                    MagicRouter.navigatePop();
+                    context.pop();
                   },
                 ),
                 backgroundColor: const Color.fromRGBO(161, 161, 161, 1),
@@ -121,22 +135,43 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                                 color: ColorManager.white,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.sp),
-                            GestureDetector(
-                              onTap: () {
-                                log("Apartment Id:${takeLookData.data!.apartments!.id!}");
-                                context
-                                    .read<AppartmentDetailsCubit>()
-                                    .addToFavorite(
-                                        id: takeLookData.data!.apartments!.id!);
+                            BlocBuilder<AppartmentDetailsCubit,
+                                AppartmentDetailsState>(
+                              builder: (context, state) {
+                                return state is FavoriteStatusChanged
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          log("Apartment Id:${takeLookData.data!.apartments!.id!}");
+                                          context
+                                              .read<AppartmentDetailsCubit>()
+                                              .addToFavorite(
+                                                  id: takeLookData
+                                                      .data!.apartments!.id!)
+                                              .then((value) {
+                                            context
+                                                .read<AppartmentDetailsCubit>()
+                                                .checkIfIsFavorite(
+                                                    id: takeLookData
+                                                        .data!.apartments!.id!);
+                                          });
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundColor: Colors.black,
+                                          child: SvgIcon(
+                                            icon: state.isAlreadyFavorite
+                                                    .isNotEmpty
+                                                ? AssetsStrings.heartFillRed
+                                                : AssetsStrings.favorite,
+                                            color: state.isAlreadyFavorite
+                                                    .isNotEmpty
+                                                ? Colors.red
+                                                : Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox();
                               },
-                              child: const CircleAvatar(
-                                radius: 20,
-                                backgroundColor: Colors.black,
-                                child: SvgIcon(
-                                  icon: AssetsStrings.favorite,
-                                  color: Colors.white,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -183,23 +218,32 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                               child: CustomElevated(
                                   text: context.translate(LangKeys.call),
                                   press: () {
-                                    CallModelBottomSheet.callAction(context);
+                                    CallModelBottomSheet.callAction(
+                                        context,
+                                        takeLookData.data!.apartments!.contact
+                                            .first.phone
+                                            .toString());
                                   },
                                   btnColor: ColorManager.mainColor),
                             ),
-                            SizedBox(
-                              height: 41.h,
-                              width: 140.w,
-                              child: CustomElevated(
-                                  text: context.translate(LangKeys.message),
-                                  press: () {
-                                    context
-                                        .read<AppartmentDetailsCubit>()
-                                        .createChat(
-                                            apartmentId: takeLookData
-                                                .data!.apartments!.id!);
-                                  },
-                                  btnColor: ColorManager.mainColor),
+                            BlocBuilder<AppartmentDetailsCubit,
+                                AppartmentDetailsState>(
+                              builder: (context, state) {
+                                return SizedBox(
+                                  height: 41.h,
+                                  width: 140.w,
+                                  child: CustomElevated(
+                                      text: context.translate(LangKeys.message),
+                                      press: () {
+                                        context
+                                            .read<AppartmentDetailsCubit>()
+                                            .checkIfIsHasChat(
+                                                apartmentId: takeLookData
+                                                    .data!.apartments!.id!);
+                                      },
+                                      btnColor: ColorManager.mainColor),
+                                );
+                              },
                             )
                           ],
                         )

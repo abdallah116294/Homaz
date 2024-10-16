@@ -82,7 +82,7 @@ class DioManager implements ApiConsumer {
     try {
       final response = await dio.post(path,
           data: body,
-          options: Options(headers: header),
+          options: Options(headers: header,followRedirects: false,validateStatus: (status)=>status! < StatusCode.internalServerError),
           queryParameters: queryParameters);
       return response;
       // return _handleResponseAsJson(response);

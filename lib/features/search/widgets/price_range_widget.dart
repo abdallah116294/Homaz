@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
@@ -34,16 +36,16 @@ class _PriceRangeWidgetState extends State<PriceRangeWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
             decoration: BoxDecoration(
               color: ColorManager.grey12,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             child: Column(
               children: [
                 Row(
                   children: [
-                    SvgIcon(icon: 'assets/icons/price_range.svg', color: ColorManager.white),
+                    SvgIcon(icon: 'assets/icons/price_range.svg', color: ColorManager.white,height: 20.h,),
                     SizedBox(width: 6.w,),
                     CustomText(
-                        text: 'Price Range ',
+                        text: context.translate(LangKeys.price_range),
                         color: ColorManager.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp)

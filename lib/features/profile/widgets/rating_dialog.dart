@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
+import 'package:homez/core/widgets/circle_image.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
 class RatingAlertDialog {
@@ -20,13 +22,13 @@ class RatingAlertDialog {
     message:  Text(
       'Tap a star to set your rating. Add more description here if you want.',
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 15,color:ColorManager.white),
+      style: TextStyle(fontSize: 15.sp,color:ColorManager.white),
     ),
     // your app's logo?
     image: Image.asset(
       "assets/images/app_production_icon.png",
-      height: 100,
-      width: 100,
+      height: 100.h,
+      width: 100.w,
     ),
     submitButtonText: 'Submit',
     commentHint: 'Set your custom comment hint',

@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:homez/core/error/failures.dart';
@@ -42,10 +41,9 @@ class ProfileDetailsRepo {
         "fullname": fullName,
         "image": image != null ? await convertImage(image) : null,
       };
-         bodyData.removeWhere((key, value) => value == null);
+      bodyData.removeWhere((key, value) => value == null);
       final response = await apiConsumer.post(ApiConstants.updateProfile,
-          body: FormData.fromMap(
-             bodyData));
+          body: FormData.fromMap(bodyData));
       if (response.statusCode == 200) {
         return Right(ProfileDataModel.fromJson(response.data));
       } else {
@@ -85,6 +83,25 @@ class ProfileDetailsRepo {
       if (response.statusCode == 200) {
         return Right(ProfileDataModel.fromJson(response.data));
       } else {
+        return Left(ServerFailure(response.data));
+      }
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure('An unknown error: $e'));
+    }
+  }
+
+  Future<Either<Failure, ProfileDataModel>> deleteAccount(
+      {required String password})async {
+    try {
+      final response =await apiConsumer.post(ApiConstants.deleteAccount,body: FormData.fromMap({
+        "password":password
+      }));
+      if(response.statusCode==200){
+        return Right(ProfileDataModel.fromJson(response.data));
+      }else{
         return Left(ServerFailure(response.data));
       }
     } catch (e) {

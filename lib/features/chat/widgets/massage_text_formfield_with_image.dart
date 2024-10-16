@@ -46,7 +46,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               // Display images if available
               if (widget.images.isNotEmpty) ...[
                 SizedBox(
-                  height: 80,
+                  height: 80.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: widget.images.length,
@@ -58,8 +58,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                             borderRadius: BorderRadius.circular(12),
                             child: Image.file(
                               widget.images[index] as File,
-                              width: 80,
-                              height: 80,
+                              width: 80.w,
+                              height: 80.w,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -87,7 +87,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                     }
                   ),
                 ),
-                const SizedBox(height: 8),
+                 SizedBox(height: 8.h),
               ],
               Theme(
                 data: Theme.of(context).copyWith(
@@ -128,9 +128,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                   if (widget.imageButton != null) widget.imageButton!,
-                  10.horizontalSpace,
-                   widget.sendButton!,
-              
+                   10.horizontalSpace,
+                   //Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8) ,child:widget.sendButton!)
+                  Center(child:widget.sendButton!,),
               ],
             ),
           ),

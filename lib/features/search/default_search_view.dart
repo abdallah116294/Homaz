@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
@@ -46,36 +47,33 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
           return Scaffold(
               backgroundColor: ColorManager.bgColor,
               body: SafeArea(
-                child: Column(children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                   Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            width: size.width * .7,
-                            color: ColorManager.bgColor,
-                            child: SearchTextField(
-                              hint: context.translate(LangKeys.search),
-                              controller: searchController,
-                              onFieldSubmitted: (value) {
-                                context
-                                    .read<SearchCubit>()
-                                    .defulateSearch(keyword: value);
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Container(
+                              width: size.width * .8,
+                              decoration:BoxDecoration(
+                               shape: BoxShape.rectangle ,
+                              // color: ColorManager.grey11
+                              ),
+                              child: SearchTextField(
+                              onPressed: (){
+                                 context.pushName(AppRoutes.searchFilter,arguments: {
+                                    "searchController":searchController
+                                  });
                               },
-                            )),
-                        Center(
-                          child: IconButton(
-                              onPressed: () {
-                                context.pushName(AppRoutes.searchFilter,arguments: {
-                                  "searchController":searchController
-                                });
-                                // ModalBottomSheet.searchFilter(context,searchController);
-                              },
-                              icon: const Icon(Icons.filter_alt_outlined)),
-                        ),
-                      ],
+                                hint: context.translate(LangKeys.search),
+                                controller: searchController,
+                                onFieldSubmitted: (value) {
+                                  context
+                                      .read<SearchCubit>()
+                                      .defulateSearch(keyword: value);
+                                },
+                              )),
                     ),
                   ),
                   if (state is GetRecentSearchSuccess) ...[
@@ -95,11 +93,6 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
                                       "apartmentId": state.searchResultModel
                                           .data!.apartment!.data[index].id,
                                     });
-                                // MagicRouter.navigateTo(
-                                //     page: ApartmentDetailsScreen(
-                                //   apartmentId: state.searchResultModel.data!
-                                //       .apartment!.data[index].id!,
-                                // ));
                               },
                               child: SearchItemWidget(
                                   oTap: () async {
@@ -117,7 +110,7 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
                                       .data[index]));
                         },
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
+                             SizedBox(height: 10.h),
                         itemCount: state
                             .searchResultModel.data!.apartment!.data.length,
                       ),

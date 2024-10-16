@@ -15,7 +15,7 @@ import path_provider_foundation
 import shared_preferences_foundation
 import sign_in_with_apple
 import smart_auth
-import sqflite
+import sqflite_darwin
 import url_launcher_macos
 import video_player_avfoundation
 

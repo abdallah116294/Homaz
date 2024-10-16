@@ -271,12 +271,6 @@ class _RegisterButton extends StatelessWidget {
             "navigateFromForget":false,
             "navigateFromProfile":false,
           });
-          // MagicRouter.navigateTo(
-          //   page: OtpView(
-          //     phone: cubit.controllers.phoneController.text,
-          //   ),
-          //   withHistory: false,
-          // );
         }
       },
       builder: (context, state) {
@@ -291,10 +285,6 @@ class _RegisterButton extends StatelessWidget {
           text: "Sign Up",
           press: () {
             cubit.register();
-            // MagicRouter.navigateTo(
-            //   page: const NavBarView(),
-            //   withHistory: false,
-            // );
           },
           btnColor: ColorManager.mainColor,
         );
@@ -337,12 +327,6 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                    });                  // context.pushName(AppRoutes.otpView, arguments: {
                   //   "phone": state.registerUserSuccess.data!.user!.phone!,
                   // });
-                  // MagicRouter.navigateTo(
-                  //   page: OtpView(
-                  //     phone: state.registerUserSuccess.data!.user!.phone!,
-                  //   ),
-                  //   withHistory: false,
-                  // );
                 }
               },
               builder: (context, state) {
@@ -380,11 +364,7 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                   color: ColorManager.red,
                 );
               } else if (state is RegisterWithAppleSuccessState) {
-                context.pushName(AppRoutes.landingViews);
-                // MagicRouter.navigateTo(
-                //   page: const LandingScreenViews(),
-                //   withHistory: false,
-                // );
+                context.pushReplacementNamed(AppRoutes.landingViews);
               }
             }, builder: (context, state) {
               return Expanded(

@@ -25,7 +25,7 @@ class ProfileItem extends StatelessWidget {
       leading: SvgIcon(
         icon: icon,
         color: ColorManager.white,
-        height: 25,
+        height: 25.h,
       ),
       title: CustomText(
         text: text,

@@ -21,7 +21,7 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
         backgroundColor: ColorManager.bgColor,
         title:  CustomText(text:'About Homz',color: ColorManager.white,fontSize: 16.sp,fontWeight: FontWeight.bold,),
         leading: IconButton(
-          icon:  Icon(Icons.arrow_back,color: ColorManager.white,),
+          icon:  Icon(Icons.arrow_back,color: ColorManager.white,size: 24.sp,),
           onPressed: () => context.pop(),
         ),
       ),
@@ -71,9 +71,9 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
          decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(60.0), 
+          borderRadius: BorderRadius.circular(60.0.r), 
           border: Border.all( 
-            width: 2.0, 
+            width: 2.0.w, 
           ),
         ),
         child: ExpansionTile(
@@ -87,9 +87,10 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
           backgroundColor: Colors.grey[850], 
           title: Text(
             title,
-            style: const TextStyle(
+            style:  TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontSize:16.sp
             ),
           ),
           iconColor: ColorManager.mainColor, 
@@ -99,8 +100,9 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 content,
-                style: const TextStyle(
+                style:  TextStyle(
                   color: Colors.white70, 
+                  fontSize:16.sp
                 ),
               ),
             ),

@@ -88,11 +88,6 @@ class _SearchScreenWithFilterState extends State<SearchScreenWithFilter> {
                               onTap: () {
                                 context
                                     .pushName(AppRoutes.apartmentDetailsView,arguments: state.searchResultModel.data!.apartment!.data[index]);
-                                // MagicRouter.navigateTo(
-                                //     page: ApartmentDetailsScreen(
-                                //   apartmentId: state.searchResultModel.data!
-                                //       .apartment!.data[index].id!,
-                                // ));
                               },
                               child: SearchItemWidget(
                                   oTap: () async {

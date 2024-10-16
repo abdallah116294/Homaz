@@ -47,8 +47,7 @@ successDialog({required BuildContext context}) {
               CustomElevated(
                 text: "Continue",
                 press: () {
-                  context.pushName(AppRoutes.loginView);
-                  //   MagicRouter.navigateTo(page: const LoginView(), withHistory: false);
+                  context.pushReplacementNamed(AppRoutes.loginView);
                 },
                 btnColor: ColorManager.mainColor,
               ),

@@ -12,21 +12,73 @@ import 'package:homez/features/home/components/tab_bar_widget.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'components/main_tabs_with_body.dart';
 import 'home_cubit.dart';
+import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 
-class HomeScreenView extends StatelessWidget {
+class HomeScreenView extends StatefulWidget {
   const HomeScreenView({super.key});
 
   @override
+  State<HomeScreenView> createState() => _HomeScreenViewState();
+}
+
+class _HomeScreenViewState extends State<HomeScreenView> {
+  //  bool isLoaded = true;
+  // Future fetchData() async {
+  //   final cubit = context.read<HomeCubit>();
+  //   try {
+  //     Future.wait({cubit.getHomeData()});
+  //   } catch (e) {
+  //     print(e);
+  //   }finally{
+  //     setState(() {
+  //       isLoaded = false;
+  //     });
+  //   }
+  // }
+  //   @override
+  // void didChangeDependencies() {
+  //   if (isLoaded) {
+  //     fetchData();
+  //   }
+  //   super.didChangeDependencies();
+  // }
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<HomeCubit>()..getHomeData(),
+      create: (context) => di.sl<HomeCubit>(),
       child: const HomeScreenBody(),
     );
   }
 }
 
-class HomeScreenBody extends StatelessWidget {
+class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
+
+  @override
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<HomeScreenBody> {
+  bool isLoaded = true;
+  Future fetchData() async {
+    final cubit = context.read<HomeCubit>();
+    try {
+      Future.wait({cubit.getHomeData()});
+    } catch (e) {
+      print(e);
+    }finally{
+      setState(() {
+        isLoaded = false;
+      });
+    }
+  }
+    @override
+  void didChangeDependencies() {
+    if (isLoaded) {
+      fetchData();
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +121,8 @@ class HomeScreenBody extends StatelessWidget {
                   } else if (state is HomeDataSuccessState) {
                     return ListView(
                       children: [
-                        MainTabsWithBody(homeData: state.homeData.data!),
+                         BlocProvider(create:(context)=>di.sl<AppartmentDetailsCubit>() ,child:MainTabsWithBody(homeData: state.homeData.data!),),
+                       // MainTabsWithBody(homeData: state.homeData.data!),
                         DefaultTabController(
                           length: state.homeData.data!.categories.length,
                           child: TabBarWidget(
@@ -91,7 +144,8 @@ class HomeScreenBody extends StatelessWidget {
                   final homedata = cubit.homeData!.data!;
                   return ListView(
                     children: [
-                      MainTabsWithBody(homeData: homedata),
+                      BlocProvider(create:(context)=>di.sl<AppartmentDetailsCubit>() ,child:MainTabsWithBody(homeData: homedata),),
+                      //MainTabsWithBody(homeData: homedata),
                       DefaultTabController(
                         length: homedata.categories.length,
                         child: TabBarWidget(

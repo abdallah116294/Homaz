@@ -30,9 +30,6 @@ class RegisterLineWidget extends StatelessWidget {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 context.pushName(AppRoutes.registerView);
-                // MagicRouter.navigateTo(
-                //   page: const RegisterView(),
-                // );
               },
           ),
         ],

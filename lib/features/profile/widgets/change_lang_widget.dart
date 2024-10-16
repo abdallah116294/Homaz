@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
@@ -41,16 +43,16 @@ class _ChangeLangWidgetState extends State<ChangeLangWidget> {
                       isArabicSelected = false; // Set to English
                       // Change to English
                     });
-                     MagicRouter.navigatePop();
+                    context.pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isArabicSelected
                         ? Colors.grey
                         : Colors.blue, // Color based on selection
                   ),
-                  child:const  Text('English'),
+                  child:  Text('English',style: TextStyle(color: Colors.white,fontSize: 16.sp)),
                 ),
-                const SizedBox(width: 10),
+                 SizedBox(width: 10.w),
                 ElevatedButton(
                   onPressed: () {
                     context.read<AppCubit>().toggleLanguage();
@@ -58,14 +60,14 @@ class _ChangeLangWidgetState extends State<ChangeLangWidget> {
                       isArabicSelected = true; // Set to Arabic
                       // _changeLanguage(Locale('ar', '')); // Change to Arabic
                     });
-                    MagicRouter.navigatePop();
+                  context.pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isArabicSelected
                         ? Colors.blue
                         : Colors.grey, // Color based on selection
                   ),
-                  child:const  Text('العربية'),
+                  child:  Text('العربية',style: TextStyle(color: Colors.white,fontSize: 16.sp)),
                 ),
               ],
             )

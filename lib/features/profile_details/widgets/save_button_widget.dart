@@ -40,17 +40,12 @@ class SaverButton extends StatelessWidget {
             color: ColorManager.green,
           );
           cubit.profileInfoData();
-          MagicRouter.navigatePop();
+          context.pop();
         } else if (state is UpdatePhoneSuccessState) {
           context.pushName(AppRoutes.otpView, arguments: {
             "phone": cubit.controllers.phoneController.text,
             "navigateFromProfile": true,
           });
-          // MagicRouter.navigateTo(
-          //     page: OtpView(
-          //   phone: cubit.controllers.phoneController.text,
-          //   navigateFromProfile: true,
-          // ));
         }
       },
       builder: (context, state) {

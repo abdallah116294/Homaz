@@ -101,8 +101,7 @@ class _ChangePasswordBody extends StatelessWidget {
                         message: "Password Updated Successfully",
                         color: ColorManager.green,
                       );
-                      context.pushName(AppRoutes.landingViews);
-                      // MagicRouter.navigateTo(page: const LandingScreenViews());
+                      context.pushReplacementNamed(AppRoutes.landingViews);
                     }
                   },
                   builder: (context, state) {

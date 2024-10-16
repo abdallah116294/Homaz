@@ -4,11 +4,16 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/error/failures.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/helpers/cache_helper.dart';
 import 'package:homez/core/helpers/either_extension.dart';
 import 'package:homez/core/models/profile_data_model.dart';
 import 'package:homez/features/profile_details/data/repo/profile_repo.dart';
 import 'package:homez/features/register/controller.dart';
+import 'package:homez/features/search/default_search_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 
@@ -110,6 +115,19 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
       }, (r) => emit(UpdateProfileSuccessState()));
     } catch (e) {
       emit(UpdateProfileFailedState(msg: e.toString()));
+    }
+  }
+
+  Future<void> deleteAccount({required String password}) async {
+    emit(DeleteAccountLoadingState());
+    try {
+      final response = await profileRepo.deleteAccount(password: password);
+      response.fold((l) => emit(DeleteAccountFailedState(l.toString())), (r) {
+        CacheHelper.removeToken();
+        emit(DeleteAccountSuccessState(r));
+      });
+    } catch (e) {
+      emit(DeleteAccountFailedState(e.toString()));
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,7 +125,8 @@ class _VerifyOtpButton extends StatelessWidget {
   String? phone, email;
   final bool navigateFromForget;
   final bool navigateFromProfile;
-
+  int statePhone = 0;
+  int stateOtp = 0;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OtpCubit, OtpStates>(
@@ -139,20 +142,31 @@ class _VerifyOtpButton extends StatelessWidget {
               message: "Phone Updated Successfully",
               color: ColorManager.green,
             );
-            MagicRouter.navigateReplacement(
-              page: const LandingScreenViews(),
+            context.pushReplacementNamed(
+              AppRoutes.landingViews,
             );
           } else if (navigateFromForget) {
-            navigateFromForget
-                ? MagicRouter.navigateReplacement(
-                    page: ResetPasswordView(
-                      phone: phone!,
-                      otp: otpCubit.otpController.text,
-                    ),
-                  )
-                : MagicRouter.navigateReplacement(
-                    page: const LoginView(),
-                  );
+            log(state.confirmeCodeSuccess.message.toString());
+            showMessage(
+              message: "Code Verified Successfully",
+              color: ColorManager.green,
+            );
+            context
+                .pushReplacementNamed(AppRoutes.resetPasswordView, arguments: {
+              "phone": phone,
+              "otp": otpCubit.otpController.text,
+            });
+          } else if (state is CheckCodeSuccessState) {
+            log(state.confirmeCodeSuccess.message.toString());
+            showMessage(
+              message: "Code Verified Successfully",
+              color: ColorManager.green,
+            );
+            context
+                .pushReplacementNamed(AppRoutes.resetPasswordView, arguments: {
+              "phone": phone,
+              "otp": otpCubit.otpController.text,
+            });
           } else {
             showMessage(
               message: "Code Verified Successfully",
@@ -169,6 +183,12 @@ class _VerifyOtpButton extends StatelessWidget {
               color: ColorManager.mainColor,
             ),
           );
+        } else if (state is CheckCodeIsLoading) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: ColorManager.red,
+            ),
+          );
         }
         return CustomElevated(
           text: "Continue",
@@ -182,12 +202,36 @@ class _VerifyOtpButton extends StatelessWidget {
               if (navigateFromProfile) {
                 otpCubit.updatePhone(phone: phone!);
               } else {
-                navigateFromForget
-                    ? otpCubit.checkCode(phone: phone!)
-                    : otpCubit.confirmCode(
-                        phone: phone,
-                        email: email,
+                if (navigateFromForget) {
+                  log("check Code fun");
+                  otpCubit.checkCode(phone: phone!).then((value) {
+                    log(statePhone.toString() + stateOtp.toString());
+                   
+                      log(statePhone.toString() + stateOtp.toString());
+                      showMessage(
+                        message: "Code Verified Successfully",
+                        color: ColorManager.green,
                       );
+                      context.pushReplacementNamed(AppRoutes.resetPasswordView,
+                          arguments: {
+                            "phone": phone,
+                            "otp": otpCubit.otpController.text,
+                          });
+                    
+                  });
+                } else {
+                  log("confirm code ");
+                  otpCubit.confirmCode(
+                    phone: phone,
+                    email: email,
+                  );
+                }
+                // navigateFromForget
+                //     ? otpCubit.checkCode(phone: phone!)
+                //     : otpCubit.confirmCode(
+                //         phone: phone,
+                //         email: email,
+                //       );
               }
             }
           },

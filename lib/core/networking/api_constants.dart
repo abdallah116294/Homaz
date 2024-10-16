@@ -33,4 +33,6 @@ class ApiConstants {
   static const String getDataInSearch = "get-data-in-search";
   //Chats
   static const String chats = "chats";
+  //Delete Account
+  static const String deleteAccount = "delete-account";
 }

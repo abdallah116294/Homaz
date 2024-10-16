@@ -31,6 +31,7 @@ class User {
   String? email;
   String? image;
   String? phone;
+  String? type;
   String? token;
 
   User(
@@ -40,6 +41,7 @@ class User {
       this.email,
       this.image,
       this.phone,
+      this.type,
       this.token});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class User {
     email = json['email'] ?? "";
     image = json['image'] ?? "";
     phone = json['phone'] ?? "";
+    type = json['type'] ?? "";
     token = json['token'] ?? "";
   }
 }

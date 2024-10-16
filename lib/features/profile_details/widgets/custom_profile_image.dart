@@ -45,7 +45,7 @@ class CustomProfileImageWidget extends StatelessWidget {
                 : imageUrl != null && imageUrl!.isNotEmpty
                     ? CachedNetworkImage(imageUrl: imageUrl!,fit: BoxFit.cover,)
                     : SvgPicture.asset(
-                        'assets/icon/user.svg',
+                        'assets/icons/user.svg',
                         fit: BoxFit.cover,
                       ),
           ),
@@ -71,7 +71,7 @@ class CustomProfileImageWidget extends StatelessWidget {
                 radius: 15.w,
                 child: SvgIcon(color:ColorManager.mainColor ,
                 icon: "assets/icons/edit_profile.svg",
-               height: 30,
+               height: 30.h,
                   
                 ),
               ),

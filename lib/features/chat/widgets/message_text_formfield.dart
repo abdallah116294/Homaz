@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
@@ -78,31 +79,31 @@ class MessageTextFormField extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
               focusedBorder: focusedBorder ??
                   OutlineInputBorder(
-                    borderSide: const BorderSide(
+                    borderSide:  BorderSide(
                       color: Color.fromARGB(255, 221, 221, 221),
-                      width: 1.3,
+                      width: 1.3.w,
                     ),
                     borderRadius: BorderRadius.circular(borderRadius),
                   ),
               enabledBorder: enabledBorder ??
                   OutlineInputBorder(
-                    borderSide: const BorderSide(
+                    borderSide:  BorderSide(
                       color: Color.fromARGB(255, 221, 221, 221),
-                      width: 1.3,
+                      width: 1.3.w,
                     ),
                     borderRadius: BorderRadius.circular(borderRadius),
                   ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide:  BorderSide(
                   color: Colors.red,
-                  width: 1.3,
+                  width: 1.3.w,
                 ),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide:  BorderSide(
                   color: Colors.red,
-                  width: 1.3,
+                  width: 1.3.w,
                 ),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),

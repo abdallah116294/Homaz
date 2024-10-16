@@ -23,4 +23,20 @@ class LangKeys {
   static const String newPassword = "new_password";
   static const String newPasswordConfirmation = "new_password_confirmation";
   static const String change = "change";
+  static const String network_check = "network_check";
+  static const String read_more = "read_more";
+  static const String read_less = "read_less";
+  static const String rent = "rent";
+  static const String buy = "buy";
+  static const String search_filter = "search_filter";
+  static const String property_type = "property_type";
+  static const String badrooms = "badrooms";
+  static const String bathrooms = "bathrooms";
+  static const String furnishing = "furnishing";
+  static const String amenities = "amenities";
+  static const String price_range = "price_range";
+  static const String show_all_result = "show_all_result";
+  static const String properties = "properties";
+  static const String please_enter_search_key = "please_enter_search_key";
+  static const String search_result = "search_result";
 }

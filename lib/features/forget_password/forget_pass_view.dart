@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +21,7 @@ import 'forget_password_state.dart';
 class ForgetPasswordViews extends StatelessWidget {
   const ForgetPasswordViews({super.key, required this.phone});
 
-  final String phone;
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class ForgetPasswordViews extends StatelessWidget {
 class ForgetPassBody extends StatelessWidget {
   const ForgetPassBody({super.key, required this.phone});
 
-  final String phone;
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {
@@ -125,16 +127,13 @@ class _ForgetPasswordButton extends StatelessWidget {
             color: ColorManager.red,
           );
         } else if (state is OtpSuccessState) {
+          log(cubit.controllers.phoneController.text);
           context.pushName(AppRoutes.otpView,arguments: {
             "phone":cubit.controllers.phoneController.text,
+            "email":"",
             "navigateFromForget":true,
+            "navigateFromProfile":false,
           });
-          // MagicRouter.navigateTo(
-          //   page: OtpView(
-          //       navigateFromForget: true,
-          //       phone: cubit.controllers.phoneController.text),
-          //   withHistory: true,
-          // );
         }
       },
       builder: (context, state) {
@@ -149,11 +148,6 @@ class _ForgetPasswordButton extends StatelessWidget {
           text: "Send Code",
           press: () {
             cubit.sendCode(phone: cubit.controllers.phoneController.text);
-            // MagicRouter.navigateTo(
-            //   page: OtpView(
-            //     phone: cubit.controllers.phoneController.text,
-            //   ),
-            // );
           },
           btnColor: ColorManager.mainColor,
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
@@ -34,10 +35,11 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
         icon: SvgIcon(
           icon: AssetsStrings.home,
           color: ColorManager.white,
+          height: 24.h,
         ),
         title: Text(
           context.translate(LangKeys.home), // Use context.translate here
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
         ),
         selectedColor: ColorManager.blueColor,
       ),
@@ -45,10 +47,11 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
         icon: SvgIcon(
           icon: AssetsStrings.search,
           color: ColorManager.white,
+          height: 24.h,
         ),
         title: Text(
           context.translate(LangKeys.search), // Translation for "Search"
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
         ),
         selectedColor: ColorManager.blueColor,
       ),
@@ -56,10 +59,11 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
         icon: SvgIcon(
           icon: AssetsStrings.heart,
           color: ColorManager.white,
+          height: 24.h,
         ),
         title: Text(
           context.translate(LangKeys.saved), // Translation for "Saved"
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
         ),
         selectedColor: ColorManager.blueColor,
       ),
@@ -67,10 +71,11 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
         icon: SvgIcon(
           icon: AssetsStrings.chat,
           color: ColorManager.white,
+          height: 24.h,
         ),
         title: Text(
           context.translate(LangKeys.message), // Translation for "Chat"
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
         ),
         selectedColor: ColorManager.blueColor,
       ),
@@ -78,10 +83,11 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
         icon: SvgIcon(
           icon: AssetsStrings.profile,
           color: ColorManager.white,
+          height: 24.h,
         ),
         title: Text(
           context.translate(LangKeys.profile), // Translation for "Profile"
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  TextStyle(color: Colors.white, fontSize: 12.sp),
         ),
         selectedColor: ColorManager.blueColor,
       ),
@@ -90,7 +96,7 @@ class LandingScreenCubit extends Cubit<LandingScreenState> {
 
   List<Widget> screens = [
     BlocProvider(
-      create: (context) => di.sl<HomeCubit>()..getHomeData(),
+      create: (context) => di.sl<HomeCubit>(),
       child: const HomeScreenView(),
     ),
     BlocProvider(

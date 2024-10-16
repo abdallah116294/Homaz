@@ -78,10 +78,6 @@ class OnBoardingView extends StatelessWidget {
                       press: () {
                         CacheHelper.saveIfNotFirstTime();
                         context.pushName(AppRoutes.loginView);
-                        // MagicRouter.navigateTo(
-                        //   page: const LoginView(),
-                        //   withHistory: false,
-                        // );
                       },
                       btnColor: ColorManager.mainColor,
                     )

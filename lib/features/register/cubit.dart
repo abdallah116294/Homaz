@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/features/register/data/repo/register_repo.dart';
 import 'package:logger/logger.dart';
-
+import 'package:homez/core/helpers/either_extension.dart';
 import 'controller.dart';
 import 'states.dart';
 
@@ -43,8 +43,17 @@ class RegisterCubit extends Cubit<RegisterStates> {
     emit(RegisterWithGoogleLoadingState());
     try {
       final rseponse = await registerRepo.registerWithGoogle();
+
       rseponse.fold(
-          (l) => emit(RegisterWithGoogleFailedState(msg: l.toString())), (r) {
+          (l) {
+            if (rseponse.isLeft()) {
+              var error = rseponse.asLeft().errMessage;
+              logger.e(error);
+              emit(RegisterWithGoogleFailedState(msg: error.toString()));
+              return; 
+            }
+            emit(RegisterWithGoogleFailedState(msg: l.toString()));
+          }, (r) {
           //   CacheHelper.saveToken(r.data!.user!.!);
         emit(RegisterWithGoogleSuccessState(registerUserSuccess: r));
       });

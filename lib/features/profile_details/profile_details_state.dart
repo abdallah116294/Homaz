@@ -35,4 +35,15 @@ class PickImageFailedState extends ProfileDetailsState{
 
   PickImageFailedState(this.msg);
 }
+class DeleteAccountLoadingState extends ProfileDetailsState{}
+class DeleteAccountSuccessState extends ProfileDetailsState{
+  final ProfileDataModel data;
+
+  DeleteAccountSuccessState(this.data);
+}
+class DeleteAccountFailedState extends ProfileDetailsState{
+  final String msg;
+
+  DeleteAccountFailedState(this.msg);
+}
 

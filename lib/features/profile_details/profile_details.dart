@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/models/profile_data_model.dart';
@@ -73,18 +73,18 @@ class ProfileDetailsBody extends StatelessWidget {
               children: [
                 CustomAppBarTitle(
                   title: context.translate(LangKeys.account_details),
-                  withBack: true,
+                  withBack: false,
                 ),
                 30.verticalSpace,
                 BlocBuilder<ProfileDetailsCubit, ProfileDetailsState>(
                   builder: (context, state) {
                     return CustomProfileImageWidget(
-                        imageUrl: userData.image, onImageChange: () {
-                              context
-                                  .read<ProfileDetailsCubit>()
-                                  .pickImage(ImageSource.gallery);
+                        imageUrl: userData.image,
+                        onImageChange: () {
+                          context
+                              .read<ProfileDetailsCubit>()
+                              .pickImage(ImageSource.gallery);
                         });
-                
                   },
                 ),
                 30.verticalSpace,
@@ -105,8 +105,17 @@ class ProfileDetailsBody extends StatelessWidget {
                   navigateFromProfile: navigateFromProfile,
                   image: context.read<ProfileDetailsCubit>().pickedImage,
                 ),
-               SizedBox(height: 150.h),
-                CustomText(text: 'Delete ACC', color: ColorManager.red, fontWeight: FontWeight.w400, fontSize: 14.sp),
+                SizedBox(height: 150.h),
+                GestureDetector(
+                    onTap: () {
+                      context
+                          .pushName(AppRoutes.enterPasswordToDeleteAccountView);
+                    },
+                    child: CustomText(
+                        text: 'Delete ACC',
+                        color: ColorManager.red,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp)),
               ],
             ),
           ),

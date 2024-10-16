@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 class CallModelBottomSheet {
   static void callAction(
     BuildContext context,
+    final String phone ,
   ) {
     showModalBottomSheet(
         //   barrierColor: Colors.black.withAlpha(1),
@@ -46,7 +47,7 @@ class CallModelBottomSheet {
                           onTap: () {
                             UrlLauncher.launchUrl(Uri(
                               scheme: 'tel',
-                              path: '+201144585024',
+                              path: phone,
                             ));
                           },
                           child: Row(
@@ -61,7 +62,7 @@ class CallModelBottomSheet {
                                 width: 10.w,
                               ),
                               CustomText(
-                                  text: 'Call +201144585024',
+                                  text: 'Call +${phone}',
                                   color: ColorManager.blueColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.sp)

@@ -74,7 +74,7 @@ class ProfileViewBody extends StatelessWidget {
                     });
                   },
                   leading: CircleAvatar(
-                    radius: 30,
+                    radius: 30.r,
                     backgroundImage: profileData!.image == ""
                         ? const AssetImage('assets/images/user.png')
                         : NetworkImage(profileData.image!),
@@ -101,7 +101,7 @@ class ProfileViewBody extends StatelessWidget {
                     ModalBottomSheet.changeLangueBottomSheet(context);
                   },
                 ),
-                ProfileItem(
+               profileData.type=="social"? Container(): ProfileItem(
                     icon: AssetsStrings.lock,
                     text: context.translate(LangKeys.changePassword),
                     haveTrailing: true,

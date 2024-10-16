@@ -1,3 +1,4 @@
+import 'package:homez/features/otp/data/model/check_code_success.dart';
 import 'package:homez/features/otp/data/model/confirm_code_succes.dart';
 
 abstract class OtpStates {}
@@ -7,7 +8,7 @@ class OtpInitialState extends OtpStates {}
 class OtpLoadingState extends OtpStates {}
 
 class OtpSuccessState extends OtpStates {
-final ConfirmeCodeSuccess confirmeCodeSuccess;
+  final ConfirmeCodeSuccess confirmeCodeSuccess;
   OtpSuccessState({required this.confirmeCodeSuccess});
 }
 
@@ -36,3 +37,14 @@ class ReSendCodeSuccessState extends OtpStates {
 
   ReSendCodeSuccessState({required this.msg});
 }
+
+class CheckCodeSuccessState extends OtpStates {
+  final CheckCodeSuccess checkCode;
+  CheckCodeSuccessState({required this.checkCode});
+}
+
+class CheckCodedFailedState extends OtpStates {
+  final String msg;
+  CheckCodedFailedState({required this.msg});
+}
+class CheckCodeIsLoading extends OtpStates{}

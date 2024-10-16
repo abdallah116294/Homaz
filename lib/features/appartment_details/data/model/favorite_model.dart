@@ -78,7 +78,7 @@ class Datum {
     final String? name;
     final String? description;
     final List<Amenity> amenities;
-    final List<dynamic> contact;
+    final List<Contact> contact;
     final int? rentPrice;
     final int? buyPrice;
     final int? numDaysOfRent;
@@ -91,7 +91,7 @@ class Datum {
             name: json["name"],
             description: json["description"],
             amenities: json["amenities"] == null ? [] : List<Amenity>.from(json["amenities"]!.map((x) => Amenity.fromJson(x))),
-            contact: json["contact"] == null ? [] : List<dynamic>.from(json["contact"]!.map((x) => x)),
+            contact: json["contact"] == null ? [] : List<Contact>.from(json["contact"]!.map((x) => Contact.fromJson(x))),
             rentPrice: json["rent_price"],
             buyPrice: json["buy_price"],
             numDaysOfRent: json["num_days_of_rent"],
@@ -104,23 +104,36 @@ class Amenity {
     Amenity({
         required this.id,
         required this.name,
+        required this.image,
         required this.count,
     });
 
     final int? id;
     final String? name;
+    final String?image;
     final int? count;
 
     factory Amenity.fromJson(Map<String, dynamic> json){ 
         return Amenity(
             id: json["id"],
             name: json["name"],
+            image: json['image'],
             count: json["count"],
         );
     }
 
 }
-
+class Contact {
+  final int? id;
+  final String? phone;
+  Contact({required this.id, required this.phone});
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      id: json["id"],
+      phone: json["phone"],
+    );
+  }
+}
 class Links {
     Links({
         required this.first,

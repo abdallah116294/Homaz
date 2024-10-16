@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 
@@ -10,8 +11,8 @@ showMessage({
   int maxLines = 5,
   required Color color,
 }) {
-  ScaffoldMessenger.of(MagicRouter.currentContext).clearSnackBars();
-  ScaffoldMessenger.of(MagicRouter.currentContext).showSnackBar(
+  ScaffoldMessenger.of(AppRoutes.currentContext).clearSnackBars();
+  ScaffoldMessenger.of(AppRoutes.currentContext).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: ColorManager.bgColor,
@@ -38,7 +39,7 @@ showMessage({
           ),
           GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(MagicRouter.currentContext).clearSnackBars();
+              ScaffoldMessenger.of(AppRoutes.currentContext).clearSnackBars();
             },
             child: Icon(
               Icons.close,

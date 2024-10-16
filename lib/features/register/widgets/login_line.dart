@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
 import 'package:homez/core/theming/colors.dart';
 
@@ -28,7 +29,7 @@ class LoginLineWidget extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                MagicRouter.navigatePop();
+                context.pop();
               },
           ),
         ],

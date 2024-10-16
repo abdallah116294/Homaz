@@ -27,21 +27,13 @@ class _SplashViewState extends State<SplashView> {
     await Future.delayed(
        Duration(seconds: 5),
       () {
-        context.pushName(
+        context.pushReplacementNamed(
           isFirstTime
               ? AppRoutes.onBoardingView
               : token.isEmpty
                   ? AppRoutes.loginView
                   : AppRoutes.landingViews,
         );
-        // MagicRouter.navigateTo(
-        //   page: isFirstTime
-        //       ? const OnBoardingView()
-        //       : token.isEmpty
-        //           ? const LoginView()
-        //           : const LandingScreenViews(),
-        //   withHistory: false,
-        // );
       },
     );
   }

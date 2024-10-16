@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
+import 'package:homez/core/helpers/either_extension.dart';
 import 'package:homez/features/otp/data/repo/otp_repo.dart';
 import 'package:logger/logger.dart';
 
@@ -14,13 +17,11 @@ class OtpCubit extends Cubit<OtpStates> {
   final logger = Logger();
   final otpController = TextEditingController();
   bool isRemember = true;
-  Future<void> confirmCode({ String? phone,String? email }) async {
+  Future<void> confirmCode({String? phone, String? email}) async {
     emit(OtpLoadingState());
     try {
-      final response = await otpRepo.confirmCode(
-        phoneNumber:phone,
-        email:email
-      );
+      final response =
+          await otpRepo.confirmCode(phoneNumber: phone, email: email);
       response.fold((l) => emit(OtpFailureState(msg: l.toString())), (r) {
         CacheHelper.saveToken(r.data!.user!.token!);
         isRemember ? CacheHelper.saveIfRemember() : null;
@@ -73,43 +74,26 @@ class OtpCubit extends Cubit<OtpStates> {
   Future<void> checkCode({required String phone}) async {
     emit(OtpLoadingState());
     try {
-      //   final response = await dioManager.post(ApiConstants.checkCode,
-      //       data: FormData.fromMap(
-      //         {
-      //           "phone": phone,
-      //           "otp": otpController.text,
-      //         },
-      //       ));
-
-      //   if (response.statusCode == 200) {
-      //     //CacheHelper.saveToken(response.data["data"]["user"]['token']);
-      //     // CacheHelper.put(
-      //     //   key: 'userId',
-      //     //   value: "${response.data["data"]['user']['id']}",
-      //     // );
-      //     // CacheHelper.(
-      //     //   key: 'name',
-      //     //   value: "${response.data["data"]['user']['name']}",
-      //     // );
-      //     // CacheHelper.put(
-      //     //   key: 'userType',
-      //     //   value: "${response.data["data"]['user']['type']}",
-      //     // );
-      //     emit(OtpSuccessState());
-      //     logger.i(response.data["data"]["user"]['token']);
-      //   } else {
-      //     emit(OtpFailureState(msg: response.data["message"]));
-      //   }
-      // } on DioException catch (e) {
-      //   handleDioException(e);
+      final response =
+          await otpRepo.checkCode(phone: phone, otp: otpController.text);
+      response.fold((l) {
+        logger.e(l.toString());
+        emit(CheckCodedFailedState(msg: l.toString()));
+      }, (r) {
+        if (response.isRight()) {
+          log("Right response"+response.asRight().data!.user!.otp.toString());
+        }
+        logger.e(r.toString());
+        CheckCodeSuccessState(checkCode: r);
+      });
     } catch (e) {
-      emit(OtpFailureState(msg: 'An unknown error: $e'));
+      emit(CheckCodedFailedState(msg: 'An unknown error: $e'));
       logger.e(e);
     }
   }
 
   Future<void> updatePhone({required String phone}) async {
-    emit(OtpLoadingState());
+    emit(CheckCodeIsLoading());
     try {
       final response = await otpRepo.updatePhone(phone: phone);
       response.fold((l) => emit(OtpFailureState(msg: l.toString())),

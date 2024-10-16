@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
@@ -38,16 +40,16 @@ class _BathroomFilterWidget extends State<BathroomFilterWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 6),
       decoration: BoxDecoration(
         color: ColorManager.grey12,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              SvgIcon(icon: AssetsStrings.bath, color: ColorManager.white),
+              SvgIcon(icon: AssetsStrings.bath, color: ColorManager.white,height: 20.h,),
               SizedBox(width: 10.w),
               CustomText(
-                  text: 'BathRooms',
+                  text: context.translate(LangKeys.bathrooms),
                   color: ColorManager.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp)
@@ -74,7 +76,7 @@ class _BathroomFilterWidget extends State<BathroomFilterWidget> {
                       ),
                       label: Text(
                         _chipLabels[index],
-                        style: TextStyle(color: ColorManager.white),
+                        style: TextStyle(color: ColorManager.white,fontSize: 16.sp),
                       ),
                       selected: _selectedIndex == index,
                       onSelected: (bool selected) {
