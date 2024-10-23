@@ -98,9 +98,6 @@ class _StackedImageSliderState extends State<StackedImageSlider> {
                   child: TextButton(
                     onPressed: () {
                       log(widget.takeLookData.data!.apartments!.id.toString());
-                      context.read<AppartmentDetailsCubit>().checkIfIsHasChat(
-                          apartmentId:
-                              widget.takeLookData.data!.apartments!.id!);
                     },
                     style: TextButton.styleFrom(
                       foregroundColor: ColorManager.white,
@@ -124,11 +121,25 @@ class _StackedImageSliderState extends State<StackedImageSlider> {
                       right: 22,
                       child: GestureDetector(
                         onTap: () {
-                          context
-                              .read<AppartmentDetailsCubit>()
-                              .checkIfIsHasChat(
-                                  apartmentId: widget
-                                      .takeLookData.data!.apartments!.id!);
+                          if (widget.takeLookData.data!.apartments!.chatId !=
+                              null) {
+                            context.pushName(AppRoutes.chatScreen, arguments: {
+                              "chatName": widget
+                                  .takeLookData.data!.apartments!.name
+                                  .toString(),
+                              "imageUrl": widget
+                                  .takeLookData.data!.apartments!.mainImage
+                                  .toString(),
+                              "roomId":
+                                  widget.takeLookData.data!.apartments!.chatId
+                            });
+                          } else {
+                            context
+                                .read<AppartmentDetailsCubit>()
+                                .checkIfIsHasChat(
+                                    apartmentId: widget
+                                        .takeLookData.data!.apartments!.id!);
+                          }
                         },
                         child: CircleAvatar(
                             radius: 26.r,

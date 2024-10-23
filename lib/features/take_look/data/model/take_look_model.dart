@@ -49,6 +49,8 @@ class Apartments {
     required this.rentPrice,
     required this.buyPrice,
     required this.numDaysOfRent,
+    required this.chatId,
+    required this.isFavorite,
   });
 
   final int? id;
@@ -61,6 +63,9 @@ class Apartments {
   final int? rentPrice;
   final int? buyPrice;
   final int? numDaysOfRent;
+  final int? chatId;
+  final bool? isFavorite;
+
 
   factory Apartments.fromJson(Map<String, dynamic> json) {
     return Apartments(
@@ -81,6 +86,8 @@ class Apartments {
       rentPrice: json["rent_price"],
       buyPrice: json["buy_price"],
       numDaysOfRent: json["num_days_of_rent"],
+    chatId: json["chat_id"],
+    isFavorite: json["is_favourite"],     
     );
   }
 }

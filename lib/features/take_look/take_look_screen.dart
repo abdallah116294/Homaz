@@ -89,16 +89,8 @@ class _TakeLookBodyState extends State<TakeLookBody> {
     List<StoryItem> storyItemList = [];
     //  List<StoryItem> storyItemList =[];
     return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) =>
-                di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
-          ),
-          BlocProvider(
-            create: (context) => di.sl<AppartmentDetailsCubit>(),
-          ),
-        ],
+      body: BlocProvider(
+        create: (context) => di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
         child: BlocConsumer<TakeLookCubit, TakeLookState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -184,53 +176,12 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              BlocConsumer<AppartmentDetailsCubit,
-                                  AppartmentDetailsState>(
-                                listener: (context, state) {
-                                  if (state is CreateChatSuccess) {
-                                    log("First Navigate");
-                                    context.pushName(AppRoutes.chatScreen,
-                                        arguments: {
-                                          "chatName": takeLookdata
-                                              .data!.apartments!.name
-                                              .toString(),
-                                          "imageUrl": takeLookdata
-                                              .data!.apartments!.mainImage
-                                              .toString(),
-                                          "roomId": state.createChatSuccessful
-                                              .data!.chat!.id
-                                        });
-                                  } else if (state is ChatStatusChanged) {
-                                    if (state.hasAlreadyChats.isNotEmpty) {
-                                      log("Second Navigate");
-                                      final chat = state.hasAlreadyChats
-                                          .firstWhere((chat) =>
-                                              chat.aparmentId ==
-                                              takeLookdata
-                                                  .data!.apartments!.id);
-                                      final roomId = chat.chatId;
-                                      log(takeLookdata.data!.apartments!.images
-                                          .toString());
-                                      context.pushName(AppRoutes.chatScreen,
-                                          arguments: {
-                                            "chatName": takeLookdata
-                                                .data!.apartments!.name
-                                                .toString(),
-                                            "imageUrl": takeLookdata
-                                                .data!.apartments!.mainImage
-                                                .toString(),
-                                            "roomId": roomId
-                                          });
-                                    }
-                                  }
-                                },
-                                builder: (context, state) {
-                                  return GestureDetector(
+                              GestureDetector(
                                     onTap: () {
-                                      context
-                                          .read<AppartmentDetailsCubit>()
-                                          .checkIfIsHasChat(
-                                              apartmentId: appartmentId);
+                                      // context
+                                      //     .read<AppartmentDetailsCubit>()
+                                      //     .checkIfIsHasChat(
+                                      //         apartmentId: appartmentId);
                                     },
                                     child: CircleAvatar(
                                         radius: 26.r,
@@ -241,9 +192,8 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                                             height: 25.h,
                                             icon: AssetsStrings.send,
                                             color: Colors.white)),
-                                  );
-                                },
-                              ),
+                                  ),
+
                               8.verticalSpace,
                               GestureDetector(
                                 onTap: () {
@@ -446,6 +396,14 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                   ),
                 )
               ]);
+            } else if (state is TakeLookFailed) {
+              return Center(
+                child: CustomText(
+                    text: state.msg.toString(),
+                    color: ColorManager.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18.sp),
+              );
             } else {
               return Center(
                 child: CircularProgressIndicator(),

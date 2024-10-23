@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
@@ -42,8 +43,8 @@ class _SavedViewState extends State<SavedView> {
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Column(
                 children: [
-                  const CustomAppBarTitle(
-                    title: "Saved",
+                  CustomAppBarTitle(
+                    title: context.translate(LangKeys.saved),
                     withBack: false,
                   ),
                   10.verticalSpace,

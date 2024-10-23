@@ -13,7 +13,10 @@ class TakeLookSuccess extends TakeLookState{
   TakeLookData takeLookData;
   TakeLookSuccess({required this.takeLookData});
 }
-class TakeLookFailed extends TakeLookState{}
+class TakeLookFailed extends TakeLookState{
+  final String msg;
+  TakeLookFailed({ required this.msg });
+}
 class CreateChatLoading extends TakeLookState{}
 class CreateChatSuccessTakeLookCubit extends TakeLookState{
   CreateChatSuccessful createChatSuccessful;

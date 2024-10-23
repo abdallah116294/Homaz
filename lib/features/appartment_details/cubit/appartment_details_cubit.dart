@@ -14,6 +14,7 @@ import 'package:homez/features/appartment_details/data/repo/apartment_repo.dart'
 import 'package:homez/features/chat/data/repo/chat_repo.dart';
 import 'package:homez/features/saved/data/repo/favorite_repo.dart';
 import 'package:dartz/dartz.dart';
+import 'package:homez/features/take_look/data/model/take_look_model.dart';
 part 'appartment_details_state.dart';
 
 class AppartmentDetailsCubit extends Cubit<AppartmentDetailsState> {
@@ -77,16 +78,17 @@ class AppartmentDetailsCubit extends Cubit<AppartmentDetailsState> {
     }
   }
 
-  Future<void> checkIfIsFavorite({required int id}) async {
+  Future<void> checkIfIsFavorite({required bool  isFavorite}) async {
     try {
-      Either<Failure, FavoriteModel> favoritesIds =
-          await favoriteRepo.getFavoriteData();
-      if (favoritesIds.isRight()) {
-        final rightValue = favoritesIds.asRight();
-        isAlreadyFavorite = rightValue.data!.apartment!.data
-            .where((element) => element.id == id);
+      //bool? isFavorite = takeLookData.data?.apartments?.isFavorite!;
+      if (isFavorite==true) {
+        // bool isAlreadyFavorite = true;
         log("is Already Favorite :$isAlreadyFavorite");
-        emit(FavoriteStatusChanged(isAlreadyFavorite: isAlreadyFavorite!));
+        emit(FavoriteStatusChanged(isAlreadyFavorite: isFavorite));
+      } else {
+        // bool isNotFavorite = false;
+        log("is Not Favorite :$Null");
+        emit(FavoriteStatusChanged(isAlreadyFavorite: isFavorite));
       }
     } catch (e) {
       throw Exception(e);
@@ -107,8 +109,10 @@ class AppartmentDetailsCubit extends Cubit<AppartmentDetailsState> {
         emit(RemoveFromFavoriteLoading());
         if (isAlreadyFavorite != null) {
           final response = await apartmentRepo.removeFavorite(apartmentId: id);
-          response.fold((l) => emit(RemoveFromFavoriteFailed()),
-              (r) => emit(RemoveFromFavoriteSuccess(removeFavoriteModel: r)));
+          response.fold((l) => emit(RemoveFromFavoriteFailed()), (r) {
+            emit(FavoriteStatusChanged(isAlreadyFavorite: false));
+            emit(RemoveFromFavoriteSuccess(removeFavoriteModel: r));
+          });
         } else {
           emit(AddToFavoriteLoading());
           final response = await apartmentRepo.addToFavoirte(apartmentId: id);
@@ -121,6 +125,7 @@ class AppartmentDetailsCubit extends Cubit<AppartmentDetailsState> {
             emit(AddToFavoriteFailed());
           }, (r) {
             log('Add to Favorite Successfully');
+            emit(FavoriteStatusChanged(isAlreadyFavorite: true));
             emit(AddToFavoriteSuccess(favoriteModel: r));
           });
         }

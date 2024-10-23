@@ -50,6 +50,81 @@ class RegisterRepo {
     }
   }
 
+// Future<Either<Failure, RegisterUserSuccess>> registerWithGoogle() async {
+//   try {
+//     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+//     if (googleUser == null) {
+//       log('User canceled the sign-in');
+//       return Left(ServerFailure("User canceled the sign-in"));
+//     }
+
+//     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+//     AuthCredential credential = GoogleAuthProvider.credential(
+//       accessToken: googleAuth.accessToken,
+//       idToken: googleAuth.idToken,
+//     );
+
+//     final result = await FirebaseAuth.instance.signInWithCredential(credential);
+//     if (result.user != null) {
+//       final String displayName = result.user!.displayName ?? "Unknown User";
+//       log("Display Name: $displayName");
+
+//       if (result.user?.photoURL != null) {
+//         final response = await http.get(Uri.parse(result.user!.photoURL!));
+//         if (response.statusCode != 200) {
+//           log('Failed to download image');
+//           return Left(ServerFailure('Failed to download image'));
+//         }
+
+//         final FormData formData = FormData.fromMap({
+//           'fullname': displayName,
+//           'terms': "1",
+//           'email': result.user!.email,
+//           'type': "social",
+//           'provider': 'google',
+//           'provider_id': result.user!.uid,
+//         });
+
+//         final apiResponse = await apiConsumer.post(
+//           ApiConstants.register,
+//           body: formData,
+//         );
+
+//         log('Register with Google response: ${apiResponse.data}');
+        
+//         if (apiResponse.statusCode == 200) {
+//           log('Handle successful sign-in');
+//           return Right(RegisterUserSuccess.fromJson(apiResponse.data));
+//         } else if (apiResponse.statusCode == 302 || apiResponse.statusCode == 400) {
+//           // Handle the specific error message
+//           if (apiResponse.data['message'] == "The email has already been taken.") {
+//             log('Email already registered error');
+//             return Left(ServerFailure(apiResponse.data['message']));
+//           } else if (apiResponse.data['errors'] != null && apiResponse.data['errors']['email'] != null) {
+//             log('Email error: ${apiResponse.data['errors']['email'][0]}');
+//             return Left(ServerFailure(apiResponse.data['errors']['email'][0]));
+//           } else {
+//             return Left(ServerFailure('Unexpected error during registration.'));
+//           }
+//         } else {
+//           log('Handle sign-in failure: ${apiResponse.data}');
+//           return Left(ServerFailure(apiResponse.data));
+//         }
+//       } else {
+//         log('No image URL found for user');
+//         return Left(ServerFailure('No image URL found for user'));
+//       }
+//     } else {
+//       log('No user found after sign-in');
+//       return Left(ServerFailure('No User Found after sign-in'));
+//     }
+//   } catch (e) {
+//     log('An error occurred: $e');
+//     return Left(ServerFailure('An error occurred: $e'));
+//   }
+// }
+
   Future<Either<Failure, RegisterUserSuccess>> registerWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();

@@ -9,6 +9,7 @@ import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/chat/cubit/chat_cubit.dart';
 import 'package:homez/features/chat/data/models/chats_model.dart';
 import 'package:homez/features/chat/widgets/person_item.dart';
@@ -83,9 +84,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   Text(context.translate(LangKeys.message), style: TextStyle(color: ColorManager.white)),
               backgroundColor: ColorManager.black,
               centerTitle: true,
-              leading: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_back_ios, color: ColorManager.white)),
+              leading: Align(
+                alignment: context.read<AppCubit>().getAlignment(),
+                child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.arrow_back_ios, color: ColorManager.white)),
+              ),
             ),
             body: state is GetChatsSuccessState
                 ? SingleChildScrollView(

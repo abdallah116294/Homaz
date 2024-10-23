@@ -52,7 +52,7 @@ dependencies:
   flutter_svg: ^2.0.5
   get_it: ^7.7.0
   google_maps_flutter: ^2.9.0
-  google_sign_in: null
+  google_sign_in: ^6.2.1
   image_picker: ^1.0.0
   logger: ^1.4.0
   mockito: ^5.4.4

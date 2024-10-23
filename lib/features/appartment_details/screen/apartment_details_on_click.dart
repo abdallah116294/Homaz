@@ -29,7 +29,7 @@ class ApartmentDetailsOnClick extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => di.sl<AppartmentDetailsCubit>()
-            ..checkIfIsFavorite(id: apartmentId),
+             ..checkIfIsFavorite(isFavorite: true),
         ),
         BlocProvider(
           create: (context) =>
@@ -140,28 +140,62 @@ class ApartmentDetailsOnClick extends StatelessWidget {
                                   return state is FavoriteStatusChanged
                                       ? GestureDetector(
                                           onTap: () {
-                                            //  log("Apartment Id:${.data!.apartments!.id!}");
-                                            context
-                                                .read<AppartmentDetailsCubit>()
-                                                .addToFavorite(id: apartmentId)
-                                                .then((value) {
-                                              context
-                                                  .read<
-                                                      AppartmentDetailsCubit>()
-                                                  .checkIfIsFavorite(
-                                                      id: apartmentId);
-                                            });
+                                          log("state.isAlreadyFavorite:${state.isAlreadyFavorite}");
+                                          log("Apartment Id:${takelookdata.data!.apartments!.id!}");
+                                          context
+                                              .read<AppartmentDetailsCubit>()
+                                              .addToFavorite(
+                                                  id: apartmentId)
+                                              .then((value) {
+                                            if (takelookdata.data!
+                                                .apartments!.isFavorite!) {
+                                              if (state.isAlreadyFavorite ==
+                                                  true) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: false);
+                                              } else if (state
+                                                      .isAlreadyFavorite ==
+                                                  false) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: true);
+                                              }
+                                            } else {
+                                              if (state.isAlreadyFavorite ==
+                                                  false) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: true);
+                                              }
+
+                                             else if (state.isAlreadyFavorite ==
+                                                  true) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: false);
+                                              }
+                                            }
+                                          });
                                           },
                                           child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: Colors.black,
                                             child: SvgIcon(
                                               icon: state.isAlreadyFavorite
-                                                      .isNotEmpty
+                                                      ==true
                                                   ? AssetsStrings.heartFillRed
                                                   : AssetsStrings.favorite,
                                               color: state.isAlreadyFavorite
-                                                      .isNotEmpty
+                                                     ==true
                                                   ? Colors.red
                                                   : Colors.white,
                                             ),
@@ -264,10 +298,29 @@ class ApartmentDetailsOnClick extends StatelessWidget {
                                     child: CustomElevated(
                                         text: 'Message',
                                         press: () {
+                                        if (takelookdata.data!
+                                                .apartments!.chatId !=
+                                            null) {
+                                          context.pushName(AppRoutes.chatScreen,
+                                              arguments: {
+                                                "chatName": takelookdata
+                                                    .data!.apartments!.name
+                                                    .toString(),
+                                                "imageUrl":takelookdata
+                                                    .data!.apartments!.mainImage
+                                                    .toString(),
+                                                "roomId": takelookdata
+                                                    .data!.apartments!.chatId
+                                              });
+                                        } else {
                                           context
                                               .read<AppartmentDetailsCubit>()
                                               .checkIfIsHasChat(
-                                                  apartmentId: apartmentId);
+                                                  apartmentId: takelookdata
+                                                      .data!
+                                                      .apartments!
+                                                      .id!);
+                                        }
                                           // context
                                           //     .read<TakeLookCubit>()
                                           //     .createChat(

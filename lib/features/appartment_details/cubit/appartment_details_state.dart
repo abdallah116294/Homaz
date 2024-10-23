@@ -32,7 +32,7 @@ class AppartmentDetailsPageChanged extends AppartmentDetailsState {
   AppartmentDetailsPageChanged({required this.currentPage});
 }
 class FavoriteStatusChanged extends AppartmentDetailsState {
-  Iterable<Datum> isAlreadyFavorite;
+ bool isAlreadyFavorite;
 
   FavoriteStatusChanged({required this.isAlreadyFavorite});
 }

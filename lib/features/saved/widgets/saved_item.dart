@@ -138,10 +138,23 @@ class SavedItem extends StatelessWidget {
                             builder: (context, state) {
                               return GestureDetector(
                                 onTap: () {
-                                  context
-                                      .read<AppartmentDetailsCubit>()
-                                      .checkIfIsHasChat(
-                                          apartmentId: apartment.id!);
+                                   if (apartment.chatId !=
+                                            null) {
+                                          context.pushName(AppRoutes.chatScreen,
+                                              arguments: {
+                                                "chatName": apartment.name
+                                                    .toString(),
+                                                "imageUrl": apartment.mainImage
+                                                    .toString(),
+                                                "roomId": apartment.chatId
+                                              });
+                                        } else {
+                                          context
+                                              .read<AppartmentDetailsCubit>()
+                                              .checkIfIsHasChat(
+                                                  apartmentId: apartment
+                                                      .id!);
+                                        }
                                 },
                                 child: CircleAvatar(
                                   radius: 18.r,

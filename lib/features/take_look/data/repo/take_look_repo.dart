@@ -15,13 +15,13 @@ class TakeLookRepo {
       if (response.statusCode == 200) {
         return Right(TakeLookData.fromJson(response.data));
       } else {
-        return Left(ServerFailure(response.data));
+        return Left(ServerFailure.fromDioError(response));
       }
     } catch (e) {
       if(e is ServerFailure){
         return Left(e);
       }
-      return Left(ServerFailure('An unknown error: $e'));
+      return Left(ServerFailure('$e'));
     }
   }
    Future<Either<Failure, CreateChatSuccessful>> createChat(
@@ -32,7 +32,7 @@ class TakeLookRepo {
       if (response.statusCode == 200) {
         return Right(CreateChatSuccessful.fromJson(response.data));
       } else {
-        return Left(ServerFailure(response.data));
+        return Left(ServerFailure.fromResponse(response.statusCode, response.toString()));
       }
     } catch (e) {
       if (e is ServerFailure) {

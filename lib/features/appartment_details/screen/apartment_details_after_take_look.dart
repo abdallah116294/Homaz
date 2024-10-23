@@ -22,14 +22,24 @@ import 'package:homez/features/details/widgets/icon_text.dart';
 import 'package:homez/features/take_look/data/model/take_look_model.dart';
 import 'package:homez/injection_container.dart' as di;
 
-class ApartmentDetailsAfterTakeLook extends StatelessWidget {
+class ApartmentDetailsAfterTakeLook extends StatefulWidget {
   ApartmentDetailsAfterTakeLook({super.key, required this.takeLookData});
   TakeLookData takeLookData;
+
+  @override
+  State<ApartmentDetailsAfterTakeLook> createState() =>
+      _ApartmentDetailsAfterTakeLookState();
+}
+
+class _ApartmentDetailsAfterTakeLookState
+    extends State<ApartmentDetailsAfterTakeLook> {
   @override
   Widget build(BuildContext context) {
+    bool isFavorite = widget.takeLookData.data!.apartments!.isFavorite!;
+    log(widget.takeLookData.data!.apartments!.isFavorite.toString());
     return BlocProvider(
       create: (context) => di.sl<AppartmentDetailsCubit>()
-        ..checkIfIsFavorite(id: takeLookData.data!.apartments!.id!),
+        ..checkIfIsFavorite(isFavorite: isFavorite),
       child: BlocConsumer<AppartmentDetailsCubit, AppartmentDetailsState>(
         listener: (context, state) {
           if (state is AddToFavoriteSuccess) {
@@ -42,19 +52,22 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                 color: ColorManager.blueColor);
           } else if (state is CreateChatSuccess) {
             context.pushName(AppRoutes.chatScreen, arguments: {
-              "chatName": takeLookData.data!.apartments!.name.toString(),
-              "imageUrl": takeLookData.data!.apartments!.mainImage.toString(),
+              "chatName": widget.takeLookData.data!.apartments!.name.toString(),
+              "imageUrl":
+                  widget.takeLookData.data!.apartments!.mainImage.toString(),
               "roomId": state.createChatSuccessful.data!.chat!.id
             });
           } else if (state is ChatStatusChanged) {
             if (state.hasAlreadyChats.isNotEmpty) {
               final chat = state.hasAlreadyChats.firstWhere((chat) =>
-                  chat.aparmentId == takeLookData.data!.apartments!.id);
+                  chat.aparmentId == widget.takeLookData.data!.apartments!.id);
               final roomId = chat.chatId;
-              log(takeLookData.data!.apartments!.images.toString());
+              log(widget.takeLookData.data!.apartments!.images.toString());
               context.pushName(AppRoutes.chatScreen, arguments: {
-                "chatName": takeLookData.data!.apartments!.name.toString(),
-                "imageUrl": takeLookData.data!.apartments!.mainImage.toString(),
+                "chatName":
+                    widget.takeLookData.data!.apartments!.name.toString(),
+                "imageUrl":
+                    widget.takeLookData.data!.apartments!.mainImage.toString(),
                 "roomId": roomId
               });
             }
@@ -100,7 +113,8 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                                text: takeLookData.data!.apartments!.name!
+                                text: widget
+                                    .takeLookData.data!.apartments!.name!
                                     .split(' ')
                                     .take(5)
                                     .join(' ')
@@ -110,7 +124,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                                 fontSize: 14.sp),
                             CustomText(
                                 text:
-                                    '\$ ${takeLookData.data!.apartments!.buyPrice}',
+                                    '\$ ${widget.takeLookData.data!.apartments!.buyPrice}',
                                 color: ColorManager.white,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 18.sp),
@@ -119,7 +133,7 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        StackedImageSlider(takeLookData: takeLookData),
+                        StackedImageSlider(takeLookData: widget.takeLookData),
                         SizedBox(
                           height: 16.h,
                         ),
@@ -127,7 +141,8 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                                text: takeLookData.data!.apartments!.name!
+                                text: widget
+                                    .takeLookData.data!.apartments!.name!
                                     .split(' ')
                                     .take(5)
                                     .join(' ')
@@ -141,32 +156,64 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                                 return state is FavoriteStatusChanged
                                     ? GestureDetector(
                                         onTap: () {
-                                          log("Apartment Id:${takeLookData.data!.apartments!.id!}");
+                                          log("state.isAlreadyFavorite:${state.isAlreadyFavorite}");
+                                          log("Apartment Id:${widget.takeLookData.data!.apartments!.id!}");
                                           context
                                               .read<AppartmentDetailsCubit>()
                                               .addToFavorite(
-                                                  id: takeLookData
-                                                      .data!.apartments!.id!)
+                                                  id: widget.takeLookData.data!
+                                                      .apartments!.id!)
                                               .then((value) {
-                                            context
-                                                .read<AppartmentDetailsCubit>()
-                                                .checkIfIsFavorite(
-                                                    id: takeLookData
-                                                        .data!.apartments!.id!);
+                                            if (widget.takeLookData.data!
+                                                .apartments!.isFavorite!) {
+                                              if (state.isAlreadyFavorite ==
+                                                  true) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: false);
+                                              } else if (state
+                                                      .isAlreadyFavorite ==
+                                                  false) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: true);
+                                              }
+                                            } else {
+                                              if (state.isAlreadyFavorite ==
+                                                  false) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: true);
+                                              } else if (state
+                                                      .isAlreadyFavorite ==
+                                                  true) {
+                                                context
+                                                    .read<
+                                                        AppartmentDetailsCubit>()
+                                                    .checkIfIsFavorite(
+                                                        isFavorite: false);
+                                              }
+                                            }
                                           });
                                         },
                                         child: CircleAvatar(
                                           radius: 20,
                                           backgroundColor: Colors.black,
                                           child: SvgIcon(
-                                            icon: state.isAlreadyFavorite
-                                                    .isNotEmpty
-                                                ? AssetsStrings.heartFillRed
-                                                : AssetsStrings.favorite,
-                                            color: state.isAlreadyFavorite
-                                                    .isNotEmpty
-                                                ? Colors.red
-                                                : Colors.white,
+                                            icon:
+                                                state.isAlreadyFavorite == true
+                                                    ? AssetsStrings.heartFillRed
+                                                    : AssetsStrings.favorite,
+                                            color:
+                                                state.isAlreadyFavorite == true
+                                                    ? Colors.red
+                                                    : Colors.white,
                                           ),
                                         ),
                                       )
@@ -203,8 +250,8 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                         SizedBox(
                           height: 16.h,
                         ),
-                        ExpandableText(takeLookData
-                            .data!.apartments!.description!
+                        ExpandableText(widget
+                            .takeLookData.data!.apartments!.description!
                             .toString()),
                         SizedBox(
                           height: 16.h,
@@ -220,8 +267,8 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                                   press: () {
                                     CallModelBottomSheet.callAction(
                                         context,
-                                        takeLookData.data!.apartments!.contact
-                                            .first.phone
+                                        widget.takeLookData.data!.apartments!
+                                            .contact.first.phone
                                             .toString());
                                   },
                                   btnColor: ColorManager.mainColor),
@@ -235,11 +282,35 @@ class ApartmentDetailsAfterTakeLook extends StatelessWidget {
                                   child: CustomElevated(
                                       text: context.translate(LangKeys.message),
                                       press: () {
-                                        context
-                                            .read<AppartmentDetailsCubit>()
-                                            .checkIfIsHasChat(
-                                                apartmentId: takeLookData
-                                                    .data!.apartments!.id!);
+                                        if (widget.takeLookData.data!
+                                                .apartments!.chatId !=
+                                            null) {
+                                          context.pushName(AppRoutes.chatScreen,
+                                              arguments: {
+                                                "chatName": widget.takeLookData
+                                                    .data!.apartments!.name
+                                                    .toString(),
+                                                "imageUrl": widget.takeLookData
+                                                    .data!.apartments!.mainImage
+                                                    .toString(),
+                                                "roomId": widget.takeLookData
+                                                    .data!.apartments!.chatId
+                                              });
+                                        } else {
+                                          context
+                                              .read<AppartmentDetailsCubit>()
+                                              .checkIfIsHasChat(
+                                                  apartmentId: widget
+                                                      .takeLookData
+                                                      .data!
+                                                      .apartments!
+                                                      .id!);
+                                        }
+                                        // context
+                                        //     .read<AppartmentDetailsCubit>()
+                                        //     .checkIfIsHasChat(
+                                        //         apartmentId: widget.takeLookData
+                                        //             .data!.apartments!.id!);
                                       },
                                       btnColor: ColorManager.mainColor),
                                 );
