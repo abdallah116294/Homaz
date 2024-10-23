@@ -73,7 +73,7 @@ class LoginRepo {
         return Right(LoginUserSuccess.fromJson(response.data));
       } else {
         log('Handle sign-in failure');
-        return Left(ServerFailure(response.data));
+        return Left(ServerFailure.fromResponse(response.statusCode,response.data));
         // Handle sign-in failure
       }
     } catch (e) {

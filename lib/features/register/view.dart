@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -320,10 +322,17 @@ class _OrLineWithAuthGoogle extends StatelessWidget {
                     color: ColorManager.red,
                   );
                 } else if (state is RegisterWithGoogleSuccessState) {
+                  showMessage(
+                    message: state.registerUserSuccess.message.toString(),
+                    color: ColorManager.mainColor,
+                  );
+                  log(state.registerUserSuccess.data!.user!.email.toString());
                    context.pushName(AppRoutes.otpView,arguments: {
                     "email":state.registerUserSuccess.data!.user!.email!,
-                    "phone":state.registerUserSuccess.data!.user!.phone!,
-                    ///"navigateFromForget":true,
+                    "phone":"",
+                    "navigateFromForget":false,
+                    "navigateFromProfile":false,
+                   
                    });                  // context.pushName(AppRoutes.otpView, arguments: {
                   //   "phone": state.registerUserSuccess.data!.user!.phone!,
                   // });

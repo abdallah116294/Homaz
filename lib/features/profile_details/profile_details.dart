@@ -8,6 +8,7 @@ import 'package:homez/core/models/profile_data_model.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
+import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/profile_details/profile_details_cubit.dart';
 import 'package:homez/features/profile_details/widgets/custom_profile_image.dart';
 import 'package:homez/features/profile_details/widgets/name_text_field_widget.dart';
@@ -106,16 +107,29 @@ class ProfileDetailsBody extends StatelessWidget {
                   image: context.read<ProfileDetailsCubit>().pickedImage,
                 ),
                 SizedBox(height: 150.h),
-                GestureDetector(
+                BlocListener<ProfileDetailsCubit,ProfileDetailsState>(listener:(context,state){
+                  if (state is DeleteAccountSuccessState) {
+            showMessage(
+                message: "Account Deleted Successfully",
+                color: ColorManager.mainColor);
+             context.pushReplacementNamed(AppRoutes.loginView);}}
+                ,child:   GestureDetector(
                     onTap: () {
-                      context
-                          .pushName(AppRoutes.enterPasswordToDeleteAccountView);
+                      if (userData.type == "social") {
+                        context
+                            .read<ProfileDetailsCubit>()
+                            .deleteSocialAccount();
+                      } else {
+                        context.pushName(
+                            AppRoutes.enterPasswordToDeleteAccountView);
+                      }
                     },
                     child: CustomText(
                         text: 'Delete ACC',
                         color: ColorManager.red,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14.sp)),
+                        fontSize: 14.sp)) , ),
+             
               ],
             ),
           ),

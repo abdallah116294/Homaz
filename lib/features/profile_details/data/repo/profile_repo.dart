@@ -92,7 +92,21 @@ class ProfileDetailsRepo {
       return Left(ServerFailure('An unknown error: $e'));
     }
   }
-
+ Future<Either<Failure, ProfileDataModel>> deleteSocialAccount()async {
+    try {
+      final response =await apiConsumer.post(ApiConstants.deleteAccount,);
+      if(response.statusCode==200){
+        return Right(ProfileDataModel.fromJson(response.data));
+      }else{
+        return Left(ServerFailure(response.data));
+      }
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure('An unknown error: $e'));
+    }
+  }
   Future<Either<Failure, ProfileDataModel>> deleteAccount(
       {required String password})async {
     try {

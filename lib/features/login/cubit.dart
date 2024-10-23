@@ -52,7 +52,7 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(SignInWithGoogleLoadingState());
     try {
       final response = await loginRepo.signInWithGoogle();
-      response.fold((l) => emit(SignInWithGoogleFailedState(msg: l.toString())),
+      response.fold((l) => emit(SignInWithGoogleFailedState(msg: l.errMessage.toString())),
           (r) {
         CacheHelper.saveToken(r.data!.user!.token!);
         isRemember ? CacheHelper.saveIfRemember() : null;

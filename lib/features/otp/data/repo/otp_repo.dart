@@ -12,7 +12,7 @@ class OTPRepo {
   Future<Either<Failure, ConfirmeCodeSuccess>> confirmCode(
       {String? phoneNumber, String? email}) async {
     try {
-      if (phoneNumber != null) {
+      if (phoneNumber.toString().isNotEmpty) {
         final response = await apiConsumer.post(ApiConstants.sendOtp,
             body: FormData.fromMap({
               "phone": phoneNumber,

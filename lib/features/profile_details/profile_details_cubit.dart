@@ -117,7 +117,18 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
       emit(UpdateProfileFailedState(msg: e.toString()));
     }
   }
-
+  Future<void> deleteSocialAccount() async {
+    emit(DeleteAccountLoadingState());
+    try {
+      final response = await profileRepo.deleteSocialAccount();
+      response.fold((l) => emit(DeleteAccountFailedState(l.toString())), (r) {
+        CacheHelper.removeToken();
+        emit(DeleteAccountSuccessState(r));
+      });
+    } catch (e) {
+      emit(DeleteAccountFailedState(e.toString()));
+    }
+  }
   Future<void> deleteAccount({required String password}) async {
     emit(DeleteAccountLoadingState());
     try {
