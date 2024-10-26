@@ -15,25 +15,41 @@ import 'package:homez/features/profile/widgets/rating_dialog.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
   @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> with AutomaticKeepAliveClientMixin{
+  @override
   Widget build(BuildContext context) {
+     super.build(context);
     return BlocProvider(
       create: (context) => di.sl<ProfileCubit>(),
       child: const ProfileViewBody(),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
-class ProfileViewBody extends StatelessWidget {
+class ProfileViewBody extends StatefulWidget {
   const ProfileViewBody({super.key});
 
+  @override
+  State<ProfileViewBody> createState() => _ProfileViewBodyState();
+}
+
+class _ProfileViewBodyState extends State<ProfileViewBody> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<ProfileCubit>(context);
     cubit.profileInfoData();
+   super.build(context);
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileDataLoadingState) {
@@ -144,7 +160,7 @@ class ProfileViewBody extends StatelessWidget {
                 ),
                 ProfileItem(
                   icon: "assets/icons/shield-check.svg",
-                  text: 'Legal and Policies',
+                  text: context.translate(LangKeys.legal_and_policies),
                   onTap: () {
                     context.pushName(AppRoutes.legalAndPoliciesScreen);
                   },
@@ -171,4 +187,8 @@ class ProfileViewBody extends StatelessWidget {
       },
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

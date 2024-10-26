@@ -67,117 +67,124 @@ class MainTabsWithBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final apartment = homeData.apartments[index];
 
-                  return ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Stack(
-                  children: [
-                    Image.network(
-                      "${homeData.apartments[index].mainImage}",
-                      fit: BoxFit.cover,
-                      height: 0.6.sh,
-                    ),
-                    Positioned(
-                      right: 18,
-                      bottom: 20,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 38.h,
-                            width: 141.w,
-                            child: CustomElevated(
-                              borderRadius: 8.sp,
-                              text: context.translate(LangKeys.takeALook),
-                              press: () {
-                                print("${homeData.apartments[index].id}");
-                                context.pushName(AppRoutes.takeALookView,
-                                    arguments:
-                                        homeData.apartments[index].id);
-                              },
-                              btnColor: ColorManager.mainColor,
-                            ),
-                          ),
-                          8.horizontalSpace,
-                          GestureDetector(
-                            onTap: () async {
-                             _launchSocialMediaAppIfInstalled(url: apartment.mainImage.toString());
-                            },
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: ColorManager.blueColor,
-                              child: const SvgIcon(
-                                icon: AssetsStrings.out,
-                                color: Colors.white,
+                  return GestureDetector(
+                    onTap: (){
+                      context.pushName(AppRoutes.takeALookView,
+                                      arguments:
+                                          homeData.apartments[index].id);
+                    },
+                    child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: Stack(
+                    children: [
+                      Image.network(
+                        "${homeData.apartments[index].mainImage}",
+                        fit: BoxFit.cover,
+                        height: 0.6.sh,
+                      ),
+                      Positioned(
+                        right: 18,
+                        bottom: 20,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 38.h,
+                              width: 141.w,
+                              child: CustomElevated(
+                                borderRadius: 8.sp,
+                                text: context.translate(LangKeys.takeALook),
+                                press: () {
+                                  print("${homeData.apartments[index].id}");
+                                  context.pushName(AppRoutes.takeALookView,
+                                      arguments:
+                                          homeData.apartments[index].id);
+                                },
+                                btnColor: ColorManager.mainColor,
                               ),
                             ),
-                          ),
-                        ],
+                            // 8.horizontalSpace,
+                            // GestureDetector(
+                            //   onTap: () async {
+                            //    _launchSocialMediaAppIfInstalled(url: apartment.mainImage.toString());
+                            //   },
+                            //   child: CircleAvatar(
+                            //     radius: 20,
+                            //     backgroundColor: ColorManager.blueColor,
+                            //     child: const SvgIcon(
+                            //       icon: AssetsStrings.out,
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
                       ),
-                    ),
-                    // BlocBuilder<AppartmentDetailsCubit,
-                    //     AppartmentDetailsState>(
-                    //   builder: (context, state) {
-                    //     return state is FavoriteStatusChanged
-                    //         ? Positioned(
-                    //             right: 25,
-                    //             top: 30,
-                    //             child: GestureDetector(
-                    //               onTap: () {
-                    //                 context
-                    //                     .read<AppartmentDetailsCubit>()
-                    //                     .addToFavorite(
-                    //                         id: homeData
-                    //                             .apartments[index].id!);
-                    //               },
-                    //               child: CircleAvatar(
-                    //                 radius: 20,
-                    //                 backgroundColor: Colors.black,
-                    //                 child: SvgIcon(
-                    //                   // icon:hom
-                    //                   icon: state.isAlreadyFavorite
-                    //                           .isNotEmpty
-                    //                       ? AssetsStrings.heartFillRed
-                    //                       : AssetsStrings.favorite,
-                    //                   color: state.isAlreadyFavorite
-                    //                           .isNotEmpty
-                    //                       ? Colors.red
-                    //                       : Colors.white,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           )
-                    //         : Positioned(
-                    //             right: 25,
-                    //             top: 30,
-                    //             child: GestureDetector(
-                    //               onTap: () {
-                    //                 context
-                    //                     .read<AppartmentDetailsCubit>()
-                    //                     .addToFavorite(
-                    //                         id: homeData
-                    //                             .apartments[index].id!)
-                    //                     .then((value) {
-                    //                   context
-                    //                       .read<AppartmentDetailsCubit>()
-                    //                       .checkIfIsFavorite(
-                    //                           id: homeData
-                    //                               .apartments[index].id!);
-                    //                 });
-                    //               },
-                    //               child: CircleAvatar(
-                    //                 radius: 20,
-                    //                 backgroundColor: Colors.black,
-                    //                 child: SvgIcon(
-                    //                   icon: AssetsStrings.favorite,
-                    //                   color: Colors.white,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           );
-                    //   },
-                    // ),
-                  ],
+                      // BlocBuilder<AppartmentDetailsCubit,
+                      //     AppartmentDetailsState>(
+                      //   builder: (context, state) {
+                      //     return state is FavoriteStatusChanged
+                      //         ? Positioned(
+                      //             right: 25,
+                      //             top: 30,
+                      //             child: GestureDetector(
+                      //               onTap: () {
+                      //                 context
+                      //                     .read<AppartmentDetailsCubit>()
+                      //                     .addToFavorite(
+                      //                         id: homeData
+                      //                             .apartments[index].id!);
+                      //               },
+                      //               child: CircleAvatar(
+                      //                 radius: 20,
+                      //                 backgroundColor: Colors.black,
+                      //                 child: SvgIcon(
+                      //                   // icon:hom
+                      //                   icon: state.isAlreadyFavorite
+                      //                           .isNotEmpty
+                      //                       ? AssetsStrings.heartFillRed
+                      //                       : AssetsStrings.favorite,
+                      //                   color: state.isAlreadyFavorite
+                      //                           .isNotEmpty
+                      //                       ? Colors.red
+                      //                       : Colors.white,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           )
+                      //         : Positioned(
+                      //             right: 25,
+                      //             top: 30,
+                      //             child: GestureDetector(
+                      //               onTap: () {
+                      //                 context
+                      //                     .read<AppartmentDetailsCubit>()
+                      //                     .addToFavorite(
+                      //                         id: homeData
+                      //                             .apartments[index].id!)
+                      //                     .then((value) {
+                      //                   context
+                      //                       .read<AppartmentDetailsCubit>()
+                      //                       .checkIfIsFavorite(
+                      //                           id: homeData
+                      //                               .apartments[index].id!);
+                      //                 });
+                      //               },
+                      //               child: CircleAvatar(
+                      //                 radius: 20,
+                      //                 backgroundColor: Colors.black,
+                      //                 child: SvgIcon(
+                      //                   icon: AssetsStrings.favorite,
+                      //                   color: Colors.white,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           );
+                      //   },
+                      // ),
+                    ],
+                                          ),
                                         ),
-                                      );
+                  );
                 },
                 itemCount: homeData.apartments.length,
                 itemWidth: 0.8.sw,

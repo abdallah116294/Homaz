@@ -14,41 +14,25 @@ import 'components/main_tabs_with_body.dart';
 import 'home_cubit.dart';
 import 'package:homez/features/appartment_details/cubit/appartment_details_cubit.dart';
 
-class HomeScreenView extends StatefulWidget {
+class HomeScreenView extends StatefulWidget  {
   const HomeScreenView({super.key});
 
   @override
   State<HomeScreenView> createState() => _HomeScreenViewState();
 }
 
-class _HomeScreenViewState extends State<HomeScreenView> {
-  //  bool isLoaded = true;
-  // Future fetchData() async {
-  //   final cubit = context.read<HomeCubit>();
-  //   try {
-  //     Future.wait({cubit.getHomeData()});
-  //   } catch (e) {
-  //     print(e);
-  //   }finally{
-  //     setState(() {
-  //       isLoaded = false;
-  //     });
-  //   }
-  // }
-  //   @override
-  // void didChangeDependencies() {
-  //   if (isLoaded) {
-  //     fetchData();
-  //   }
-  //   super.didChangeDependencies();
-  // }
+class _HomeScreenViewState extends State<HomeScreenView>  with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+     super.build(context);
     return BlocProvider(
       create: (context) => di.sl<HomeCubit>(),
       child: const HomeScreenBody(),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class HomeScreenBody extends StatefulWidget {
@@ -58,40 +42,21 @@ class HomeScreenBody extends StatefulWidget {
   State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
 
-class _HomeScreenBodyState extends State<HomeScreenBody> {
-  bool isLoaded = true;
-  Future fetchData() async {
-    final cubit = context.read<HomeCubit>();
-    try {
-      Future.wait({cubit.getHomeData()});
-    } catch (e) {
-      print(e);
-    }finally{
-      setState(() {
-        isLoaded = false;
-      });
-    }
-  }
-    @override
-  void didChangeDependencies() {
-    if (isLoaded) {
-      fetchData();
-    }
-    super.didChangeDependencies();
-  }
+class _HomeScreenBodyState extends State<HomeScreenBody>with AutomaticKeepAliveClientMixin {
+ 
 
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HomeCubit>(context);
-
+    super.build(context);
     return BlocProvider(
       create: (context) => di.sl<HomeCubit>()..getHomeData(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 16.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            16.verticalSpace,
+            12.verticalSpace,
             Align(
               alignment: context.read<AppCubit>().getAlignment(),
               child: CustomText(
@@ -101,7 +66,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 fontSize: 32.sp,
               ),
             ),
-            6.verticalSpace,
+           // 5.verticalSpace,
             Expanded(
               child: BlocBuilder<HomeCubit, HomeStates>(
                 builder: (context, state) {
@@ -121,8 +86,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   } else if (state is HomeDataSuccessState) {
                     return ListView(
                       children: [
-                         BlocProvider(create:(context)=>di.sl<AppartmentDetailsCubit>() ,child:MainTabsWithBody(homeData: state.homeData.data!),),
-                       // MainTabsWithBody(homeData: state.homeData.data!),
+                         MainTabsWithBody(homeData: state.homeData.data!),
                         DefaultTabController(
                           length: state.homeData.data!.categories.length,
                           child: TabBarWidget(
@@ -162,26 +126,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       ),
                     ],
                   );
-                  // final homeData = cubit.homeData!.data!;
-                  //   return ListView(
-                  //     children: [
-                  //       MainTabsWithBody(homeData: homeData),
-                  //       DefaultTabController(
-                  //         length: homeData.categories!.length,
-                  //         child: TabBarWidget(
-                  //           tabs: List.generate(
-                  //             homeData.categories!.length,
-                  //             (index) {
-                  //               final categories = homeData.categories![index];
-                  //               return Text(
-                  //                 "${categories.name}",
-                  //               );
-                  //             },
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   );
                 },
               ),
             ),
@@ -190,4 +134,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

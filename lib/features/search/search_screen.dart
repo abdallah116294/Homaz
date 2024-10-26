@@ -12,10 +12,11 @@ class SearchScreenViews extends StatefulWidget {
   State<SearchScreenViews> createState() => _SearchScreenViewsState();
 }
 
-class _SearchScreenViewsState extends State<SearchScreenViews> {
+class _SearchScreenViewsState extends State<SearchScreenViews> with AutomaticKeepAliveClientMixin {
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (widget.searchString == null) {
       return DefaultSearchView();
     } else {
@@ -27,4 +28,8 @@ class _SearchScreenViewsState extends State<SearchScreenViews> {
       );
     }
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

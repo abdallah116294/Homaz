@@ -39,8 +39,25 @@
    "show_all_result":"Show All Result",
    "properties":"properties",
    "please_enter_search_key":"Please enter search key",
-   "search_result":"Search Result"
+   "search_result":"Search Result",
+   "legal_and_policies":"Legal and Policies",
+   "what_about":"What is Homz",
+   "how_can_subscribe":"How can I subscribe to the channel?",
+   "can_subscribe":"You can subscribe to the Homz channel by clicking the subscribe button on the homepage.",
+   "how_can_follow_the_channel":"How can I follow the channel?",
+"you_can_follow":"You can follow the Homz channel on various social media platforms by visiting our homepage.",
+"how_do_delete_my_account":"How do I delete my account?",
+"to_delete_account":"To delete your account, go to Settings, and select the \"Delete Account\" option.",
+"how_do_exit_the_app":"How do I exit the app?",
+"tod_exit_the_app":"To exit the app, simply click the back button or use your device\\'s home button to close the app.",
+ "type_your_message":"اكتب رسالتك",
+  "terms":"Terms",
+ "privacy":"privacy",
+ "change_service":"Changes to the Service and/or Terms:",
+ "you_dont_have_favorite":"You don't have any Favorites",
+ "delete_account":"Delete ACC"
 
+   
 
 
 }

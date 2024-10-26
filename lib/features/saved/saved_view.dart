@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,129 +21,117 @@ class SavedView extends StatefulWidget {
   State<SavedView> createState() => _SavedViewState();
 }
 
-class _SavedViewState extends State<SavedView> {
+class _SavedViewState extends State<SavedView> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     final favoircubit = context.read<FavoriteCubit>();
+     super.build(context);
     return BlocProvider(
       create: (context) => di.sl<FavoriteCubit>()..fetchFavoriteData(),
       child: BlocConsumer<FavoriteCubit, FavoriteState>(
         listener: (context, state) {
           if (state is RemoveFromFavoriteSuccessFav) {
             showMessage(
-                message: 'Remove From Favorite Successfully',
-                color: ColorManager.blue);
+              message: 'Removed from Favorite Successfully',
+              color: ColorManager.blue,
+            );
+            //favoircubit.fetchFavoriteData();
           } else if (state is RemoveFromFavoriteFailedFav) {
             showMessage(
-                message: 'Error Remove From Favorite', color: ColorManager.red);
+              message: 'Error removing from Favorite',
+              color: ColorManager.red,
+            );
           }
         },
         builder: (context, state) {
-          return Scaffold(
-            backgroundColor: ColorManager.bgColor,
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                children: [
-                  CustomAppBarTitle(
-                    title: context.translate(LangKeys.saved),
-                    withBack: false,
-                  ),
-                  10.verticalSpace,
-                  Expanded(
-                    child: BlocBuilder<FavoriteCubit, FavoriteState>(
-                      builder: (context, state) {
-                        if (state is GetFavoriteLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (state is GetFavoriteSuccess) {
-                          final apartments = state.apartments;
-                          return NotificationListener<ScrollNotification>(
-                            onNotification: (notification) {
-                              if (notification.metrics.pixels ==
-                                      notification.metrics.maxScrollExtent &&
-                                  state.hasMore &&
-                                  !state.isLoadingMore) {
-                                context
-                                    .read<FavoriteCubit>()
-                                    .fetchFavoriteData();
-                                return true;
-                              } else {
-                                return false;
-                              }
-                            },
-                            child: ListView.separated(
-                              separatorBuilder: (context, index) => SizedBox(
-                                height: 10.h,
-                              ),
-                              itemCount: apartments.length +
-                                  1, // Add 1 for the loading indicator
-                              itemBuilder: (context, index) {
-                                if (index < apartments.length) {
-                                  print(index);
-                                  final apartment = apartments[index];
-
-                                  return apartments.isEmpty
-                                      ? CustomText(
-                                          text:
-                                              'You don\'t add Apartment to Favorite',
-                                          color: ColorManager.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.sp)
-                                      : GestureDetector(
-                                          onTap: () {
-                                            context.pushName(
-                                                AppRoutes.apartmentDetailsView,
-                                                arguments: {
-                                                  "apartmentId": apartment.id,
-                                                  //"takeLookData": Null
-                                                });
-                                          },
-                                          child: SavedItem(
-                                            oTap: () async {
-                                              favoircubit.removFromFavoirte(
-                                                  id: apartment.id!);
-                                              if (mounted) {
-                                                favoircubit.fetchFavoriteData();
-                                              }
-                                            },
-                                            apartment: apartment,
-                                          ),
-                                        );
-                                } else {
-                                  print(index);
-                                  return state.hasMore
-                                      ? const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        )
-                                      : const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        );
-                                }
-                              },
-                            ),
-                          );
-                        } else if (state is GetFavoriteFailed) {
-                          return Center(child: Text(state.message));
-                        } else {
-                          return const Center(
-                              child: Text('No favorites found.'));
-                        }
-                      },
+          if (state is GetFavoriteLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GetFavoriteSuccess) {
+            final apartments = state.apartments;
+            return Scaffold(
+              backgroundColor: ColorManager.bgColor,
+              body: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Column(
+                  children: [
+                    CustomAppBarTitle(
+                      title: context.translate(LangKeys.saved),
+                      withBack: false,
                     ),
-                  ),
-                ],
+                    10.verticalSpace,
+                    apartments.isEmpty
+                        ? Center(
+                            child: CustomText(
+                              text: context.translate(LangKeys.you_dont_have_favorite),
+                              color: ColorManager.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.sp,
+                            ),
+                          )
+                        : Expanded(
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: (notification) {
+                                if (notification.metrics.pixels ==
+                                        notification.metrics.maxScrollExtent &&
+                                    state.hasMore &&
+                                    !state.isLoadingMore) {
+                                  favoircubit.fetchFavoriteData();
+                                  return true;
+                                }
+                                return false;
+                              },
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(height: 10.h),
+                                itemCount: apartments.length,
+                                itemBuilder: (context, index) {
+                                  final apartment = apartments[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context.pushName(
+                                        AppRoutes.apartmentDetailsView,
+                                        arguments: {
+                                          "apartmentId": apartment.id
+                                        },
+                                      );
+                                    },
+                                    child: SavedItem(
+                                      oTap: () async {
+                                        favoircubit
+                                            .removFromFavoirte(
+                                                id: apartment.id!)
+                                            .then((value) {
+                                          context.read<FavoriteCubit>().fetchFavoriteData();
+                                        });
+                                      },
+                                      apartment: apartment,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          } else if (state is GetFavoriteFailed) {
+            return Scaffold(
+              backgroundColor: ColorManager.bgColor,
+              body: Center(child: Text(state.message)),
+            );
+          } else {
+            return Scaffold(
+              backgroundColor: ColorManager.bgColor,
+              body: const Center(child: Text('No favorites found.')),
+            );
+          }
         },
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

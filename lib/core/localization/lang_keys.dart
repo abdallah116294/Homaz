@@ -39,4 +39,20 @@ class LangKeys {
   static const String properties = "properties";
   static const String please_enter_search_key = "please_enter_search_key";
   static const String search_result = "search_result";
+  static const String legal_and_policies = "legal_and_policies";
+  static const String what_about = "what_about";
+  static const String how_can_subscribe = "how_can_subscribe";
+  static const String can_subscribe = "can_subscribe";
+  static const String how_can_follow = "how_can_follow_the_channel";
+  static const String you_can_follow = "you_can_follow";
+  static const String how_do_delete = "how_do_delete_my_account";
+  static const String to_delete = "to_delete_account";
+  static const String how_exit_app = "how_do_exit_the_app";
+  static const String extit_app = "tod_exit_the_app";
+  static const String type_your_message = "type_your_message";
+  static const String terms = "terms";
+  static const String privacy = "privacy";
+  static const String change_service = "change_service";
+  static const String you_dont_have_favorite = "you_dont_have_favorite";
+  static const String delte_account="delete_account";
 }

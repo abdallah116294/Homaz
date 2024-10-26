@@ -23,7 +23,7 @@ class MessagesScreen extends StatefulWidget {
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
-class _MessagesScreenState extends State<MessagesScreen> {
+class _MessagesScreenState extends State<MessagesScreen> with AutomaticKeepAliveClientMixin{
   ///ScrollController scrollController = ScrollController();
   late PusherConfig pusherConfig;
   ChatsModel? chatsModel;
@@ -66,6 +66,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider(
       create: (context) => di.sl<ChatCubit>()..getChats(),
       child: BlocConsumer<ChatCubit, ChatState>(
@@ -134,4 +135,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -89,8 +89,16 @@ class _TakeLookBodyState extends State<TakeLookBody> {
     List<StoryItem> storyItemList = [];
     //  List<StoryItem> storyItemList =[];
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                di.sl<TakeLookCubit>()..takeLook(apartmentId: widget.id),
+          ),
+          BlocProvider(
+            create: (context) => di.sl<AppartmentDetailsCubit>(),
+          ),
+        ],
         child: BlocConsumer<TakeLookCubit, TakeLookState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -111,7 +119,7 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                     print("Showing a story");
                   },
                   onComplete: () {
-                    log('ApartmentID://${state.takeLookData.data!.apartments!.id}');
+                    log('ApartmentID:////${state.takeLookData.data!.apartments!.id}');
                     context.pushName(
                       AppRoutes.apartmentDetailsView,
                       arguments: {
@@ -123,7 +131,7 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                   progressPosition: ProgressPosition.top,
                   indicatorColor: Colors.black,
                   indicatorHeight: IndicatorHeight.small,
-                  indicatorOuterPadding: const EdgeInsets.all(16),
+                  // indicatorOuterPadding: const EdgeInsets.all(16),
                   repeat: false,
                   controller: storyController,
                 ),
@@ -137,9 +145,9 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                     child: CircleAvatar(
                         radius: 26.r,
                         backgroundColor: ColorManager.black,
-                        child: SvgIcon(
-                            height: 40.h,
-                            icon: AssetsStrings.back,
+                        child: Icon(
+                            size: 40.h,
+                             Icons.arrow_back_ios_new,
                             color: Colors.white)),
                   ),
                 ),
@@ -155,18 +163,18 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               CustomText(
-                                  text: 'Araay',
+                                  text: state.takeLookData.data!.apartments!.name.toString(),
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 24.sp),
-                              CustomText(
-                                  text: 'Apartments',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24.sp),
+                              // CustomText(
+                              //     text: 'Apartments',
+                              //     color: Colors.white,
+                              //     fontWeight: FontWeight.w700,
+                              //     fontSize: 24.sp),
                               CustomText(
                                   text:
-                                      ' ${CacheHelper.get(key: "selected_language") == "en" ? state.takeLookData.data!.apartments!.buyPrice : AppMethods.replaceFarsiNumber(state.takeLookData.data!.apartments!.buyPrice.toString())}',
+                                       "\$ ${state.takeLookData.data!.apartments!.buyPrice.toString()}",
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16.sp),
@@ -177,23 +185,39 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               GestureDetector(
-                                    onTap: () {
-                                      // context
-                                      //     .read<AppartmentDetailsCubit>()
-                                      //     .checkIfIsHasChat(
-                                      //         apartmentId: appartmentId);
-                                    },
-                                    child: CircleAvatar(
-                                        radius: 26.r,
-                                        backgroundColor: widget.isShops
-                                            ? Colors.black
-                                            : ColorManager.blueColor,
-                                        child: SvgIcon(
-                                            height: 25.h,
-                                            icon: AssetsStrings.send,
-                                            color: Colors.white)),
-                                  ),
-
+                                onTap: () {
+                                  if (state.takeLookData.data!.apartments!
+                                          .chatId !=
+                                      null) {
+                                    context.pushName(AppRoutes.chatScreen,
+                                        arguments: {
+                                          "chatName": state.takeLookData.data!
+                                              .apartments!.name
+                                              .toString(),
+                                          "imageUrl": state.takeLookData.data!
+                                              .apartments!.mainImage
+                                              .toString(),
+                                          "roomId": state.takeLookData.data!
+                                              .apartments!.chatId
+                                        });
+                                  } else {
+                                    context
+                                        .read<AppartmentDetailsCubit>()
+                                        .checkIfIsHasChat(
+                                            apartmentId: state.takeLookData
+                                                .data!.apartments!.id!);
+                                  }
+                                },
+                                child: CircleAvatar(
+                                    radius: 26.r,
+                                    backgroundColor: widget.isShops
+                                        ? Colors.black
+                                        : ColorManager.blueColor,
+                                    child: SvgIcon(
+                                        height: 25.h,
+                                        icon: AssetsStrings.send,
+                                        color: Colors.white)),
+                              ),
                               8.verticalSpace,
                               GestureDetector(
                                 onTap: () {
@@ -226,91 +250,114 @@ class _TakeLookBodyState extends State<TakeLookBody> {
                               showSelectedLabels: true,
                               showUnselectedLabels: true,
                               currentIndex: cIndex,
-                              items: [
-                                SweetNavBarItem(
+                              items: List.generate(
+                                  state.takeLookData.data!.apartments!.amenities
+                                      .length, (index) {
+                                return SweetNavBarItem(
                                   isGradient: false,
                                   sweetActive: CircleAvatar(
                                       radius: 26.r,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: SvgIcon(
+                                      child:  Image.network(
                                           height: 23.h,
-                                          icon: AssetsStrings.bath,
-                                          color: Colors.white)),
+                                          state.takeLookData.data!.apartments!.amenities[index].image.toString(),
+                                          )),
                                   sweetIcon: CircleAvatar(
                                       radius: 26,
                                       backgroundColor: ColorManager.blueColor,
-                                      child: SvgIcon(
+                                      child: Image.network(
                                           height: 23.h,
-                                          icon: AssetsStrings.bath,
-                                          color: Colors.white)),
-                                  sweetLabel: 'BathRoom',
-                                ),
-                                SweetNavBarItem(
-                                  isGradient: false,
-                                  sweetActive: CircleAvatar(
-                                      radius: 26.r,
-                                      backgroundColor: ColorManager.blueColor,
-                                      child: SvgIcon(
-                                          height: 23.h,
-                                          icon: AssetsStrings.bed,
-                                          color: Colors.white)),
-                                  sweetIcon: CircleAvatar(
-                                      radius: 26.r,
-                                      backgroundColor: ColorManager.blueColor,
-                                      child: SvgIcon(
-                                        height: 23.h,
-                                        icon: AssetsStrings.bed,
-                                        color: Colors.white,
-                                      )),
-                                  sweetLabel: 'Office',
-                                ),
-                                SweetNavBarItem(
-                                  isGradient: false,
-                                  sweetActive: CircleAvatar(
-                                      radius: 26.r,
-                                      backgroundColor: ColorManager.blueColor,
-                                      child: SvgIcon(
-                                          height: 23.h,
-                                          icon: AssetsStrings.car,
-                                          color: Colors.white)),
-                                  sweetIcon: CircleAvatar(
-                                    radius: 26.r,
-                                    backgroundColor: ColorManager.blueColor,
-                                    child: SvgIcon(
-                                      height: 23.h,
-                                      icon: AssetsStrings.car,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  sweetLabel: 'Parking ',
-                                ),
-                                SweetNavBarItem(
-                                  isGradient: false,
-                                  sweetActive: CircleAvatar(
-                                    radius: 26.r,
-                                    backgroundColor: ColorManager.blueColor,
-                                    child: SvgIcon(
-                                      height: 18.h,
-                                      icon: AssetsStrings.gym,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  sweetIcon: CircleAvatar(
-                                    radius: 26.r,
-                                    backgroundColor: ColorManager.blueColor,
-                                    child: SvgIcon(
-                                      height: 18.h,
-                                      icon: AssetsStrings.gym,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  sweetLabel: 'Gym ',
-                                )
-                              ],
+                                          state.takeLookData.data!.apartments!.amenities[index].image.toString(),
+                                          )),
+                                  sweetLabel: state.takeLookData.data!.apartments!.amenities[index].name,
+                                );
+                              }),
+                              //  [
+                              //   SweetNavBarItem(
+                              //     isGradient: false,
+                              //     sweetActive: CircleAvatar(
+                              //         radius: 26.r,
+                              //         backgroundColor: ColorManager.blueColor,
+                              //         child: SvgIcon(
+                              //             height: 23.h,
+                              //             icon: AssetsStrings.bath,
+                              //             color: Colors.white)),
+                              //     sweetIcon: CircleAvatar(
+                              //         radius: 26,
+                              //         backgroundColor: ColorManager.blueColor,
+                              //         child: SvgIcon(
+                              //             height: 23.h,
+                              //             icon: AssetsStrings.bath,
+                              //             color: Colors.white)),
+                              //     sweetLabel: 'BathRoom',
+                              //   ),
+                              //   SweetNavBarItem(
+                              //     isGradient: false,
+                              //     sweetActive: CircleAvatar(
+                              //         radius: 26.r,
+                              //         backgroundColor: ColorManager.blueColor,
+                              //         child: SvgIcon(
+                              //             height: 23.h,
+                              //             icon: AssetsStrings.bed,
+                              //             color: Colors.white)),
+                              //     sweetIcon: CircleAvatar(
+                              //         radius: 26.r,
+                              //         backgroundColor: ColorManager.blueColor,
+                              //         child: SvgIcon(
+                              //           height: 23.h,
+                              //           icon: AssetsStrings.bed,
+                              //           color: Colors.white,
+                              //         )),
+                              //     sweetLabel: 'Office',
+                              //   ),
+                              //   SweetNavBarItem(
+                              //     isGradient: false,
+                              //     sweetActive: CircleAvatar(
+                              //         radius: 26.r,
+                              //         backgroundColor: ColorManager.blueColor,
+                              //         child: SvgIcon(
+                              //             height: 23.h,
+                              //             icon: AssetsStrings.car,
+                              //             color: Colors.white)),
+                              //     sweetIcon: CircleAvatar(
+                              //       radius: 26.r,
+                              //       backgroundColor: ColorManager.blueColor,
+                              //       child: SvgIcon(
+                              //         height: 23.h,
+                              //         icon: AssetsStrings.car,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     sweetLabel: 'Parking ',
+                              //   ),
+                              //   SweetNavBarItem(
+                              //     isGradient: false,
+                              //     sweetActive: CircleAvatar(
+                              //       radius: 26.r,
+                              //       backgroundColor: ColorManager.blueColor,
+                              //       child: SvgIcon(
+                              //         height: 18.h,
+                              //         icon: AssetsStrings.gym,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     sweetIcon: CircleAvatar(
+                              //       radius: 26.r,
+                              //       backgroundColor: ColorManager.blueColor,
+                              //       child: SvgIcon(
+                              //         height: 18.h,
+                              //         icon: AssetsStrings.gym,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //     sweetLabel: 'Gym ',
+                              //   )
+                              // ],
+
                               onTap: (index) {
-                                setState(() {
-                                  cIndex = index;
-                                });
+                                // setState(() {
+                                //   cIndex = index;
+                                // });
                               },
                             )
                           : widget.isShops

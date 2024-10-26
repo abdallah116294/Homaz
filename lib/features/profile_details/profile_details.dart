@@ -54,7 +54,7 @@ class ProfileDetailsBody extends StatelessWidget {
     required this.userData,
   });
 
-  final String fullName;
+  final String fullName;  
   final String phone;
   final bool navigateFromProfile;
   final User userData;
@@ -93,11 +93,11 @@ class ProfileDetailsBody extends StatelessWidget {
                   cubit: cubit,
                 ),
                 SizedBox(height: 32.h),
-                PhoneTextField(
+              userData.type == "social"?  PhoneTextField(
                   cubit: cubit.controllers.phoneController.text.isEmpty
                       ? cubit
                       : cubit,
-                ),
+                ):SizedBox(),
                 SizedBox(height: 32.h),
                 SaverButton(
                   phoneNumber: phone,
@@ -125,7 +125,7 @@ class ProfileDetailsBody extends StatelessWidget {
                       }
                     },
                     child: CustomText(
-                        text: 'Delete ACC',
+                        text: context.translate(LangKeys.delte_account),
                         color: ColorManager.red,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.sp)) , ),

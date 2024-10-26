@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
@@ -19,9 +20,9 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorManager.bgColor,
-        title:  CustomText(text:'About Homz',color: ColorManager.white,fontSize: 16.sp,fontWeight: FontWeight.bold,),
+        title:  CustomText(text:'${context.translate(LangKeys.about)} Homz',color: ColorManager.white,fontSize: 16.sp,fontWeight: FontWeight.bold,),
         leading: IconButton(
-          icon:  Icon(Icons.arrow_back,color: ColorManager.white,size: 24.sp,),
+          icon:  Icon(Icons.arrow_back_ios,color: ColorManager.white,size: 24.sp,),
           onPressed: () => context.pop(),
         ),
       ),
@@ -31,33 +32,33 @@ class _AboutHomzPageState extends State<AboutHomzPage> {
           children: [
             _buildExpansionTile(
               index: 0,
-              title: 'What is Homz?',
+              title: context.translate(LangKeys.what_about),
               content:
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
             ),
             _buildExpansionTile(
               index: 1,
-              title: 'How can I subscribe to the channel?',
+              title: context.translate(LangKeys.how_can_subscribe),
               content:
-                  'You can subscribe to the Homz channel by clicking the subscribe button on the homepage.',
+                  context.translate(LangKeys.can_subscribe),
             ),
             _buildExpansionTile(
               index: 2,
-              title: 'How can I follow the channel?',
+              title: context.translate(LangKeys.how_can_follow),
               content:
-                  'You can follow the Homz channel on various social media platforms by visiting our homepage.',
+                  context.translate(LangKeys.you_can_follow),
             ),
             _buildExpansionTile(
               index: 3,
-              title: 'How do I delete my account?',
+              title: context.translate(LangKeys.how_do_delete),
               content:
-                  'To delete your account, go to Settings, and select the "Delete Account" option.',
+                  context.translate(LangKeys.to_delete),
             ),
             _buildExpansionTile(
               index: 4,
-              title: 'How do I exit the app?',
+              title: context.translate(LangKeys.how_exit_app),
               content:
-                  'To exit the app, simply click the back button or use your device\'s home button to close the app.',
+                  context.translate(LangKeys.extit_app),
             ),
           ],
         ),

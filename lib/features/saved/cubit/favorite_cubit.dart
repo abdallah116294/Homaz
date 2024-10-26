@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homez/core/error/failures.dart';
 import 'package:homez/features/appartment_details/data/model/favorite_model.dart';
 import 'package:homez/features/appartment_details/data/model/remove_favorite_model.dart';
 import 'package:homez/features/saved/data/repo/favorite_repo.dart';
@@ -16,8 +19,19 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(RemoveFromFavoriteLoading());
     try {
       final response = await favoriteRepo.removeFavorite(apartmentId: id);
-      response.fold((l) => emit(RemoveFromFavoriteFailedFav()),
-          (r) => emit(RemoveFromFavoriteSuccessFav(removeFavoriteModel: r)));
+      response.fold((l) {
+        if (l is ServerFailure) {
+          log(l.errMessage.toString());
+        } else {
+          log(l.errMessage.toString());
+        }
+        emit(RemoveFromFavoriteFailedFav());
+      }, (r) {
+        _apartments.removeWhere((apartment) => apartment.id == id);
+        log(r.data.toString());
+         emit(GetFavoriteSuccess(apartments: _apartments, hasMore: _hasMore, isLoadingMore: false));
+        emit(RemoveFromFavoriteSuccessFav(removeFavoriteModel: r));
+      });
     } catch (e) {
       emit(RemoveFromFavoriteFailedFav());
     }

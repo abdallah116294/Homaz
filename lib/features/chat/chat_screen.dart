@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/pusher_service/pusher_service.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/main_services.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/circle_image.dart';
 import 'package:homez/core/widgets/custom_text.dart';
@@ -177,7 +178,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: TextStyle(
                             color: ColorManager.white, fontSize: 16.sp),
                         decoration: InputDecoration(
-                            hintText: 'Type your message',
+                            hintText: context.translate(LangKeys.type_your_message),
                             hintStyle: TextStyle(
                                 color: ColorManager.grey15, fontSize: 16.sp),
                             focusColor: ColorManager.mainColor),

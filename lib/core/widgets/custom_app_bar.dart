@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
-import 'package:homez/core/helpers/navigator.dart';
-import 'package:homez/core/localization/lang_keys.dart';
-import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
-import 'package:homez/features/search/default_search_view.dart';
-
 class CustomAppBarTitle extends StatelessWidget {
   const CustomAppBarTitle({
     super.key,
@@ -35,10 +29,11 @@ class CustomAppBarTitle extends StatelessWidget {
                     context.pop();
                   },
                   child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: SvgPicture.asset(
-                      AssetsStrings.back,
-                      height: 30.h,
+                    alignment: context.read<AppCubit>().getAlignment(),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 30.sp,
+                     // height: 30.h,
                       color: color ?? ColorManager.white,
                     ),
                   ),

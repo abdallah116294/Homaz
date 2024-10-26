@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 
@@ -22,7 +23,7 @@ class LegalAndPoliciesScreen extends StatelessWidget {
               color: ColorManager.white,
             )),
         title: CustomText(
-            text: 'Legal and Policies',
+            text: context.translate(LangKeys.legal_and_policies),
             color: ColorManager.white,
             fontWeight: FontWeight.bold,
             fontSize: 16.sp),
@@ -34,7 +35,7 @@ class LegalAndPoliciesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CustomText(
-                text: 'Terms:',
+                text: '${context.translate(LangKeys.terms)}:',
                 color: ColorManager.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 18.sp),
@@ -52,7 +53,7 @@ class LegalAndPoliciesScreen extends StatelessWidget {
               height: 20.h,
             ),
             CustomText(
-                text: 'Changes to the Service and/or Terms:',
+                text: context.translate(LangKeys.change_service),
                 color: ColorManager.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 18.sp),
