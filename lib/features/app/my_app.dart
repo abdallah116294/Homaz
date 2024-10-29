@@ -89,7 +89,8 @@ class _MyAppState extends State<MyApp> {
                       AppLocalizationsSetup.localeResolutionCallback,
 
                   title: "Home Z",
-                  debugShowCheckedModeBanner:config!.appTitle=="Homze Development "? true:false,
+                  debugShowCheckedModeBanner: false,
+               //   debugShowCheckedModeBanner:config!.appTitle=="Homze Development "? true:false,
                   navigatorKey: navigatorKey,
                   onGenerateRoute: AppRoutes.onGenerateRoute,                 
                   home: child,

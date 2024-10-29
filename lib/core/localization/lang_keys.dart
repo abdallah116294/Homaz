@@ -54,5 +54,15 @@ class LangKeys {
   static const String privacy = "privacy";
   static const String change_service = "change_service";
   static const String you_dont_have_favorite = "you_dont_have_favorite";
-  static const String delte_account="delete_account";
+  static const String delte_account = "delete_account";
+  static const String explor_amazing_real_Estate = "explor_amazing_real_Estate";
+  static const String compare_and_chose = "compare_and_chose";
+  static const String chose_more_comfort = "chose_more_comfort";
+  static const String find_what_you_want = "find_what_you_want";
+  static const String get_started = "get_started";
 }
+/*
+  "explor_amazing_real_Estate":"اكتشف عقارات مذهلة",
+  "compare_and_chose":"قارن واختر",
+  "chose_more_comfort":"اختر مزيد من الراحة"
+*/

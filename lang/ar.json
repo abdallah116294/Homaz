@@ -10,7 +10,6 @@
    "profile": "الملف الشخصي",
    "my_account": "حسابي",
    "notifications": "الإشعارات",
-   "language": "اللغة",
    "change_password": "تغيير كلمة المرور",
    "about": "حول",
    "rate_us": "قيّمنا",
@@ -55,6 +54,11 @@
  "privacy":"الخصوصية",
   "change_service":"التغييرات في الخدمة و الشروط",
   "you_dont_have_favorite":"ليس لديك أي مفضلة",
-  "delete_account":"حذف الحساب"
+  "delete_account":"حذف الحساب",
+  "explor_amazing_real_Estate":"اكتشف عقارات مذهلة",
+  "compare_and_chose":"قارن واختر",
+  "chose_more_comfort":"اختر مزيد من الراحة",
+  "find_what_you_want":"اعثر على ما تريد",
+  "get_started":"ابدأ"
 
 }

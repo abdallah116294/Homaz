@@ -10,7 +10,6 @@
     "profile": "Profile",
     "my_account": "My Account",
     "notifications": "Notifications",
-    "language": "Language",
     "change_password": "Change Password",
     "about": "About",
     "rate_us": "Rate Us",
@@ -55,8 +54,12 @@
  "privacy":"privacy",
  "change_service":"Changes to the Service and/or Terms:",
  "you_dont_have_favorite":"You don't have any Favorites",
- "delete_account":"Delete ACC"
-
+ "delete_account":"Delete ACC",
+ "explor_amazing_real_Estate":"Explore Amazing Real Estate ",
+ "compare_and_chose":"Compare and choose  ",
+ "chose_more_comfort":"choose the more comfort",
+  "find_what_you_want":"Find what you want ",
+  "get_started":"Get Started"
    
 
 
