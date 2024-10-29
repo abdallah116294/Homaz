@@ -15,9 +15,9 @@ class RowIconTextWidget extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgIcon(
-          icon: icon,
-          color: ColorManager.white,
+        Image.network(
+           icon,
+          //color: ColorManager.white,
           height: 25.h,
         ),
         10.horizontalSpace,

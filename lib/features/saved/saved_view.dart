@@ -11,6 +11,7 @@ import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/features/saved/cubit/favorite_cubit.dart';
+import 'package:homez/features/saved/widgets/empty_view.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'widgets/saved_item.dart';
 
@@ -21,11 +22,12 @@ class SavedView extends StatefulWidget {
   State<SavedView> createState() => _SavedViewState();
 }
 
-class _SavedViewState extends State<SavedView> with AutomaticKeepAliveClientMixin{
+class _SavedViewState extends State<SavedView>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     final favoircubit = context.read<FavoriteCubit>();
-     super.build(context);
+    super.build(context);
     return BlocProvider(
       create: (context) => di.sl<FavoriteCubit>()..fetchFavoriteData(),
       child: BlocConsumer<FavoriteCubit, FavoriteState>(
@@ -60,14 +62,7 @@ class _SavedViewState extends State<SavedView> with AutomaticKeepAliveClientMixi
                     ),
                     10.verticalSpace,
                     apartments.isEmpty
-                        ? Center(
-                            child: CustomText(
-                              text: context.translate(LangKeys.you_dont_have_favorite),
-                              color: ColorManager.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
-                            ),
-                          )
+                        ? EmptyView(image:  "assets/images/empty_favorite.png", title: context.translate(LangKeys.no_saving), subTitle: context.translate(LangKeys.dont_have_saved))
                         : Expanded(
                             child: NotificationListener<ScrollNotification>(
                               onNotification: (notification) {
@@ -101,7 +96,9 @@ class _SavedViewState extends State<SavedView> with AutomaticKeepAliveClientMixi
                                             .removFromFavoirte(
                                                 id: apartment.id!)
                                             .then((value) {
-                                          context.read<FavoriteCubit>().fetchFavoriteData();
+                                          context
+                                              .read<FavoriteCubit>()
+                                              .fetchFavoriteData();
                                         });
                                       },
                                       apartment: apartment,
@@ -130,7 +127,7 @@ class _SavedViewState extends State<SavedView> with AutomaticKeepAliveClientMixi
       ),
     );
   }
-  
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;

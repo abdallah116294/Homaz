@@ -9,6 +9,7 @@ import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
+import 'package:homez/core/widgets/search_text_field_without_filter.dart';
 import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/features/chat/cubit/chat_cubit.dart';
 import 'package:homez/features/chat/data/models/chats_model.dart';
@@ -98,7 +99,7 @@ class _MessagesScreenState extends State<MessagesScreen> with AutomaticKeepAlive
                       children: [
                          Padding(
                           padding:const  EdgeInsets.all(8.0),
-                          child: SearchTextField(
+                          child: SearchTextFieldWithoutFilter(
                             hint:context.translate(LangKeys.search) ,
                           ),
                         ),

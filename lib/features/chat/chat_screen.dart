@@ -201,8 +201,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: SvgIcon(
                             icon: "assets/icons/image-upload.svg",
                             color: ColorManager.white,
-                            height: 30.h),
-                      ),
+                            height: 40.h),
+                            ),
                       sendButton: GestureDetector(
                           onTap: () async {
                             if (currentSelectedImage != null) {

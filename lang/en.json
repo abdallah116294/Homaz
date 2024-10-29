@@ -92,7 +92,11 @@
   "pleas_enter_old_password":"Please Enter Old Password",
   "password_must_be_6":"Password must not be less than 6 characters!",
   "password_update_success":"Password Updated Successfully",
-  "password_must_contain_consist":"The password must consist of a combination of uppercase and lowercase letters, numbers, and special symbols."
+  "password_must_contain_consist":"The password must consist of a combination of uppercase and lowercase letters, numbers, and special symbols.",
+  "dont_have_saved":"You don’t have any saved places, Please find it in search to save places.",
+  "no_saving":"No Savings",
+  "no_result_found":"No results found",
+  "pleas_try_again":"No results found. Please try again."
 
 
 

@@ -9,6 +9,7 @@ import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/search_text_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
+import 'package:homez/features/saved/widgets/empty_view.dart';
 import 'package:homez/features/search/cubit/search_cubit.dart';
 import 'package:homez/features/search/recent_search_view.dart';
 import 'package:homez/features/search/widgets/model_bottom_sheet.dart';
@@ -83,6 +84,12 @@ class _DefaultSearchViewState extends State<DefaultSearchView> {
                       child: CircularProgressIndicator(),
                     ),
                   ] else if (state is DefaultSearchSuccess) ...[
+                       if(state.searchResultModel.data!.apartment!.data.isEmpty)
+                         Center(
+                           child: EmptyView(image: "assets/images/empty_search.png",
+                                                   title: context.translate(LangKeys.no_result_found),
+                                                   subTitle: context.translate(LangKeys.pleas_try_again)),
+                         ),
                     Expanded(
                       child: ListView.separated(
                         itemBuilder: (context, index) {

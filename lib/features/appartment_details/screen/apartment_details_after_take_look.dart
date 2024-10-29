@@ -225,28 +225,38 @@ class _ApartmentDetailsAfterTakeLookState
                         SizedBox(
                           height: 16.h,
                         ),
-                        const Row(
-                          children: [
-                            Expanded(
-                              child: RowIconTextWidget(
-                                icon: AssetsStrings.bath,
-                                text: "4 Bath",
-                              ),
+                        Row(
+                            children: List.generate(
+                                widget.takeLookData.data!.apartments!.amenities
+                                    .length, (index) {
+                          return Expanded(
+                            child: RowIconTextWidget(
+                              icon:widget. takeLookData.data!.apartments!.amenities[index].image.toString() ,
+                              text: widget. takeLookData.data!.apartments!.amenities[index].count.toString()+widget. takeLookData.data!.apartments!.amenities[index].name.toString(),
                             ),
-                            Expanded(
-                              child: RowIconTextWidget(
-                                icon: AssetsStrings.bed,
-                                text: "5 Beds",
-                              ),
+                          );
+                        })
+                            // [
+                            //   Expanded(
+                            //     child: RowIconTextWidget(
+                            //       icon: AssetsStrings.bath,
+                            //       text: "4 Bath",
+                            //     ),
+                            //   ),
+                            //   Expanded(
+                            //     child: RowIconTextWidget(
+                            //       icon: AssetsStrings.bed,
+                            //       text: "5 Beds",
+                            //     ),
+                            //   ),
+                            //   Expanded(
+                            //     child: RowIconTextWidget(
+                            //       icon: AssetsStrings.widget,
+                            //       text: "450m",
+                            //     ),
+                            //   ),
+                            // ],
                             ),
-                            Expanded(
-                              child: RowIconTextWidget(
-                                icon: AssetsStrings.widget,
-                                text: "450m",
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: 16.h,
                         ),

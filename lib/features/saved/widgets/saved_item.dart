@@ -189,27 +189,17 @@ class SavedItem extends StatelessWidget {
                     ],
                   ),
                   10.verticalSpace,
-                  const Row(
-                    children: [
-                      Expanded(
-                        child: RowIconTextWidget(
-                          icon: AssetsStrings.bath,
-                          text: "4 Bath",
-                        ),
-                      ),
-                      Expanded(
-                        child: RowIconTextWidget(
-                          icon: AssetsStrings.bed,
-                          text: "5 Beds",
-                        ),
-                      ),
-                      Expanded(
-                        child: RowIconTextWidget(
-                          icon: AssetsStrings.widget,
-                          text: "450m",
-                        ),
-                      ),
-                    ],
+                   Row(
+                    children: List.generate(
+                                apartment.amenities
+                                    .length, (index) {
+                          return Expanded(
+                            child: RowIconTextWidget(
+                              icon:apartment.amenities[index].image.toString() ,
+                              text: apartment.amenities[index].count.toString()+apartment.amenities[index].name.toString(),
+                            ),
+                          );
+                        })
                   ),
                   10.verticalSpace,
                   CustomText(

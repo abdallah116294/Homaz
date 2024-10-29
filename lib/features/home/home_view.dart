@@ -48,22 +48,24 @@ class _HomeScreenBodyState extends State<HomeScreenBody>with AutomaticKeepAliveC
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HomeCubit>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     super.build(context);
     return BlocProvider(
       create: (context) => di.sl<HomeCubit>()..getHomeData(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical:  screenHeight * 0.02),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            12.verticalSpace,
+           SizedBox(height: screenHeight * 0.02),
             Align(
               alignment: context.read<AppCubit>().getAlignment(),
               child: CustomText(
                 text: "Homz",
                 color: ColorManager.white,
                 fontWeight: FontWeight.w700,
-                fontSize: 32.sp,
+                fontSize: screenWidth * 0.08,
               ),
             ),
            // 5.verticalSpace,
@@ -80,7 +82,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody>with AutomaticKeepAliveC
                     return CustomText(
                       text: state.msg,
                       color: ColorManager.red,
-                      fontSize: 18.sp,
+                      fontSize: screenWidth * 0.045,
                       fontWeight: FontWeight.w400,
                     );
                   } else if (state is HomeDataSuccessState) {
@@ -96,7 +98,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody>with AutomaticKeepAliveC
                                 final categories =
                                     state.homeData.data!.categories[index];
                                 return Text(
-                                  "${categories.name}",
+                                  "${categories.name}",style: TextStyle(fontSize: screenWidth * 0.04)
                                 );
                               },
                             ),
@@ -118,7 +120,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody>with AutomaticKeepAliveC
                             (index) {
                               final categories = homedata.categories[index];
                               return Text(
-                                "${categories.name}",
+                                "${categories.name}",style: TextStyle(fontSize: screenWidth * 0.04),
                               );
                             },
                           ),

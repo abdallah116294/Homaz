@@ -41,6 +41,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     if (!_hasMore && isLoadMore) return; // If no more data, don't load more
 
     if (!isLoadMore) {
+      _currentPage = 1; // Reset page count when not loading more
+      _apartments = []; 
       emit(GetFavoriteLoading()); // Show loading only for initial fetch
     } else {
       final currentState = state;

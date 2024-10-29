@@ -4,8 +4,8 @@ import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
 
-class SearchTextField extends StatelessWidget {
-  const SearchTextField({
+class SearchTextFieldWithoutFilter extends StatelessWidget {
+  const SearchTextFieldWithoutFilter({
     super.key,
     this.hint = "Search",
     this.onTap,
@@ -56,15 +56,6 @@ class SearchTextField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           hintText: hint,
-          suffixIconColor: ColorManager.grey10,
-          suffixIcon: IconButton(
-              onPressed: () {
-                onPressed!();
-              },
-              icon: const Icon(
-                Icons.filter_alt_outlined,
-                size: 30,
-              )),
           hintStyle: TextStyle(
             color: ColorManager.grey1,
             fontSize: 14.sp,

@@ -92,12 +92,16 @@ class LangKeys {
   static const String pleas_enter_old_password = "pleas_enter_old_password";
   static const String password_must_b_6 = "password_must_be_6";
   static const String password_update_success = "password_update_success";
-  static const String password_must_contain_consist="password_must_contain_consist";
+  static const String password_must_contain_consist =
+      "password_must_contain_consist";
+  static const String dont_have_saved = "dont_have_saved";
+  static const String no_saving = "no_saving";
+  static const String no_result_found = "no_result_found";
+  static const String pleas_try_again = "pleas_try_again";
 }
 /*
-  "pleas_enter_old_password":"Please Enter Old Password",
-  "password_must_be_6":"Password must not be less than 6 characters!"
-  "password_update_success":"Password Updated Successfully"
+      "no_result_found":"لا يوجد نتائج",
+  "pleas_try_again":"لا يوجد نتائج حاول مجدد"
 
 
 

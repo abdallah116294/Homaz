@@ -209,27 +209,17 @@ class ApartmentDetailsOnClick extends StatelessWidget {
                           SizedBox(
                             height: 16.h,
                           ),
-                          const Row(
-                            children: [
-                              Expanded(
-                                child: RowIconTextWidget(
-                                  icon: AssetsStrings.bath,
-                                  text: "4 Bath",
-                                ),
-                              ),
-                              Expanded(
-                                child: RowIconTextWidget(
-                                  icon: AssetsStrings.bed,
-                                  text: "5 Beds",
-                                ),
-                              ),
-                              Expanded(
-                                child: RowIconTextWidget(
-                                  icon: AssetsStrings.widget,
-                                  text: "450m",
-                                ),
-                              ),
-                            ],
+                           Row(
+                            children: List.generate(
+                                state.takeLookData.data!.apartments!.amenities
+                                    .length, (index) {
+                          return Expanded(
+                            child: RowIconTextWidget(
+                              icon:state. takeLookData.data!.apartments!.amenities[index].image.toString() ,
+                              text: state. takeLookData.data!.apartments!.amenities[index].count.toString()+state. takeLookData.data!.apartments!.amenities[index].name.toString(),
+                            ),
+                          );
+                        })
                           ),
                           SizedBox(
                             height: 16.h,
