@@ -30,7 +30,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           password: controllers.passwordController.text,
           confirmPassword: controllers.confirmPasswordController.text,
         );
-        response.fold((l) => emit(RegisterFailedState(msg: l.toString())),
+        response.fold((l) => emit(RegisterFailedState(msg: l.errMessage.toString())),
             (r) => emit(RegisterSuccessState()));
       } catch (e) {
         emit(RegisterFailedState(msg: 'An unknown error: $e'));

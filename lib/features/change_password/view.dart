@@ -98,7 +98,7 @@ class _ChangePasswordBody extends StatelessWidget {
                       );
                     } else if (state is ChangePasswordSuccessState) {
                       showMessage(
-                        message: "Password Updated Successfully",
+                        message: context.translate(LangKeys.password_update_success),
                         color: ColorManager.green,
                       );
                       context.pushReplacementNamed(AppRoutes.landingViews);
@@ -157,10 +157,10 @@ class _CurrentPasswordTextField extends StatelessWidget {
               color: ColorManager.white,
             ),
           ),
-          hint: "Password..",
+          hint: context.translate(LangKeys.password),
           validator: (value) {
             if (value.isEmpty) {
-              return "Please Enter Old Password";
+              return context.translate(LangKeys.pleas_enter_old_password);
             }
             return null;
           },
@@ -214,12 +214,12 @@ class _NewPasswordTextField extends StatelessWidget {
               color: ColorManager.white,
             ),
           ),
-          hint: "Password..",
+          hint: context.translate(LangKeys.password),
           validator: (value) {
             if (value.isEmpty) {
-              return "Please Enter Password";
+              return context.translate(LangKeys.enter_password);
             } else if (value.length < 6) {
-              return "Password must not be less than 6 characters!";
+              return context.translate(LangKeys.password_must_b_6);
             }
             return null;
           },
@@ -274,12 +274,12 @@ class _ConfPassTextField extends StatelessWidget {
               color: ColorManager.white,
             ),
           ),
-          hint: "Password..",
+          hint: context.translate(LangKeys.password),
           validator: (value) {
             if (value!.isEmpty) {
-              return "Please Enter Same Password !";
+              return context.translate(LangKeys.enter_password);
             } else if (value != cubit.controllers.newPasswordController.text) {
-              return "Password Not the Same !";
+              return context.translate(LangKeys.pass_not_same);
             }
             return null;
           },

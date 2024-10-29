@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 
 class RegisterLineWidget extends StatelessWidget {
@@ -13,7 +14,7 @@ class RegisterLineWidget extends StatelessWidget {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: "Don’t have an account?  ",
+        text: context.translate(LangKeys.dont_have),
         style: TextStyle(
           color: ColorManager.grey11,
           fontSize: 16.sp,
@@ -21,7 +22,7 @@ class RegisterLineWidget extends StatelessWidget {
         ),
         children: [
           TextSpan(
-            text: "Sign up",
+            text: context.translate(LangKeys.sign_up),
             style: TextStyle(
               color: ColorManager.mainColor,
               fontSize: 16.sp,

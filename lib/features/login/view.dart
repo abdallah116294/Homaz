@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/cache_helper.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
@@ -13,6 +14,7 @@ import 'package:homez/core/widgets/custom_text.dart';
 import 'package:homez/core/widgets/custom_text_form_field.dart';
 import 'package:homez/core/widgets/snack_bar.dart';
 import 'package:homez/core/widgets/svg_icons.dart';
+import 'package:homez/features/app/cubit/app_cubit.dart';
 import 'package:homez/injection_container.dart' as di;
 import 'components/or_divider.dart';
 import 'components/register_line.dart';
@@ -49,11 +51,31 @@ class _LoginBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(100.w, 48.h),
+                                backgroundColor: Colors.transparent,
+                                side:
+                                    const BorderSide(color: Color(0xffEFC3C3))),
+                            onPressed: () {
+                              context.read<AppCubit>().toggleLanguage();
+                            },
+                            child: Text(
+                          "(${ context.translate(LangKeys.language)})",
+                              style: TextStyle(
+                                  color:const  Color(0xffEFC3C3), fontSize: 12.sp),
+                            )),
+                      ),
+                    ),
                 SizedBox(height: 80.h),
                 Padding(
                   padding: EdgeInsets.only(right: 0.2.sw),
                   child: CustomText(
-                    text: "Welcome to Homz",
+                    text: "${context.translate(LangKeys.welcome_to)} Homz",
                     color: ColorManager.white,
                     fontSize: 34.sp,
                     fontWeight: FontWeight.w800,
@@ -73,8 +95,11 @@ class _LoginBody extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 0.01.sh),
-                _ForgetPasswordWidget(
-                  cubit: cubit,
+                Align(
+                  alignment:CacheHelper.get(key: "selected_language")=="ar"?Alignment.centerRight:Alignment.centerLeft,
+                  child: _ForgetPasswordWidget(
+                    cubit: cubit,
+                  ),
                 ),
                 SizedBox(height: 0.03.sh),
                 _LoginButton(cubit: cubit),
@@ -113,10 +138,10 @@ class _PhoneTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Mobile Number",
+      hint: context.translate(LangKeys.mobile_number),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please Enter Mobile Number !";
+          return context.translate(LangKeys.enter_mobile_number);
         }
         return null;
       },
@@ -142,10 +167,10 @@ class _PasswordTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Password",
+      hint: context.translate(LangKeys.password),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please Enter your password !";
+          return context.translate(LangKeys.enter_password);
         }
         return null;
       },
@@ -191,7 +216,7 @@ class _ForgetPasswordWidget extends StatelessWidget {
                     });
               },
               child: CustomText(
-                text: "Forget Password?",
+                text: context.translate(LangKeys.forget_password),
                 color: ColorManager.mainColor,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
@@ -246,7 +271,7 @@ class _LoginButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Sign In",
+          text: context.translate(LangKeys.sign_in),
           press: () {
             cubit.login();
           },

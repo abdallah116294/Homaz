@@ -40,7 +40,7 @@ class RegisterRepo {
       if (response.statusCode == 200) {
         return Right(RegisterUserSuccess.fromJson(response.data));
       } else {
-        return Left(ServerFailure(response.data));
+        return Left(ServerFailure.fromResponse(response.data,response.statusCode));
       }
     } catch (e) {
       if (e is ServerFailure) {

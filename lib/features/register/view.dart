@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -49,7 +50,7 @@ class _RegisterBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomAppBarTitle(title: "Create Account"),
+                 CustomAppBarTitle(title:context.translate(LangKeys.create_account)),
                 SizedBox(height: 16.h),
                 BlocBuilder<RegisterCubit, RegisterStates>(
                   builder: (context, state) {
@@ -78,7 +79,7 @@ class _RegisterBody extends StatelessWidget {
                 ),
                 SizedBox(height: 0.04.sh),
                 _RegisterButton(cubit: cubit),
-                SizedBox(height: 0.15.sh),
+                SizedBox(height: 0.04.sh),
                 _OrLineWithAuthGoogle(
                   cubit: cubit,
                 )
@@ -108,10 +109,10 @@ class _NameTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Name",
+      hint: context.translate(LangKeys.name),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please Enter Your Name !";
+          return context.translate(LangKeys.pleas_enter_name);
         }
         return null;
       },
@@ -138,10 +139,10 @@ class _PhoneTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Mobile Number",
+      hint: context.translate(LangKeys.mobile_number),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please Enter Mobile Number !";
+          return context.translate(LangKeys.enter_mobile_number);
         }
         return null;
       },
@@ -167,14 +168,16 @@ class _PasswordTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Password",
+      hint:context.translate(LangKeys.password),
       validator: (value) {
-        if (value.isEmpty) {
-          return "Please Enter your Password";
-        } else if (value.length < 6) {
-          return "Password must not be less than 6 characters!";
-        }
-        return null;
+       if (value.isEmpty) {
+    return context.translate(LangKeys.enter_password);
+  } else if (value.length < 6) {
+    return context.translate(LangKeys.password_must_b_6);
+  } else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$').hasMatch(value)) {
+    return context.translate(LangKeys.password_must_contain_consist);
+  }
+  return null;
       },
       suffixIcon: SizedBox(
         height: 0.02.sh,
@@ -217,12 +220,12 @@ class _ConfPassTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Confirm Password",
+      hint: context.translate(LangKeys.confirm_password),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Enter Same Pass";
+          return context.translate(LangKeys.pass_not_same);
         } else if (value != cubit.controllers.passwordController.text) {
-          return "Pass Not Same";
+          return context.translate(LangKeys.pass_not_same);
         }
         return null;
       },
@@ -284,7 +287,7 @@ class _RegisterButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Sign Up",
+          text: context.translate(LangKeys.sign_up),
           press: () {
             cubit.register();
           },

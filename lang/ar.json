@@ -59,6 +59,42 @@
   "compare_and_chose":"قارن واختر",
   "chose_more_comfort":"اختر مزيد من الراحة",
   "find_what_you_want":"اعثر على ما تريد",
-  "get_started":"ابدأ"
+  "get_started":"ابدأ",
+  "welcome_to":"مرحبا بك",
+  "mobile_number":"رقم الهاتف",
+  "Password":"كلمة المرور",
+  "forget_password":"نسيت كلمة المرور",
+  "sign_in":"تسجيل الدخول",
+  "dont_have":"ليس لديك حساب؟",
+  "sign_up":"تسجيل حساب",
+  "or_sign_with_social":"أو الاستمرار مع",
+  "enter_mobile_number": "الرجاء إدخال رقم الهاتف المحمول!",
+  "enter_password": "الرجاء إدخال كلمة المرور الخاصة بك!",
+  "name": "الاسم",
+  "confirm_password": "تأكيد كلمة المرور",
+  "create_account": "إنشاء حساب",
+   "pleas_enter_name":"الرجاء إدخال اسمك",
+   "pass_not_same":"كلمة المرور ليست نفسها",
+    "enter_phone_to_reset":"أدخل رقم هاتفك المحمول لإعادة تعيين كلمة المرور الخاصة بك.",
+  "send_code":"إرسال الرمز",
+  "reset_password":"إعادة تعيين كلمة المرور",
+  "enter_new_password":"أدخل كلمة المرور الجديدة.",
+  "your_password_must_strong":"يجب أن تكون كلمة المرور الجديدة قوية.",
+  "verification_code":"رمز التحقق",
+  "enter_verification_code":"أدخل رمز التحقق",
+  "we_have_sent_code":"لقد أرسلنا رمز التحقق إلى بريدك الإلكتروني",
+   "continue":"استمر",
+   "code_verified_success":"تم التحقق من الرمز بنجاح",
+   "plea_enter_code":"الرجاء إدخال الرمز",
+   "phone_updated_success":"تم تحديث الهاتف بنجاح",
+   "if_dont_have_code":"إذا لم تتلق الرمز؟ ",
+   "resend":"إعادة الإرسال",
+   "pleas_enter_old_password":"الرجاء إدخال كلمة المرور القديمة",
+    "password_must_be_6":"يجب ألا تقل كلمة المرور عن 6 أحرف!",
+    "password_update_success":"تم تحديث كلمة المرور بنجاح",
+    "password_must_contain_consist":"يجب أن تتكون كلمة المرور من مجموعة من الأحرف الكبيرة والصغيرة والأرقام والرموز الخاصة."
+
+
+
 
 }

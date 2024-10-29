@@ -60,9 +60,45 @@ class LangKeys {
   static const String chose_more_comfort = "chose_more_comfort";
   static const String find_what_you_want = "find_what_you_want";
   static const String get_started = "get_started";
+  static const String welcome_to = "welcome_to";
+  static const String mobile_number = "mobile_number";
+  static const String password = "Password";
+  static const String forget_password = "forget_password";
+  static const String sign_in = "sign_in";
+  static const String dont_have = "dont_have";
+  static const String sign_up = "sign_up";
+  static const String or_sign_with_social = "or_sign_with_social";
+  static const String enter_mobile_number = "enter_mobile_number";
+  static const String enter_password = "enter_password";
+  static const String name = "name";
+  static const String confirm_password = "confirm_password";
+  static const String create_account = "create_account";
+  static const String pleas_enter_name = "pleas_enter_name";
+  static const String pass_not_same = "pass_not_same";
+  static const String enter_phone_to_reset = "enter_phone_to_reset";
+  static const String send_code = "send_code";
+  static const String reset_password = "reset_password";
+  static const String enter_new_password = "enter_new_password";
+  static const String your_password_must_strong = "your_password_must_strong";
+  static const String verification_code = "verification_code";
+  static const String enter_verification_code = "enter_verification_code";
+  static const String we_have_sent_code = "we_have_sent_code";
+  static const String continue_ = "continue";
+  static const String code_verified_success = "code_verified_success";
+  static const String plea_enter_code = "plea_enter_code";
+  static const String phone_updated_success = "phone_updated_success";
+  static const String if_dont_have_code = "if_dont_have_code";
+  static const String resend = "resend";
+  static const String pleas_enter_old_password = "pleas_enter_old_password";
+  static const String password_must_b_6 = "password_must_be_6";
+  static const String password_update_success = "password_update_success";
+  static const String password_must_contain_consist="password_must_contain_consist";
 }
 /*
-  "explor_amazing_real_Estate":"اكتشف عقارات مذهلة",
-  "compare_and_chose":"قارن واختر",
-  "chose_more_comfort":"اختر مزيد من الراحة"
+  "pleas_enter_old_password":"Please Enter Old Password",
+  "password_must_be_6":"Password must not be less than 6 characters!"
+  "password_update_success":"Password Updated Successfully"
+
+
+
 */

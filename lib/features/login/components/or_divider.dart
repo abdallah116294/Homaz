@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_text.dart';
 
@@ -23,7 +25,7 @@ class OrDividerWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 0.042.sw),
             child: CustomText(
-              text: "or continue with",
+              text:context.translate(LangKeys.or_sign_with_social),
               color: ColorManager.grey10,
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
 import 'package:homez/core/helpers/navigator.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
 import 'package:homez/core/widgets/custom_elevated.dart';
@@ -73,17 +74,17 @@ class _OtpBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBarTitle(title: "Verification Code"),
+               CustomAppBarTitle(title: context.translate(LangKeys.verification_code)),
               SizedBox(height: 16.h),
               CustomText(
-                text: "Enter the Verification Code.",
+                text: context.translate(LangKeys.enter_verification_code),
                 color: ColorManager.white,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w400,
                 maxLines: 3,
               ),
               CustomText(
-                text: "We have sent a verification code to your email.",
+                text: context.translate(LangKeys.we_have_sent_code),
                 color: ColorManager.grey10,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
@@ -139,7 +140,7 @@ class _VerifyOtpButton extends StatelessWidget {
         } else if (state is OtpSuccessState) {
           if (navigateFromProfile) {
             showMessage(
-              message: "Phone Updated Successfully",
+              message: context.translate(LangKeys.phone_updated_success),
               color: ColorManager.green,
             );
             context.pushReplacementNamed(
@@ -148,7 +149,7 @@ class _VerifyOtpButton extends StatelessWidget {
           } else if (navigateFromForget) {
             log(state.confirmeCodeSuccess.message.toString());
             showMessage(
-              message: "Code Verified Successfully",
+              message: context.translate(LangKeys.code_verified_success),
               color: ColorManager.green,
             );
             context
@@ -159,7 +160,7 @@ class _VerifyOtpButton extends StatelessWidget {
           } else if (state is CheckCodeSuccessState) {
             log(state.confirmeCodeSuccess.message.toString());
             showMessage(
-              message: "Code Verified Successfully",
+              message: context.translate(LangKeys.code_verified_success),
               color: ColorManager.green,
             );
             context
@@ -169,7 +170,7 @@ class _VerifyOtpButton extends StatelessWidget {
             });
           } else {
             showMessage(
-              message: "Code Verified Successfully",
+              message: context.translate(LangKeys.code_verified_success),
               color: ColorManager.green,
             );
             context.pushReplacementNamed(AppRoutes.landingViews);
@@ -191,11 +192,11 @@ class _VerifyOtpButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Continue",
+          text: context.translate(LangKeys.continue_),
           press: () {
             if (otpCubit.otpController.text.length != 4) {
               showMessage(
-                message: "please enter code",
+                message:context.translate(LangKeys.plea_enter_code),
                 color: ColorManager.red,
               );
             } else {
@@ -209,7 +210,7 @@ class _VerifyOtpButton extends StatelessWidget {
                    
                       log(statePhone.toString() + stateOtp.toString());
                       showMessage(
-                        message: "Code Verified Successfully",
+                        message:context.translate(LangKeys.code_verified_success),
                         color: ColorManager.green,
                       );
                       context.pushReplacementNamed(AppRoutes.resetPasswordView,
@@ -271,7 +272,7 @@ class _ResendLineWidget extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              text: "If you didn’t receive the code?  ",
+              text:context.translate(LangKeys.if_dont_have_code),
               style: TextStyle(
                 color: ColorManager.white,
                 fontSize: 16.sp,
@@ -279,7 +280,7 @@ class _ResendLineWidget extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: "Resend",
+                  text: context.translate(LangKeys.resend),
                   style: TextStyle(
                     color: ColorManager.mainColor,
                     fontSize: 16.sp,

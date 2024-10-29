@@ -59,7 +59,44 @@
  "compare_and_chose":"Compare and choose  ",
  "chose_more_comfort":"choose the more comfort",
   "find_what_you_want":"Find what you want ",
-  "get_started":"Get Started"
+  "get_started":"Get Started",
+  "welcome_to": "Welcome",
+  "mobile_number": "Mobile Number",
+  "Password": "Password",
+  "forget_password": "Forgot Password",
+  "sign_in": "Sign In",
+  "dont_have": "Don't have an account?",
+  "sign_up": "Sign Up",
+  "or_sign_with_social": "Or continue with",
+  "enter_mobile_number": "Please enter mobile number!",
+  "enter_password": "Please enter your password!",
+  "name": "Name",
+  "confirm_password": "Confirm Password",
+  "create_account": "Create Account",
+  "pleas_enter_name":"Please Enter Your Name",
+  "pass_not_same":"Pass not same",
+  "enter_phone_to_reset":"Enter your Mobile number to reset your password.",
+  "send_code":"Send Code ",
+  "reset_password":"Reset Password",
+  "enter_new_password":"Enter New Password.",
+  "your_password_must_strong":"Your new password must be strong.",
+  "verification_code":"Verification Code",
+  "enter_verification_code":"Enter the Verification Code.",
+  "we_have_sent_code":"We have sent a verification code to your email.",
+  "continue":"Continue",
+  "code_verified_success":"Code Verified Successfully",
+  "plea_enter_code":"please enter code",
+  "phone_updated_success":"Phone Updated Successfully",
+  "if_dont_have_code":"If you didn’t receive the code?  ",
+  "resend":"Resend",
+  "pleas_enter_old_password":"Please Enter Old Password",
+  "password_must_be_6":"Password must not be less than 6 characters!",
+  "password_update_success":"Password Updated Successfully",
+  "password_must_contain_consist":"The password must consist of a combination of uppercase and lowercase letters, numbers, and special symbols."
+
+
+
+
    
 
 

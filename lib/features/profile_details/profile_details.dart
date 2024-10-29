@@ -93,7 +93,7 @@ class ProfileDetailsBody extends StatelessWidget {
                   cubit: cubit,
                 ),
                 SizedBox(height: 32.h),
-              userData.type == "social"?  PhoneTextField(
+              userData.type == "normal"?  PhoneTextField(
                   cubit: cubit.controllers.phoneController.text.isEmpty
                       ? cubit
                       : cubit,

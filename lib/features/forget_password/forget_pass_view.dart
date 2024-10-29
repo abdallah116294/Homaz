@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:homez/config/routes/app_routes.dart';
 import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -50,11 +51,11 @@ class ForgetPassBody extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppBarTitle(title: "Forget Password"),
+               CustomAppBarTitle(title: context.translate(LangKeys.forget_password)),
               40.verticalSpace,
               CustomText(
                 maxLines: 2,
-                text: 'Enter your Mobile number to reset your password.',
+                text: context.translate(LangKeys.enter_phone_to_reset),
                 color: ColorManager.white,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
@@ -96,10 +97,10 @@ class _PhoneTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "Mobile Number",
+      hint: context.translate(LangKeys.mobile_number),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please Enter Mobile Number !";
+          return context.translate(LangKeys.enter_mobile_number);
         }
         return null;
       },
@@ -145,7 +146,7 @@ class _ForgetPasswordButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Send Code",
+          text: context.translate(LangKeys.send_code),
           press: () {
             cubit.sendCode(phone: cubit.controllers.phoneController.text);
           },

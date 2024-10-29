@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:homez/core/extensions/context.extensions.dart';
+import 'package:homez/core/localization/lang_keys.dart';
 import 'package:homez/core/theming/assets.dart';
 import 'package:homez/core/theming/colors.dart';
 import 'package:homez/core/widgets/custom_app_bar.dart';
@@ -53,17 +55,17 @@ class _ResetPasswordBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomAppBarTitle(title: "Reset Password"),
+                 CustomAppBarTitle(title: context.translate(LangKeys.reset_password)),
                 SizedBox(height: 16.h),
                 CustomText(
-                  text: "Enter New Password.",
+                  text: context.translate(LangKeys.enter_new_password),
                   color: ColorManager.white,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w400,
                   maxLines: 3,
                 ),
                 CustomText(
-                  text: "Your new password must be strong.",
+                  text:context.translate(LangKeys.your_password_must_strong) ,
                   color: ColorManager.grey10,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
@@ -118,12 +120,12 @@ class _PasswordTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "password",
+      hint:context.translate(LangKeys.password),
       validator: (value) {
         if (value.isEmpty) {
-          return "enter_password";
+          return context.translate(LangKeys.enter_password);
         } else if (value.length < 6) {
-          return "enter_6_password";
+          return context.translate(LangKeys.newPassword);
         }
         return null;
       },
@@ -167,12 +169,12 @@ class _ConfPassTextField extends StatelessWidget {
           color: ColorManager.grey10,
         ),
       ),
-      hint: "confirm password",
+      hint: context.translate(LangKeys.confirm_password),
       validator: (value) {
         if (value!.isEmpty) {
-          return "enter_same_pass";
+          return context.translate(LangKeys.pass_not_same);
         } else if (value != cubit.controllers.passwordController.text) {
-          return "pass_not_same";
+          return  context.translate(LangKeys.pass_not_same);
         }
         return null;
       },
@@ -235,7 +237,7 @@ class _ResetPasswordButton extends StatelessWidget {
           );
         }
         return CustomElevated(
-          text: "Reset Password",
+          text: context.translate(LangKeys.reset_password),
           press: () {
             cubit.resetPassword(phone: phone, otp: otp);
           },
